@@ -1,0 +1,26 @@
+{
+  "name": "unify-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rlewis10/unifyBackend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rlewis10/unifyBackend/issues"
+  },
+  "homepage": "https://github.com/rlewis10/unifyBackend#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-validator": "^6.8.1",
+    "fs": "0.0.1-security",
+    "jsforce": "^1.10.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
