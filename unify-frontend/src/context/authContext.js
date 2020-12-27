@@ -10,13 +10,9 @@ const AuthProvider = (props) => {
     isAuthenticated: false
   })
 
-  const getAuth = (login) =>{
+  const accessToken = (login) =>{
     axios
-      .post('http://localhost:3080/login', {
-        username: 'richard@rlewis.me',
-        password: 'rocktheworld',
-        accountId: '1'
-      })
+      .post('https://localhost:3080/login', login)
       .then(response => {
         const accessToken = response.data.accessToken
         saveToken(accessToken)
@@ -41,7 +37,7 @@ const AuthProvider = (props) => {
   }
 
   return (
-    <useAuthContext.Provider value={{auth, setAuth, getToken, saveToken, validToken}}>
+    <useAuthContext.Provider value={{auth, accessToken, getToken, saveToken, validToken}}>
         {props.children}
     </useAuthContext.Provider>
   )

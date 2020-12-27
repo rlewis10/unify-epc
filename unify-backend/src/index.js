@@ -5,7 +5,7 @@ const token = require('./userAuth')
 
 const app = express()
 
-app.set('port', process.env.PORT || 3080);
+app.set('port', process.env.PORT || 3000);
 
 app.listen(app.get('port'), function () {
   console.log(`Example app listening on port ${app.get('port')}`);
@@ -15,22 +15,22 @@ app.use(express.urlencoded({
     extended: true
 }))
 
-app.get('/getcontact/account/:accountId/email/:conEmail', async (req, res) => {
+app.get('/api/getcontact/account/:accountId/email/:conEmail', async (req, res) => {
   let getContact = await sf.getContact(req.params)
   res.send(getContact)
 })
 
-app.post('/createcontact', async (req, res) => {
+app.post('/api/createcontact', async (req, res) => {
   let createContact = await sf.createContact(req.body)
   res.send(createContact)
 })
 
-app.post('/updatecontact/sfid/:id', async (req, res) => {
+app.post('/api/updatecontact/sfid/:id', async (req, res) => {
   let updateContact = await sf.updateContact(req.params.id, req.body)
   res.send(updateContact)
 })
 
-app.get('/token', async (req, res) => {
+app.get('/api/token', async (req, res) => {
   let accessToken = await token.genAccessToken()
   res.status(200).json({ accessToken })
 })

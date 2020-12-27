@@ -3,10 +3,15 @@ import {useAuthContext} from '../../context/authContext'
 
 const Login = (props) => {
 
-  const {Auth} = useContext(useAuthContext)
+  const {auth, accessToken} = useContext(useAuthContext)
 
   // on submit redirect to this:
   const {location: {state: {referrer}}} = props
+  accessToken({
+    username: 'richard@rlewis.me',
+    password: 'rocktheworld',
+    accountId: '1'
+  })
 
   return (
     <div className="login-wrapper">
