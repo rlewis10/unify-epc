@@ -7,7 +7,7 @@ const AuthProvider = (props) => {
   const [auth, setAuth] = useState({
     username: '',
     token: '',
-    isAuthenticated: false
+    isAuthenticated: true
   })
 
   const accessToken = (login) =>{
@@ -18,7 +18,7 @@ const AuthProvider = (props) => {
         saveToken(accessToken)
       })
       .catch(error=> {
-        alert(error)
+        console.log(error)
       })
   }
 

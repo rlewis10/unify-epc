@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const { body, validationResult } =  require('express-validator')
 const sf = require('./sfMethods')
@@ -14,6 +15,8 @@ app.listen(app.get('port'), function () {
 app.use(express.urlencoded({
     extended: true
 }))
+
+app.use(express.static('./public'))
 
 app.get('/api/getcontact/account/:accountId/email/:conEmail', async (req, res) => {
   let getContact = await sf.getContact(req.params)
