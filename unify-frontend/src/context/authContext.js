@@ -12,17 +12,17 @@ const AuthProvider = (props) => {
 
   const getAuth = (login) =>{
     axios
-      .post('/login', {
-        username: 'percy',
+      .post('http://localhost:3080/login', {
+        username: 'richard@rlewis.me',
         password: 'rocktheworld',
         accountId: '1'
       })
       .then(response => {
         const accessToken = response.data.accessToken
-        storeAccessTokenInLocalStorage(accessToken)
+        saveToken(accessToken)
       })
       .catch(error=> {
-        alertLoginFailed(error)
+        alert(error)
       })
   }
 

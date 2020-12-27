@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "unify-backend",
+			"path": "unify-backend"
+		},
+		{
+			"name": "unify-frontend",
+			"path": "unify-frontend"
+		}
+	],
+	"settings": {}
+}

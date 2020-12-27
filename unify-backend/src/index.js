@@ -31,17 +31,13 @@ app.post('/updatecontact/sfid/:id', async (req, res) => {
 })
 
 app.get('/token', async (req, res) => {
-  let sendToken = await token.genAccessToken()
-  res.send(sendToken)
-})
-
-app.get('/', async (req, res) => {
-  res.send('hello world')
+  let accessToken = await token.genAccessToken()
+  res.status(200).json({ accessToken })
 })
 
 // app.post('/login', async (req, res) => {
 //   const [username, password, account] = req.body
-//   const foundUser = await findUser(username)
+//   const foundUser = await findUser(username, account)
 //   if (!foundUser) {
 //     res.status(400).send('user not found')
 //   }
