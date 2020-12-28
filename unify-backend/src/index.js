@@ -11,10 +11,10 @@ const authRoutes = require('./userAuth/authRoutes')
 const dbRoutes = require('./db/dbRoutes')
 //const db = require('./db/db.js')
 
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3001)
 
 app.listen(app.get('port'), function () {
-  console.log(`Example app listening on port ${app.get('port')}`);
+  console.log(`Example app listening on port ${app.get('port')}`)
 })
 
 app.use(express.urlencoded({

@@ -1,40 +1,45 @@
 const sfAuth = require('./sfAuth')
 
-const getContact = async (data) => {
+const findContact = async (data) => {
   const sf = await sfAuth.get()
   let contact = await sf.sobject('Contact').find({
     Email : data.conEmail,
-    'Account.Account_Id__c' : data.AccountId
+    'Account.UnifyId__c' : data.AccountId
   },
-    ['Id', 'FirstName', 'LastName', 'Email', 'Account.Account_Id__c'])
+    ['Id', 'FirstName', 'LastName', 'Email', 'Account.UnifyId__c'])
     .sort({ LastModifiedDate: -1 })
     .limit(1)
     return contact
 }
 
+const getContact = async (id) => {
+  const sf = await sfAuth.get()
+  let contact = await sf.sobject('Contact').find({
+    UnifyId__c : id
+  },
+    ['Id'])
+    .sort({ LastModifiedDate: -1 })
+    .limit(1)
+
+}
+
 const createContact = async (data) => {
   const sf = await sfAuth.get()
-  data['Account'] = {Account_Id__c : data.AccountId}
+  data['Account'] = {UnifyId__c : data.AccountId}
   return await sf.sobject('Contact').create(data)
 }
 
 const updateContact = async (id, data) => {
   const sf = await sfAuth.get()
-  data['sfId'] = id
+  data['UnifyId__c'] = id
   return await sf.sobject('Contact').update(data)
 }
 
-const findUser = (username) => {
-
-}
-
-const checkPassword = (user, password) => {
-  return true
-}
 
 
 module.exports = {
     createContact : createContact,
     getContact : getContact,
+    findContact : findContact,
     updateContact : updateContact
 }

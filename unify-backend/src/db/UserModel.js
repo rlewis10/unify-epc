@@ -24,9 +24,16 @@ const userSchema = new db.Schema(
             max: 18,
             min: 18
         },
-        date: {
+        createdDate : {
             type: Date,
             default: Date.now
+        },
+        lastUpdatedDate : {
+            type: Date,
+        },
+        isActive: {
+            type: Boolean,
+            default: true
         }
     })
 

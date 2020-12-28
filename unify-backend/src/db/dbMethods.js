@@ -23,4 +23,4 @@ const createUser = async (data) => {
 
 module.exports = {
     createUser: createUser,
-    regUser: regUser}
+    dbCon: dbCon}

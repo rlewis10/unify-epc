@@ -1,14 +1,12 @@
 const express = require('express')
-const { regUser } = require('./dbMethods')
 const router = express.Router()
+const db = require('./dbMethods')
 
-const dbMethods = require('./dbMethods')
-
-dbMethods.dbCon()
+db.dbCon()
 
 router.post('/create', async (req, res) => {
     try{
-        const savedUser = await createUser(req.body)
+        let savedUser = await db.createUser(req.body)
         res.send(savedUser)
     }
     catch(e){
