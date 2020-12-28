@@ -14,13 +14,13 @@ const getContact = async (data) => {
 
 const createContact = async (data) => {
   const sf = await sfAuth.get()
-  data['Account'] = {Account_Id__c : data.Account}
+  data['Account'] = {Account_Id__c : data.AccountId}
   return await sf.sobject('Contact').create(data)
 }
 
 const updateContact = async (id, data) => {
   const sf = await sfAuth.get()
-  data['Id'] = id
+  data['sfId'] = id
   return await sf.sobject('Contact').update(data)
 }
 

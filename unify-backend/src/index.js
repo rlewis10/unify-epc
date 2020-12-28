@@ -8,6 +8,8 @@ require('dotenv').config({path: __dirname + '/.env'})
 
 const sfRoutes = require('./sf/sfRoutes')
 const authRoutes = require('./userAuth/authRoutes')
+const dbRoutes = require('./db/dbRoutes')
+//const db = require('./db/db.js')
 
 app.set('port', process.env.PORT || 3001);
 
@@ -19,5 +21,8 @@ app.use(express.urlencoded({
     extended: true
 }))
 
+app.use(express.json())
+
 app.use('/api/sf', sfRoutes)
 app.use('/api/auth', authRoutes)
+app.use('/api/db', dbRoutes)

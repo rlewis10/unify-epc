@@ -14,7 +14,6 @@ const genAccessToken = async () => {
     return token
 }
 
-
 // verify JWT token
 const verifyJWTToken = (req, res, next) => {
     const authHeaderToken = req.header('accessToken')
