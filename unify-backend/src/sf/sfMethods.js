@@ -9,7 +9,7 @@ const findContact = async (data) => {
     ['Id', 'FirstName', 'LastName', 'Email', 'Account.UnifyId__c'])
     .sort({ LastModifiedDate: -1 })
     .limit(1)
-    return contact
+  return contact
 }
 
 const getContact = async (id) => {
@@ -20,7 +20,7 @@ const getContact = async (id) => {
     ['Id'])
     .sort({ LastModifiedDate: -1 })
     .limit(1)
-
+  return contact
 }
 
 const createContact = async (data) => {
@@ -35,7 +35,28 @@ const updateContact = async (id, data) => {
   return await sf.sobject('Contact').update(data)
 }
 
+const createMapLocation = async (loc) => {
+  let sfLocs = []
 
+  Object.keys(loc).map(l => {
+    let {placeLabel, url, city, country, position} = loc[l]
+    
+    let sfLoc = {}
+    
+    sfLoc['Id__c'] = l
+    sfLoc['Name'] = placeLabel
+    sfLoc['Maps_Link__c'] = url
+    sfLoc['City__c'] = city
+    sfLoc['Country__c'] = country
+    sfLoc['Position__Latitude__s'] = position.lat
+    sfLoc['Position__Longitude__s'] = position.lng
+    
+    sfLocs.push(sfLoc)
+  })
+
+  const sf = await sfAuth.get()
+  return await sf.sobject('Map_Location__c').create(sfLocs)
+}
 
 module.exports = {
     createContact : createContact,
@@ -43,3 +64,4 @@ module.exports = {
     findContact : findContact,
     updateContact : updateContact
 }
+

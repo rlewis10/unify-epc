@@ -12,9 +12,9 @@ contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) =
     }
 })
 
-contactRouter.get('/contact/get/id/:id', async (req, res) => {
+contactRouter.get('/get/unifyid/:id', async (req, res) => {
     try{
-        let getContact = await sf.getContact(req.params)
+        let getContact = await sf.getContact(req.params.id)
         res.send(getContact)
     }
     catch(e){
@@ -22,7 +22,7 @@ contactRouter.get('/contact/get/id/:id', async (req, res) => {
     }
 })
 
-contactRouter.post('/contact/create', async (req, res) => {
+contactRouter.post('/create', async (req, res) => {
     try{
         let createContact = await sf.createContact(req.body)
         res.send(createContact)
@@ -32,7 +32,7 @@ contactRouter.post('/contact/create', async (req, res) => {
     }
 })
 
-contactRouter.post('/contact/update/id/:id', async (req, res) => {
+contactRouter.post('/update/id/:id', async (req, res) => {
     try{
         let updateContact = await sf.updateContact(req.params.id, req.body)
         res.send(updateContact)
