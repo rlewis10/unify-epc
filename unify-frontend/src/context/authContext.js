@@ -6,30 +6,29 @@ const useAuthContext = createContext()
 const AuthProvider = (props) => {
   const [auth, setAuth] = useState({
     username: '',
-    token: '',
+    accessToken: '',
     isAuthenticated: true
   })
 
-  const accessToken = (login) =>{
-    axios
-      .post('https://localhost:3080/login', login)
-      .then(response => {
-        const accessToken = response.data.accessToken
-        saveToken(accessToken)
-      })
-      .catch(error=> {
-        console.log(error)
-      })
+  const accessToken = async (login) =>{
+    try{
+      const res = await axios.get('/api/token', login)
+      const accessToken = await res.data.accessToken
+      setAuth(prevState => ({...prevState, accessToken: accessToken, isAuthenticated : true}))
+      saveToken(accessToken)
+    }
+    catch(e){
+      console.log(e)
+    }
   }
 
   const getToken = () => {
-    const userToken = JSON.parse(sessionStorage.getItem('token'))
+    const userToken = JSON.parse(localStorage.getItem('accessToken'))
     return userToken.token
   }
 
-  const saveToken = (userToken) => {
-    sessionStorage.setItem('token', JSON.stringify(userToken))
-    setAuth.token(userToken?.token);
+  const saveToken = async (userToken) => {
+    localStorage.setItem('accessToken', JSON.stringify(userToken))
   }
 
   const validToken = () => {
@@ -37,7 +36,7 @@ const AuthProvider = (props) => {
   }
 
   return (
-    <useAuthContext.Provider value={{auth, accessToken, getToken, saveToken, validToken}}>
+    <useAuthContext.Provider value={{auth, setAuth, accessToken, getToken, saveToken, validToken}}>
         {props.children}
     </useAuthContext.Provider>
   )

@@ -2,6 +2,9 @@ import React, {useState, useContext} from 'react'
 import Script from 'react-load-script'
 import {useDestContext} from '../../context/destContext'
 
+// setup environement variables
+require('dotenv').config({path: __dirname + '/.env'})
+
 const Search = () => {
 
   const {addDest} = useContext(useDestContext)

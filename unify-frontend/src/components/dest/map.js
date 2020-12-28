@@ -4,8 +4,12 @@ import Script from 'react-load-script'
 import {useDestContext} from '../../context/destContext'
 import Marker from './marker'
 
+// setup environement variables
+require('dotenv').config({path: __dirname + '/.env'})
+
 const Map = () => {
 
+    console.log(process.env.GMAPS_KEY)
     const {dest} = useContext(useDestContext)
 
     const [Bounds, setBounds] = useState()

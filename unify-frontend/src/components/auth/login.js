@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import {useAuthContext} from '../../context/authContext'
 
 const Login = (props) => {
@@ -6,12 +6,13 @@ const Login = (props) => {
   const {auth, accessToken} = useContext(useAuthContext)
 
   // on submit redirect to this:
-  const {location: {state: {referrer}}} = props
-  accessToken({
-    username: 'richard@rlewis.me',
-    password: 'rocktheworld',
-    accountId: '1'
-  })
+  //const {location: {state: {referrer}}} = props
+
+  const onSubmit = async () => {
+    await accessToken({username: 'test'})
+    console.log(`new token: ${JSON.stringify(auth)}`)
+  }
+
 
   return (
     <div className="login-wrapper">
@@ -29,6 +30,7 @@ const Login = (props) => {
           <button type="submit">Submit</button>
         </div>
       </form>
+      <button type="submit" onClick={onSubmit}>test</button>
     </div>
   )
 }
