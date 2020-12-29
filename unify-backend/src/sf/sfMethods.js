@@ -37,31 +37,31 @@ const updateContact = async (id, data) => {
 
 const createMapLocation = async (loc) => {
   let sfLocs = []
-
+  
   Object.keys(loc).map(l => {
-    let {placeLabel, url, city, country, position} = loc[l]
-    
-    let sfLoc = {}
-    
-    sfLoc['Id__c'] = l
-    sfLoc['Name'] = placeLabel
-    sfLoc['Maps_Link__c'] = url
-    sfLoc['City__c'] = city
-    sfLoc['Country__c'] = country
-    sfLoc['Position__Latitude__s'] = position.lat
-    sfLoc['Position__Longitude__s'] = position.lng
+    let {placeLabel, url, city, country, position:{lng, lat}} = loc[l]
+    let sfLoc = {
+      Name: placeLabel,
+      Map_Location_Id__c: l,
+      Maps_Link__c: url,
+      City__c: city,
+      Country__c:  country,
+      Position__Latitude__s: lat,
+      Position__Longitude__s: lng
+    }
     
     sfLocs.push(sfLoc)
   })
 
   const sf = await sfAuth.get()
-  return await sf.sobject('Map_Location__c').create(sfLocs)
+  return await sf.sobject("Map_Location__c").upsert(sfLocs,'Map_Location_Id__c',{ allOrNone: true })
 }
 
 module.exports = {
     createContact : createContact,
     getContact : getContact,
     findContact : findContact,
-    updateContact : updateContact
+    updateContact : updateContact,
+    createMapLocation: createMapLocation
 }
 
