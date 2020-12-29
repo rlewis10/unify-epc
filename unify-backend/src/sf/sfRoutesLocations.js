@@ -2,9 +2,10 @@ const express = require('express')
 const locationRouter = express.Router()
 const sf = require('./sfMethods')
 
+// create map location
 locationRouter.post('/create', async (req, res) => {
     try{
-        let savedLocations = await sf.createMapLocation(req.body)
+        let savedLocations = await sf.createMapLocations(req.body)
         res.send(savedLocations)
     }
     catch(e){
