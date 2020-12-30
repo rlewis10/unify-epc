@@ -8,7 +8,7 @@ contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) =
         res.send(findContact)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -18,7 +18,7 @@ contactRouter.get('/get/id/:id', async (req, res) => {
         res.send(getContact)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -28,7 +28,7 @@ contactRouter.post('/create', async (req, res) => {
         res.send(createContact)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -38,7 +38,7 @@ contactRouter.post('/upsert/id/:id', async (req, res) => {
         res.send(updatedContact)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 

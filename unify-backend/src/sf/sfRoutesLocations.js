@@ -9,7 +9,7 @@ locationRouter.post('/create', async (req, res) => {
         res.send(savedLocations)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -20,7 +20,7 @@ locationRouter.post('/dest/contactid/:id', async (req, res) => {
         res.send(savedDestinations)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 

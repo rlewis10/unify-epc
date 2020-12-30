@@ -1,6 +1,9 @@
 const fs = require('fs')
 const sf = require('jsforce')
 
+// setup environement variables
+require('dotenv').config({path: __dirname + '/.env'})
+
 const sfAuth = async () => {
     const keys = await read('./cred/salesforce-creds.json')
     return new Promise((resolve, reject) => {

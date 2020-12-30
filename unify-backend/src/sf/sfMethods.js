@@ -11,7 +11,7 @@ const findContact = async (data) => {
     .limit(1)
 
   if (!contact.success) {throw new Error('No record successfully retrieved') }
-  else return contact
+  return contact
 }
 
 // get a contact returning SFID
@@ -25,7 +25,7 @@ const getContact = async (id) => {
     .limit(1)
 
   if (!contact.success) {throw new Error('No record successfully retrieved')}
-  else return contact
+  return contact
 }
 
 const createContact = async (data) => {
@@ -34,7 +34,7 @@ const createContact = async (data) => {
   let createdContact = await sf.sobject('Contact').create(data)
 
   if (!createdContact.success) {throw new Error('No contact created')}
-  else return createdContact
+  return createdContact
 }
 
 // UPSERT contact with unify unique Id
@@ -44,7 +44,7 @@ const upsertContact = async (id, data) => {
   let updatedContact =  await sf.sobject('Contact').upsert(data,'UnifyId__c')
 
   if (!updatedContact.success) {throw new Error('No contact upserted')}
-  else return updatedContact 
+  return updatedContact 
 }
 
 // UPSERT a list of map_locations, a single record for each location in the google maps api.
@@ -57,8 +57,8 @@ const createMapLocations = async (loc) => {
   let createdMapLocations = await sf.sobject('Map_Location__c').upsert(sfLocs,'Map_Location_Id__c')
   
   let returnRecs = createdMapLocations.filter(r =>!r.success)
-  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${returnRecs}}`)}
-  else return createdMapLocations 
+  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  return createdMapLocations 
 }
 
 // creates object for the Map location object
@@ -85,8 +85,8 @@ const createDestinations = async (conId, dests) => {
   let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
 
   let returnRecs = createdDestinations.filter(r =>!r.success)
-  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${returnRecs}}`)}
-  else return createdDestinations 
+  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  return createdDestinations 
 }
 
 // creates object for the destination composite object
