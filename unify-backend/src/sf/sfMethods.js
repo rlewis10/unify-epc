@@ -28,6 +28,7 @@ const getContact = async (id) => {
   return contact
 }
 
+// create a contact returning SFID
 const createContact = async (data) => {
   const sf = await sfAuth.get()
   data['Account'] = {UnifyId__c : data.AccountId}
@@ -75,6 +76,8 @@ const createMapLocationObj = (key, dest) => {
   }
 }
 
+// get a list of destinations for an individual contact should not be handled by SF and only through mongo. 
+
 // UPSERT a list of destinations, linking a contact to a map_location
 const createDestinations = async (conId, dests) => {
   let sfDests = []
@@ -99,12 +102,29 @@ const createDestinationObj = (conId, mapLocId) => {
   }
 }
 
+// deactivate a list of destinations
+const deactivateDestinations = async (conId, dests) => {
+  let sfDests = []
+  Object.keys(dests).map(d => {
+    sfDests.push({
+      Destination_Id__c: `${d}-${conId}`,
+      isActive__c: false})
+  })
+  const sf = await sfAuth.get()
+  let deactivedDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
+
+  let returnRecs = deactivedDestinations.filter(r =>!r.success)
+  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  return deactivedDestinations 
+}
+
 module.exports = {
     createContact : createContact,
     getContact : getContact,
     findContact : findContact,
     upsertContact : upsertContact,
     createMapLocations: createMapLocations,
-    createDestinations: createDestinations
+    createDestinations: createDestinations,
+    deactivateDestinations: deactivateDestinations
 }
 

@@ -1,6 +1,9 @@
 const db = require('mongoose')
 const User = require('./UserSchema')
 
+// setup environement variables
+require('dotenv').config({path: __dirname + '/.env'})
+
 const dbCon = () => {
     try{
         db.connect(process.env.MONGO_DB_PASSWORD, 
@@ -31,8 +34,11 @@ const createUser = async (data) => {
 // update a user by Id, returns the inserted document
 const updateUserbyId = async (id, data) => {}
 
-//
+//get list of destinations
+
+//update destination list (overwrite existing list), salesforce handles 'decactivated' destinations by upserting 'isActive' data. 
 
 module.exports = {
-    createUser: createUser,
-    dbCon: dbCon}
+    dbCon: dbCon,
+    createUser: createUser
+}
