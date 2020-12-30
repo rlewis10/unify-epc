@@ -9,9 +9,12 @@ const findContact = async (data) => {
     ['Id', 'FirstName', 'LastName', 'Email', 'Account.UnifyId__c'])
     .sort({ LastModifiedDate: -1 })
     .limit(1)
-  return contact
+
+  if (!contact.success) {throw new Error('No record successfully retrieved') }
+  else return contact
 }
 
+// get a contact returning SFID
 const getContact = async (id) => {
   const sf = await sfAuth.get()
   let contact = await sf.sobject('Contact').find({
@@ -20,20 +23,28 @@ const getContact = async (id) => {
     ['Id'])
     .sort({ LastModifiedDate: -1 })
     .limit(1)
-  return contact
+
+  if (!contact.success) {throw new Error('No record successfully retrieved')}
+  else return contact
 }
 
 const createContact = async (data) => {
   const sf = await sfAuth.get()
   data['Account'] = {UnifyId__c : data.AccountId}
-  return await sf.sobject('Contact').create(data)
+  let createdContact = await sf.sobject('Contact').create(data)
+
+  if (!createdContact.success) {throw new Error('No contact created')}
+  else return createdContact
 }
 
-// update contact with unify unique Id
-const updateContact = async (id, data) => {
+// UPSERT contact with unify unique Id
+const upsertContact = async (id, data) => {
   const sf = await sfAuth.get()
   data['UnifyId__c'] = id
-  return await sf.sobject('Contact').update(data)
+  let updatedContact =  await sf.sobject('Contact').upsert(data,'UnifyId__c')
+
+  if (!updatedContact.success) {throw new Error('No contact upserted')}
+  else return updatedContact 
 }
 
 // UPSERT a list of map_locations, a single record for each location in the google maps api.
@@ -43,7 +54,11 @@ const createMapLocations = async (loc) => {
     sfLocs.push(createMapLocationObj(l, loc[l]))
   })
   const sf = await sfAuth.get()
-  return await sf.sobject("Map_Location__c").upsert(sfLocs,'Map_Location_Id__c',{ allOrNone: true })
+  let createdMapLocations = await sf.sobject('Map_Location__c').upsert(sfLocs,'Map_Location_Id__c')
+  
+  let returnRecs = createdMapLocations.filter(r =>!r.success)
+  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${returnRecs}}`)}
+  else return createdMapLocations 
 }
 
 // creates object for the Map location object
@@ -61,14 +76,26 @@ const createMapLocationObj = (key, dest) => {
 }
 
 // UPSERT a list of destinations, linking a contact to a map_location
+const createDestinations = async (conId, dests) => {
+  let sfDests = []
+  Object.keys(dests).map(d => {
+    sfDests.push(createDestinationObj(conId,d))
+  })
+  const sf = await sfAuth.get()
+  let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
+
+  let returnRecs = createdDestinations.filter(r =>!r.success)
+  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${returnRecs}}`)}
+  else return createdDestinations 
+}
 
 // creates object for the destination composite object
 const createDestinationObj = (conId, mapLocId) => {
   return {
-    Destination_Id__c: `${conId}-${mapLocId}`,
-    Name: `${conId}-${mapLocId}`,
-    Map_Location__c: {Map_Location_Id__c : mapLocId},
-    Contact__c: {UnifyId__c : conId}
+    Destination_Id__c: `${mapLocId}-${conId}`,
+    Name: `${mapLocId}-${conId}`,
+    Map_Location__r: {Map_Location_Id__c: mapLocId},
+    Contact__r: {UnifyId__c : conId}
   }
 }
 
@@ -76,7 +103,8 @@ module.exports = {
     createContact : createContact,
     getContact : getContact,
     findContact : findContact,
-    updateContact : updateContact,
-    createMapLocations: createMapLocations
+    upsertContact : upsertContact,
+    createMapLocations: createMapLocations,
+    createDestinations: createDestinations
 }
 
