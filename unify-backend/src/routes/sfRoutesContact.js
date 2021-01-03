@@ -1,6 +1,6 @@
 const express = require('express')
 const contactRouter = express.Router()
-const sf = require('../methods/sfMethods')
+const sf = require('../methods/sf/sfMethods')
 
 contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) => {
     try{

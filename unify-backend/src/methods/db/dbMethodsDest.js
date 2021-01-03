@@ -1,5 +1,5 @@
 const db = require('mongoose')
-const Dest = require('../schema/DestSchema')
+const Dest = require('../../dbSchema/DestSchema')
 
 // create new destinations, returns the inserted document
 const createDest = async (data) => {

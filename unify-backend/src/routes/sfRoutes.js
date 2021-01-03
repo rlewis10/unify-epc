@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const contactRoutes = require('../routes/sfRoutesContact')
-const locationsRoutes = require('../routes/sfRoutesLocations.js')
+const contactRoutes = require('./sfRoutesContact')
+const locationsRoutes = require('./sfRoutesLocations.js')
 
 router.use('/contact', contactRoutes)
 router.use('/locations', locationsRoutes)

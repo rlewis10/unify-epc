@@ -1,4 +1,4 @@
-const sfAuth = require('../sfAuth')
+const sfAuth = require('./sfAuth')
 
 const findContact = async (data) => {
   const sf = await sfAuth.get()
@@ -15,7 +15,7 @@ const findContact = async (data) => {
 }
 
 // get a contact returning SFID
-const getContact = async (id) => {
+const getContactId = async (id) => {
   const sf = await sfAuth.get()
   let contact = await sf.sobject('Contact').find({
     UnifyId__c : id
@@ -34,7 +34,7 @@ const createContact = async (data) => {
   data['Account'] = {UnifyId__c : data.AccountId}
   let createdContact = await sf.sobject('Contact').create(data)
 
-  if (!createdContact.success) {throw new Error(`No contact created`)}
+  //if (!createdContact.success) {throw new Error(`No contact created`)}
   return createdContact
 }
 
@@ -44,7 +44,7 @@ const upsertContact = async (id, data) => {
   data['UnifyId__c'] = id
   let updatedContact =  await sf.sobject('Contact').upsert(data,'UnifyId__c')
 
-  if (!updatedContact.success) {throw new Error(`No contact upserted`)}
+  //if (!updatedContact.success) {throw new Error(`No contact upserted`)}
   return updatedContact 
 }
 
@@ -57,8 +57,8 @@ const createMapLoc = async (loc) => {
   const sf = await sfAuth.get()
   let createdMapLocations = await sf.sobject('Map_Location__c').upsert(sfLocs,'Map_Location_Id__c')
   
-  let returnRecs = createdMapLocations.filter(r =>!r.success)
-  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  //let returnRecs = createdMapLocations.filter(r =>!r.success)
+  //if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
   return createdMapLocations 
 }
 
@@ -87,8 +87,8 @@ const createDest = async (conId, dests) => {
   const sf = await sfAuth.get()
   let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
 
-  let returnRecs = createdDestinations.filter(r =>!r.success)
-  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  //let returnRecs = createdDestinations.filter(r =>!r.success)
+  //if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
   return createdDestinations 
 }
 
@@ -113,14 +113,14 @@ const deactivateDest = async (conId, dests) => {
   const sf = await sfAuth.get()
   let deactivedDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
 
-  let returnRecs = deactivedDestinations.filter(r =>!r.success)
-  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  //let returnRecs = deactivedDestinations.filter(r =>!r.success)
+  //if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
   return deactivedDestinations 
 }
 
 module.exports = {
     createContact,
-    getContact,
+    getContactId,
     findContact,
     upsertContact,
     createMapLoc,
