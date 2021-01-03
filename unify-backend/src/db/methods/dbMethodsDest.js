@@ -3,9 +3,7 @@ const Dest = require('../schema/DestSchema')
 
 // create new destinations, returns the inserted document
 const createDest = async (data) => {
-    const dest = new Dest({
-        
-    })
+    const dest = new Dest({data})
     return await dest.save()
 }
 
@@ -15,7 +13,13 @@ const updateDest = async (id, data) => {
     return updatedDest 
 }
 
+// get destination list from object id
+const getDestObj = async (id) => {
+    return await Dest.findById(id)
+}
+
 module.exports = {
     createDest,
-    updateDest
+    updateDest,
+    getDestObj
 }

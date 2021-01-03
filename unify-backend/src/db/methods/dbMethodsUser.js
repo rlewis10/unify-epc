@@ -27,6 +27,11 @@ const updateUserbyId = async (id, data) => {
     return updatedUser 
 }
 
+//get user from a userId
+const getUserObj = async (id) => {
+    return await User.findById(id)
+}
+
 //get destination objectId from a userId
 const getDestId = async (id) => {
     docs = await User.findById(id)
@@ -37,5 +42,6 @@ module.exports = {
     createUser,
     updateUserbyId,
     findUserId,
-    getDestId
+    getDestId,
+    getUserObj
 }
