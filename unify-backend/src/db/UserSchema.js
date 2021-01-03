@@ -55,6 +55,10 @@ const userSchema = new db.Schema(
         isActive: {
             type: Boolean,
             default: true
+        },
+        destinations: {
+            type: db.Schema.Types.ObjectId, 
+            ref: 'Dest'
         }
     })
 
