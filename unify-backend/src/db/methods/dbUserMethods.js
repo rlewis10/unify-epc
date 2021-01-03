@@ -1,4 +1,4 @@
-const User = require('./UserSchema')
+const User = require('../schema/UserSchema')
 
 // find a user Id by username, returns the document Id
 const findUserId = async (username) => {

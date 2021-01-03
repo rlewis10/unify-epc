@@ -1,4 +1,4 @@
-const sfAuth = require('./sfAuth')
+const sfAuth = require('../sfAuth')
 
 const findContact = async (data) => {
   const sf = await sfAuth.get()

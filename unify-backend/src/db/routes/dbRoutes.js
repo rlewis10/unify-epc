@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
-const {dbConn} = require('./dbConnMethods')
-const dbUser = require('./dbUserMethods')
-const dbDest = require('./dbDestMethods')
+const {dbConn} = require('../methods/dbConnMethods')
+const dbUser = require('../methods/dbUserMethods')
+const dbDest = require('../methods/dbDestMethods')
 
+// initialise the database connection 
 dbConn()
 
 //create a new user
@@ -13,7 +14,7 @@ router.post('/create', async (req, res) => {
         res.send(savedUser)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -24,7 +25,7 @@ router.get('/find/username/:username', async (req, res) => {
         res.send(_id)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -35,7 +36,7 @@ router.post('/update/id/:id', async (req, res) => {
         res.send(updatedUser)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 
@@ -46,7 +47,7 @@ router.get('/find/destid/id/:id', async (req, res) => {
         res.send(destId)
     }
     catch(e){
-        res.status(400).send(e)
+        res.status(400).send(e.message)
     }
 })
 

@@ -1,5 +1,5 @@
 const db = require('mongoose')
-const Dest = require('./DestSchema')
+const Dest = require('../schema/DestSchema')
 
 //update destination list, salesforce handles 'decactivated' destinations by upserting 'isActive' data. 
 const updateDest = async (id, data) => {
