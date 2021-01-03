@@ -34,8 +34,8 @@ const getDestId = async (id) => {
 }
 
 module.exports = {
-    createUser: createUser,
-    updateUserbyId, updateUserbyId,
-    findUserId: findUserId,
-    getDestId: getDestId
+    createUser,
+    updateUserbyId,
+    findUserId,
+    getDestId
 }

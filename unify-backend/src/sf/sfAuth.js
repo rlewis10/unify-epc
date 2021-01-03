@@ -1,41 +1,36 @@
-const fs = require('fs')
 const sf = require('jsforce')
 
 // setup environement variables
-require('dotenv').config({path: __dirname + '/.env'})
+require('dotenv').config({path: __dirname + '../.env'})
+
+const loginURL = process.env.SF_LOGIN_URL
+const clientId = process.env.SF_CLIENT_ID
+const clientSecret = process.env.SF_CLIENT_SECRET
+const username = process.env.SF_USERNAME
+const password = process.env.SF_PASSWORD
+const securityToken = process.env.SF_SECUIRTY_TOKEN
 
 const sfAuth = async () => {
-    const keys = await read('./cred/salesforce-creds.json')
     return new Promise((resolve, reject) => {
         try {
             let conn = new sf.Connection({
                 oauth2: {
-                    loginUrl: keys.loginUrl,
-                    clientId: keys.clientId,
-                    clientSecret: keys.clientSecret
+                    loginUrl: loginURL,
+                    clientId: clientId,
+                    clientSecret: clientSecret
                 }
             })
-            conn.login(keys.username, keys.password.concat(keys.securitytoken),(err, UserInfo) => {
-                resolve(conn)
+
+            conn.login(username, password.concat(securityToken),(err, userInfo) => {
+            if (err) { reject(err)}
+            resolve(conn)
+            console.log(`connected to SF: ${JSON.stringify(userInfo)}`)
             })
         }
         catch (err) {
             reject(`Unable to get token from Salesforce, Error: ${err}`)
         }
     })
-}
-
-const read = async (file) => {
-    const getFile = await fs.promises.readFile(file)
-        .catch(err => {console.log(`Error reading from file: ${err}`)})
-    return JSON.parse(getFile)
-}
-
-const write = async (file, path) => {
-    let data = await file
-    fs.promises.writeFile(path, JSON.stringify(data, undefined, 2))
-        .catch(err => {console.error(`Error writing to file: ${err}`)})
-    return path
 }
 
 module.exports = {

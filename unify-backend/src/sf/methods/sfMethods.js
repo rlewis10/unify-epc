@@ -4,13 +4,13 @@ const findContact = async (data) => {
   const sf = await sfAuth.get()
   let contact = await sf.sobject('Contact').find({
     Email : data.conEmail,
-    'Account.UnifyId__c' : data.AccountId
+    'Account.UnifyId__c' : data.accountId
   },
     ['Id', 'FirstName', 'LastName', 'Email', 'Account.UnifyId__c'])
     .sort({ LastModifiedDate: -1 })
     .limit(1)
 
-  if (!contact.success) {throw new Error('No record successfully retrieved') }
+  //if (!contact.success) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`) }
   return contact
 }
 
@@ -24,7 +24,7 @@ const getContact = async (id) => {
     .sort({ LastModifiedDate: -1 })
     .limit(1)
 
-  if (!contact.success) {throw new Error('No record successfully retrieved')}
+  //if (!contact.success) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
   return contact
 }
 
@@ -34,7 +34,7 @@ const createContact = async (data) => {
   data['Account'] = {UnifyId__c : data.AccountId}
   let createdContact = await sf.sobject('Contact').create(data)
 
-  if (!createdContact.success) {throw new Error('No contact created')}
+  if (!createdContact.success) {throw new Error(`No contact created`)}
   return createdContact
 }
 
@@ -44,15 +44,15 @@ const upsertContact = async (id, data) => {
   data['UnifyId__c'] = id
   let updatedContact =  await sf.sobject('Contact').upsert(data,'UnifyId__c')
 
-  if (!updatedContact.success) {throw new Error('No contact upserted')}
+  if (!updatedContact.success) {throw new Error(`No contact upserted`)}
   return updatedContact 
 }
 
 // UPSERT a list of map_locations, a single record for each location in the google maps api.
-const createMapLocations = async (loc) => {
+const createMapLoc = async (loc) => {
   let sfLocs = []
   Object.keys(loc).map(l => {
-    sfLocs.push(createMapLocationObj(l, loc[l]))
+    sfLocs.push(createMapLocObj(l, loc[l]))
   })
   const sf = await sfAuth.get()
   let createdMapLocations = await sf.sobject('Map_Location__c').upsert(sfLocs,'Map_Location_Id__c')
@@ -62,8 +62,8 @@ const createMapLocations = async (loc) => {
   return createdMapLocations 
 }
 
-// creates object for the Map location object
-const createMapLocationObj = (key, dest) => {
+// creates object for the Map_Location__c object
+const createMapLocObj = (key, dest) => {
   let {placeLabel, url, city, country, position:{lng, lat}} = dest
   return {
     Name: placeLabel,
@@ -76,13 +76,13 @@ const createMapLocationObj = (key, dest) => {
   }
 }
 
-// get a list of destinations for an individual contact should not be handled by SF and only through mongo. 
+//list of destinations for an individual contact should not be handled by SF and only through mongo. 
 
 // UPSERT a list of destinations, linking a contact to a map_location
-const createDestinations = async (conId, dests) => {
+const createDest = async (conId, dests) => {
   let sfDests = []
   Object.keys(dests).map(d => {
-    sfDests.push(createDestinationObj(conId,d))
+    sfDests.push(createDestObj(conId,d))
   })
   const sf = await sfAuth.get()
   let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
@@ -92,8 +92,8 @@ const createDestinations = async (conId, dests) => {
   return createdDestinations 
 }
 
-// creates object for the destination composite object
-const createDestinationObj = (conId, mapLocId) => {
+// creates object for the Destination__c composite object
+const createDestObj = (conId, mapLocId) => {
   return {
     Destination_Id__c: `${mapLocId}-${conId}`,
     Name: `${mapLocId}-${conId}`,
@@ -103,7 +103,7 @@ const createDestinationObj = (conId, mapLocId) => {
 }
 
 // deactivate a list of destinations
-const deactivateDestinations = async (conId, dests) => {
+const deactivateDest = async (conId, dests) => {
   let sfDests = []
   Object.keys(dests).map(d => {
     sfDests.push({
@@ -119,12 +119,12 @@ const deactivateDestinations = async (conId, dests) => {
 }
 
 module.exports = {
-    createContact : createContact,
-    getContact : getContact,
-    findContact : findContact,
-    upsertContact : upsertContact,
-    createMapLocations: createMapLocations,
-    createDestinations: createDestinations,
-    deactivateDestinations: deactivateDestinations
+    createContact,
+    getContact,
+    findContact,
+    upsertContact,
+    createMapLoc,
+    createDest,
+    deactivateDest
 }
 

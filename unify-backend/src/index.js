@@ -6,11 +6,6 @@ const { body, validationResult } =  require('express-validator')
 // setup environement variables
 require('dotenv').config({path: __dirname + '/.env'})
 
-const sfRoutes = require('./sf/routes/sfRoutes')
-const authRoutes = require('./userAuth/authRoutes')
-const dbRoutes = require('./db/routes/dbRoutes')
-//const db = require('./db/db.js')
-
 app.set('port', process.env.PORT || 3001)
 
 app.listen(app.get('port'), function () {
@@ -22,6 +17,11 @@ app.use(express.urlencoded({
 }))
 
 app.use(express.json())
+
+const sfRoutes = require('./sf/routes/sfRoutes')
+const authRoutes = require('./userAuth/authRoutes')
+const dbRoutes = require('./db/routes/dbRoutes')
+//const db = require('./db/db.js')
 
 app.use('/api/sf', sfRoutes)
 app.use('/api/auth', authRoutes)

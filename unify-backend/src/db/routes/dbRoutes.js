@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const {dbConn} = require('../methods/dbConnMethods')
-const dbUser = require('../methods/dbUserMethods')
-const dbDest = require('../methods/dbDestMethods')
+const {dbConn} = require('../methods/dbMethodsConn')
+const dbUser = require('../methods/dbMethodsUser')
+const dbDest = require('../methods/dbMethodsDest')
 
 // initialise the database connection 
 dbConn()

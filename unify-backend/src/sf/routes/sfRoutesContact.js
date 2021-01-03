@@ -5,6 +5,7 @@ const sf = require('../methods/sfMethods')
 contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) => {
     try{
         let findContact = await sf.findContact(req.params)
+        console.log(findContact)
         res.send(findContact)
     }
     catch(e){
@@ -12,7 +13,7 @@ contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) =
     }
 })
 
-contactRouter.get('/get/id/:id', async (req, res) => {
+contactRouter.get('/get/unifyid/:id', async (req, res) => {
     try{
         let getContact = await sf.getContact(req.params.id)
         res.send(getContact)
