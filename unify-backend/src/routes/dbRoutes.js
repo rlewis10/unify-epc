@@ -1,12 +1,7 @@
 const express = require('express')
 const router = express.Router()
-const {dbConn} = require('../methods/db/dbMethodsConn')
 const dbUser = require('../methods/db/dbMethodsUser')
-const dbDest = require('../methods/db/dbMethodsDest')
 const sf = require('../methods/sf/sfMethods')
-
-// initialise the database connection 
-dbConn()
 
 // find a user by username
 router.get('/find/username/:username', async (req, res) => {
@@ -36,8 +31,9 @@ router.post('/create', async (req, res) => {
 // update a user
 router.post('/update/id/:id', async (req, res) => {
     try{
-        let updatedUser = await dbUser.updateUserbyId(req.params.id, req.body)
-        res.send(updatedUser)
+        let updatedUserDb = await dbUser.updateUserbyId(req.params.id, req.body)
+        let updateContactSf = await sf.updateUserbyId(updatedUserDb.id, updatedUserDb)
+        res.send(updatedUserDb)
     }
     catch(e){
         res.status(400).send(e.message)

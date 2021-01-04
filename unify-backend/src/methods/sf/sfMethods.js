@@ -10,7 +10,7 @@ const findContact = async (data) => {
     .sort({ LastModifiedDate: -1 })
     .limit(1)
 
-  //if (!contact.success) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`) }
+  if (Object.entries(contact).length === 0) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`) }
   return contact
 }
 
@@ -19,7 +19,7 @@ const createContact = async (data) => {
   const sf = await sfAuth.get()
   let createdContact = await sf.sobject('Contact').create(data)
 
-  //if (!createdContact.success) {throw new Error(`No contact created`)}
+  if (!createdContact.success) {throw new Error(`No contact created`)}
   return createdContact
 }
 
@@ -33,7 +33,7 @@ const getContactId = async (id) => {
     .sort({ LastModifiedDate: -1 })
     .limit(1)
 
-  //if (!contact.success) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
+  if (Object.entries(contact).length === 0) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
   return contact
 }
 
@@ -43,7 +43,7 @@ const upsertContact = async (id, data) => {
   data['UnifyId__c'] = id
   let updatedContact =  await sf.sobject('Contact').upsert(data,'UnifyId__c')
 
-  //if (!updatedContact.success) {throw new Error(`No contact upserted`)}
+  if (Object.entries(contact).length === 0) {throw new Error(`No contact upserted`)}
   return updatedContact 
 }
 
