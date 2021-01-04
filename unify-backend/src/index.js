@@ -23,13 +23,15 @@ app.use(express.json())
 dbConn()
 
 const sfRoutes = require('./routes/sfRoutes')
-const dbRoutes = require('./routes/dbRoutes')
+const userRoutes = require('./routes/userRoutes')
+const destRoutes = require('./routes/destRoutes')
 const authRoutes = require('./userAuth/authRoutes')
 //const apiRoutes = require('./routes/apiRoutes')
 //const db = require('./db/db.js')
 
 
 app.use('/api/sf', sfRoutes)
-app.use('/api/db', dbRoutes)
+app.use('/api/user', userRoutes)
+app.use('/api/dest', userRoutes)
 app.use('/auth', authRoutes)
 //app.use('/api', apiRoutes)

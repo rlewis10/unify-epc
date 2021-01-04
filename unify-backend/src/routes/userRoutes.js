@@ -27,24 +27,12 @@ router.post('/create', async (req, res) => {
     }
 })
 
-
 // update a user
 router.post('/update/id/:id', async (req, res) => {
     try{
         let updatedUserDb = await dbUser.updateUserbyId(req.params.id, req.body)
         let updateContactSf = await sf.updateUserbyId(updatedUserDb.id, updatedUserDb)
         res.send(updatedUserDb)
-    }
-    catch(e){
-        res.status(400).send(e.message)
-    }
-})
-
-// get destination id
-router.get('/find/destid/id/:id', async (req, res) => {
-    try{
-        let destId = await dbUser.getDestId(req.params.id)
-        res.send(destId)
     }
     catch(e){
         res.status(400).send(e.message)
