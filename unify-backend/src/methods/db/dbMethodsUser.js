@@ -5,7 +5,12 @@ const findUserId = async (username) => {
     docs = await User.findOne({
         username: { $eq: username }
       })
-    return docs._id
+    return docs
+}
+
+//get user from a userId
+const getUserObj = async (id) => {
+    return await User.findById(id)
 }
 
 // create a new user, returns the inserted document
@@ -25,11 +30,6 @@ const createUser = async (data) => {
 const updateUserbyId = async (id, data) => {
     let updatedUser = await User.findOneAndUpdate({_id: id}, data)
     return updatedUser 
-}
-
-//get user from a userId
-const getUserObj = async (id) => {
-    return await User.findById(id)
 }
 
 //get destination objectId from a userId

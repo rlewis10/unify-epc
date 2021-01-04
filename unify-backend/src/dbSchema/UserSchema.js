@@ -8,6 +8,10 @@ const userSchema = new db.Schema(
             default: '1',
             max: 255
         },
+        sfid : {
+            type: String,
+            max: 255
+        },
         username : {
             type: String,
             required: true,

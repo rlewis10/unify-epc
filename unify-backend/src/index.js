@@ -18,11 +18,14 @@ app.use(express.urlencoded({
 
 app.use(express.json())
 
-const sfRoutes = require('./sf/routes/sfRoutes')
+//const sfRoutes = require('./routes/sfRoutes')
+//const dbRoutes = require('./routes/dbRoutes')
 const authRoutes = require('./userAuth/authRoutes')
-const dbRoutes = require('./db/routes/dbRoutes')
+const apiRoutes = require('./routes/apiRoutes')
 //const db = require('./db/db.js')
 
-app.use('/api/sf', sfRoutes)
-app.use('/api/auth', authRoutes)
-app.use('/api/db', dbRoutes)
+
+//app.use('/api/sf', sfRoutes)
+//app.use('/api/db', dbRoutes)
+app.use('/auth', authRoutes)
+app.use('/api', apiRoutes)

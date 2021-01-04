@@ -14,6 +14,15 @@ const findContact = async (data) => {
   return contact
 }
 
+// create a contact returning SFID
+const createContact = async (data) => {
+  const sf = await sfAuth.get()
+  let createdContact = await sf.sobject('Contact').create(data)
+
+  //if (!createdContact.success) {throw new Error(`No contact created`)}
+  return createdContact
+}
+
 // get a contact returning SFID
 const getContactId = async (id) => {
   const sf = await sfAuth.get()
@@ -26,16 +35,6 @@ const getContactId = async (id) => {
 
   //if (!contact.success) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
   return contact
-}
-
-// create a contact returning SFID
-const createContact = async (data) => {
-  const sf = await sfAuth.get()
-  data['Account'] = {UnifyId__c : data.AccountId}
-  let createdContact = await sf.sobject('Contact').create(data)
-
-  //if (!createdContact.success) {throw new Error(`No contact created`)}
-  return createdContact
 }
 
 // UPSERT contact with unify unique Id
