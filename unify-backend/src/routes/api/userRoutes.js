@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const dbUser = require('../methods/db/dbMethodsUser')
-const sf = require('../methods/sf/sfMethods')
+const sf = require('../../methods/sf/sfMethods')
 
 // find a user by username
 router.get('/find/username/:username', async (req, res) => {

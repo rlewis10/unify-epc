@@ -1,5 +1,9 @@
-const db = require('mongoose')
 const Dest = require('../../dbSchema/DestSchema')
+
+// find destination list from object id
+const getDestObj = async (id) => {
+    return await Dest.findById(id)
+}
 
 // create new destinations, returns the inserted document
 const createDest = async (data) => {
@@ -11,11 +15,6 @@ const createDest = async (data) => {
 const updateDest = async (id, data) => {
     let updatedDest = await Dest.findOneAndUpdate({_id: id}, data)
     return updatedDest 
-}
-
-// get destination list from object id
-const getDestObj = async (id) => {
-    return await Dest.findById(id)
 }
 
 module.exports = {

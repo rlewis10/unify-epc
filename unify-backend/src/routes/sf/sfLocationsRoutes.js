@@ -1,6 +1,6 @@
 const express = require('express')
 const locationRouter = express.Router()
-const sf = require('../methods/sf/sfMethods')
+const sf = require('../../methods/sf/sfMethods')
 
 // create map_locations endpoint
 locationRouter.post('/create', async (req, res) => {
