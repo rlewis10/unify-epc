@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const dbUser = require('../methods/db/dbMethodsUser')
+const dbUser = require('../../methods/db/dbUserMethods')
 const sf = require('../../methods/sf/sfMethods')
 
 // find a user by username

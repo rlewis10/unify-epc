@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const token = require('./jwt')
+const token = require('../../methods/auth/jwt')
 
 router.get('/token', async (req, res) => {
     let accessToken = await token.genAccessToken()
