@@ -20,7 +20,7 @@ router.post('/create', async (req, res) => {
         let savedUserDb = await dbUser.createUser(req.body) 
         let savedContactSf = await sf.createContact(savedUserDb)
         let updatedSFId = await dbUser.updateUserbyId(savedUserDb.id, {sfid: savedContactSf.id})
-        res.send(savedUserDb)
+        res.send({success: true})
     }
     catch(e){
         res.status(400).send(e.message)
