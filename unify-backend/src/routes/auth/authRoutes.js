@@ -3,8 +3,14 @@ const router = express.Router()
 const token = require('../../methods/auth/jwt')
 
 router.get('/token', async (req, res) => {
-    let accessToken = await token.genAccessToken()
+    let accessToken = await token.genJWTToken()
     res.header('accessToken',accessToken).send(accessToken)
+})
+
+router.get('/verify', token.verifyJWTToken, async (req, res, next) => {
+    //let accessToken = await token.verifyJWTToken()
+    //res.header('accessToken',accessToken).send({isAuthenticed: true})
+    res.send(req.auth)
 })
 
 

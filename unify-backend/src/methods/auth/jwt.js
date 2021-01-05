@@ -4,12 +4,12 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config({path: __dirname + '/.env'})
 
 // create and assign a token
-const genAccessToken = async () => {
+const genJWTToken = () => {
     let payload = {
         userId : 'richard@rlewis.me',
         accountId: '1'
     }
-    let token = await jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {
+    let token = jwt.sign(payload, process.env.JWT_TOKEN_SECRET, {
         algorithm: 'HS256', 
         expiresIn: '1h'
     })
@@ -17,13 +17,14 @@ const genAccessToken = async () => {
 }
 
 // verify JWT token
-const verifyJWTToken = async (req, res, next) => {
-    const authHeaderToken = req.header('accessToken')
-    if(!authHeaderToken) return res.status(401).send('Invalid token')
-
+const verifyJWTToken = (req, res, next) => {
+    const bearerHeader = req.header('accessToken')
+    if(!bearerHeader) return res.status(401).send('Invalid token')
+    const bearerToken = bearerHeader.split(' ')[1]
+    
     try{
-        const verified = await jwt.verify(authHeaderToken, process.env.JWT_ACCESS_SECRET)
-        req.user = verified
+        const verified = jwt.verify(bearerToken, process.env.JWT_TOKEN_SECRET)
+        req.auth = verified
         next()
     }
     catch(e){
@@ -32,6 +33,6 @@ const verifyJWTToken = async (req, res, next) => {
 }
 
 module.exports = {
-    genAccessToken : genAccessToken,
-    verifyJWTToken : verifyJWTToken
+    genJWTToken,
+    verifyJWTToken
 }
