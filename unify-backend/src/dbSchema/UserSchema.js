@@ -25,6 +25,11 @@ const userSchema = new db.Schema(
             max: 1024,
             min: 6
         },
+        refreshToken : {
+            type: String,
+            unique: true,
+            max: 255
+        },
         sfContactId : {
             type: String,
             unique: true,

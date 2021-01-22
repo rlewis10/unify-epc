@@ -2,7 +2,7 @@ const User = require('../../dbSchema/UserSchema')
 
 // find a user Id by username, returns the document Id
 const findUserId = async (username) => {
-    docs = await User.findOne({
+    let docs = await User.findOne({
         username: { $eq: username }
       })
     return docs
@@ -34,7 +34,7 @@ const updateUserbyId = async (id, data) => {
 
 //get destination objectId from a userId
 const getDestId = async (id) => {
-    docs = await User.findById(id)
+    let docs = await User.findById(id)
     return docs.destinations
 }
 

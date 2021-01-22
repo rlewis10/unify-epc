@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const dbDest = require('../../methods/db/dbDestMethods')
-const dbUser = require('../../methods/db/dbUserMethods')
 const sfUser = require('../../methods/sf/sfUserMethods')
 const sfDest = require('../../methods/sf/sfDestMethods')
 

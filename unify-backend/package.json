@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rlewis10/unifyBackend#readme",
   "dependencies": {
+    "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-validator": "^6.8.1",
