@@ -1,11 +1,9 @@
 const User = require('../../dbSchema/UserSchema')
 
 // find a user Id by username, returns the document Id
-const findUserId = async (username) => {
-    let docs = await User.findOne({
-        username: { $eq: username }
-      })
-    return docs
+const findUserId = async (user) => {
+    return await User.findOne({
+        username: user })
 }
 
 //get user from a userId

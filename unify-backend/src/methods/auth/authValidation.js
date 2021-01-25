@@ -1,6 +1,6 @@
 const crypto = require('crypto')
 
-const login = async (userid, password) => {
+const newLogin = async (userid, password) => {
     // check if username is already taken
     // generate a pair of tokens and send
 }
