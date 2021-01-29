@@ -1,4 +1,4 @@
-const User = require('../../dbSchema/UserSchema')
+const User = require('../../Schema/db/UserSchema')
 
 // find a user Id by username, returns the document Id
 const findUserId = async (user) => {
@@ -13,14 +13,7 @@ const getUserObj = async (id) => {
 
 // create a new user, returns the inserted document
 const createUser = async (data) => {
-    const user = new User({
-        accountId : data.accountId,
-        firstName: data.firstName,
-        LastName: data.lastName,
-        email: data.email,
-        username : data.username,
-        password : data.password
-    })
+    const user = new User(data)
     return await user.save()
 }
 

@@ -8,10 +8,6 @@ const userSchema = new db.Schema(
             default: '1',
             max: 255
         },
-        sfid : {
-            type: String,
-            max: 255
-        },
         username : {
             type: String,
             required: true,
@@ -19,16 +15,11 @@ const userSchema = new db.Schema(
             max: 255,
             min: 6
         },
-        password : {
+        hashPassword : {
             type: String,
             required: true,
             max: 1024,
             min: 6
-        },
-        refreshToken : {
-            type: String,
-            unique: true,
-            max: 255
         },
         sfContactId : {
             type: String,

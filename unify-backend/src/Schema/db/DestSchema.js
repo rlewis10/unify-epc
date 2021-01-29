@@ -7,6 +7,12 @@ const destSchema = new db.Schema(
             required: true,
             max: 255
         },
+        sfDestId : {
+            type: String,
+            unique: true,
+            max: 18,
+            min: 18
+        },
         placeLabel: {
             type: String,
             required: true,

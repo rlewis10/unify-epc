@@ -3,33 +3,29 @@ const sf = require('jsforce')
 // setup environement variables
 require('dotenv').config({path: __dirname + '../.env'})
 
-const loginURL = process.env.SF_LOGIN_URL
-const clientId = process.env.SF_CLIENT_ID
-const clientSecret = process.env.SF_CLIENT_SECRET
-const username = process.env.SF_USERNAME
-const password = process.env.SF_PASSWORD
-const securityToken = process.env.SF_SECUIRTY_TOKEN
-
-const sfAuth = async () => {
+const sfAuth = () => {
     return new Promise((resolve, reject) => {
-        try {
+            console.log(`connecting to Salesforce`)
             let conn = new sf.Connection({
                 oauth2: {
-                    loginUrl: loginURL,
-                    clientId: clientId,
-                    clientSecret: clientSecret
+                    loginUrl: process.env.SF_LOGIN_URL,
+                    clientId: process.env.SF_CLIENT_ID,
+                    clientSecret: process.env.SF_CLIENT_SECRET
                 }
             })
-
-            conn.login(username, password.concat(securityToken),(err, userInfo) => {
-            if (err) { reject(err)}
-            resolve(conn)
-            console.log(`connected to SF: ${JSON.stringify(userInfo)}`)
-            })
-        }
-        catch (err) {
-            reject(`Unable to get token from Salesforce, Error: ${err}`)
-        }
+            conn.login(
+                process.env.SF_USERNAME, 
+                process.env.SF_PASSWORD.concat(process.env.SF_SECURITY_TOKEN),(err, userInfo) => {
+                    if (err) {
+                        console.log((`Unable to get connect to Salesforce, Error: ${err}`))
+                        reject(err)
+                    }
+                    else{
+                        console.log(`Connected to Salesforce ${userInfo}`)
+                        resolve(conn)
+                    }
+                }
+            )
     })
 }
 

@@ -1,17 +1,24 @@
-const crypto = require('crypto')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
 
 const newLogin = async (userid, password) => {
     // check if username is already taken
-    // generate a pair of tokens and send
+    // store username & password in db
 }
 
-const checkPassword = async (userid, password) => {}
+// hash password and store
+const hashPassword = (password) => {
+    return bcrypt.hashSync(password, saltRounds)
+}
 
-const logout = async () => {}
+// check if a password matches the hashPassword stored in the db
+const checkPassword = async (hashPassowrd, plainTextPassword) => {
+    return await bcrypt.compare(plainTextPassword, hashPassowrd)
+}
 
 module.exports = {
-    login,
-    checkPassword,
-    logout
+    newLogin,
+    hashPassword,
+    checkPassword
 }
 

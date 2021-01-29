@@ -1,4 +1,4 @@
-const Dest = require('../../dbSchema/DestSchema')
+const Dest = require('../../Schema/db/DestSchema')
 
 // find destination list from object id
 const getDestObj = async (id) => {

@@ -6,7 +6,7 @@ const sf = require('../../methods/sf/sfUserMethods')
 // find a user by username
 router.get('/find/username/:username', async (req, res) => {
     try{
-        let user = await dbUser.findUserId(req.params.username)
+        const user = await dbUser.findUserId(req.params.username)
         res.send(user)
     }
     catch(e){
@@ -17,9 +17,9 @@ router.get('/find/username/:username', async (req, res) => {
 //create a new user
 router.post('/create', async (req, res) => {
     try{
-        let savedUserDb = await dbUser.createUser(req.body) 
-        let savedContactSf = await sf.createContact(savedUserDb)
-        let updatedSFId = await dbUser.updateUserbyId(savedUserDb.id, {sfid: savedContactSf.id})
+        const savedUserDb = await dbUser.createUser(req.body) 
+        //const savedContactSf = await sf.createContact(savedUserDb)
+        const updatedSFId = await dbUser.updateUserbyId(savedUserDb.id, {sfid: savedContactSf.id})
         res.send({success: true})
     }
     catch(e){
@@ -30,8 +30,8 @@ router.post('/create', async (req, res) => {
 // update a user
 router.post('/update/id/:id', async (req, res) => {
     try{
-        let updatedUserDb = await dbUser.updateUserbyId(req.params.id, req.body)
-        let updateContactSf = await sf.updateUserbyId(updatedUserDb.id, updatedUserDb)
+        const updatedUserDb = await dbUser.updateUserbyId(req.params.id, req.body)
+        //const updateContactSf = await sf.upsertContact(updatedUserDb.id, updatedUserDb)
         res.send(updatedUserDb)
     }
     catch(e){

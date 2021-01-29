@@ -2,6 +2,7 @@ const express = require('express')
 const contactRouter = express.Router()
 const sf = require('../../methods/sf/sfUserMethods')
 
+// find a contact based 
 contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) => {
     try{
         let findContact = await sf.findContact(req.params)
