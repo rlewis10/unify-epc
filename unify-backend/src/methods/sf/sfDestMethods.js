@@ -27,7 +27,6 @@ const upsertDest = async (conId, dests) => {
     let sfDataMap = sfSchema.constr(destData, 'destination')
     sfDests.push(sfDataMap)
   })
-  console.log(sfDests)
   const sf = await sfAuth.get()
   let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
 

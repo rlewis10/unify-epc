@@ -38,7 +38,7 @@ const schema = {
         city : 'City__c',
         country : 'Country__c',
         position : {
-            long : 'Position__Longitude__s',
+            lng : 'Position__Longitude__s',
             lat: 'Position__Latitude__s'
         }
     },
