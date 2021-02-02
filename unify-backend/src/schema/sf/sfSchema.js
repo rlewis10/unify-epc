@@ -1,20 +1,20 @@
 const schema = {
     contact : {
-        id : unifyId__c,
-        accountId,
-        Email,
-        username : username__c,
-        hashPassword : hashPassword__c,
-        isActive : isActive__c,
+        id : 'unifyId__c',
+        accountId : 'accountId',
+        Email : 'Email',
+        username : 'username__c',
+        hashPassword : 'hashPassword__c',
+        isActive : 'isActive__c',
         alerts : {
-            newsletter : Email_Alert_Newsletter__c,
-            weekly : Email_Alert_Weekly__c,
-            monthly : Email_Alert_Monthly__c,
-            adhoc : Email_Alert_adhoc__c
+            newsletter : 'Email_Alert_Newsletter__c',
+            weekly : 'Email_Alert_Weekly__c',
+            monthly : 'Email_Alert_Monthly__c',
+            adhoc : 'Email_Alert_adhoc__c'
         },
         budget : {
-            from : budget_from__c,
-            to : budget_to__c,
+            from : 'budget_from__c',
+            to : 'budget_to__c',
         }
         // TravelDates : {
         //     0 : Jan__c,
@@ -32,17 +32,17 @@ const schema = {
         // }
     },
     location : {
-        Id : Map_Location_Id__c,
-        placeLabel : Name,
-        url : Maps_Link__c,
-        city : City__c,
-        country : Country__c,
+        Id : 'Map_Location_Id__c',
+        placeLabel : 'Name',
+        url : 'Maps_Link__c',
+        city : 'City__c',
+        country : 'Country__c',
         position : {
-            long : Position__Longitude__s,
-            lat: Position__Latitude__s
+            long : 'Position__Longitude__s',
+            lat: 'Position__Latitude__s'
         }
     },
-    destination : class destinationClass {
+    destination : class {
         constructor(data) {
             this.Destination_Id__c =`${data.mapLocId}-${data.conId}` || null
             this.Name = data.placeLabel || null
@@ -52,9 +52,6 @@ const schema = {
         }
     }
 }
-
-// class to create a destination object
-
 
 // wrapper function that calls the 'mapper' or 'builder' function, then assgins the new SF field api name key and their values to a new object
 const sfConstObj = (data, lookupRef) => {
@@ -87,9 +84,10 @@ const mapper = (data, map, obj) => {
 
 // function to build sf object from class in schema and data passed into function
 const builder = (data, map, obj) => {
-    obj = new map(data)
+    let newObj = new map(data)
+    Object.assign(obj, newObj)
 }
 
 module.exports = {
-    const: sfConstObj
+    constr: sfConstObj
 }

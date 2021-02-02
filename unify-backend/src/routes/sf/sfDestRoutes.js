@@ -1,11 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const sf = require('../../methods/sf/sfUserMethods')
+const sfDest = require('../../methods/sf/sfDestMethods')
 
 // create map_locations endpoint
 router.post('/create', async (req, res) => {
     try{
-        let savedLocations = await sf.createMapLoc(req.body)
+        let savedLocations = await sfDest.createMapLoc(req.body)
         res.send(savedLocations)
     }
     catch(e){
@@ -16,7 +16,7 @@ router.post('/create', async (req, res) => {
 // create destinations endpoint
 router.post('/dest/create/contactid/:id', async (req, res) => {
     try{
-        let savedDestinations = await sf.createDest(req.params.id, req.body)
+        let savedDestinations = await sfDest.upsertDest(req.params.id, req.body)
         res.send(savedDestinations)
     }
     catch(e){
@@ -27,7 +27,7 @@ router.post('/dest/create/contactid/:id', async (req, res) => {
 // deactivate destinations endpoint
 router.post('/dest/deactivate/contactid/:id', async (req, res) => {
     try{
-        let deactivateDestinations = await sf.deactivateDest(req.params.id, req.body)
+        let deactivateDestinations = await sfDest.deactivateDest(req.params.id, req.body)
         res.send(deactivateDestinations)
     }
     catch(e){

@@ -3,7 +3,7 @@ const router = express.Router()
 
 
 const sfContactRoutes = require('./sfContactRoutes')
-const sfLocationsRoutes = require('./sfLocationsRoutes.js')
+const sfLocationsRoutes = require('./sfDestRoutes.js')
 
 router.use('/contact', sfContactRoutes)
 router.use('/locations', sfLocationsRoutes)

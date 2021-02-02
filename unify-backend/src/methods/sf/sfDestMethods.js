@@ -5,7 +5,7 @@ const sfSchema = require('../../schema/sf/sfSchema')
 const createMapLoc = async (loc) => {
   let sfLocs = []
   Object.keys(loc).map(l => {
-    let sfDataMap = sfSchema.const(loc[l], 'location')
+    let sfDataMap = sfSchema.constr(loc[l], 'location')
     sfDataMap['Map_Location_Id__c'] = l
     sfLocs.push(sfDataMap)
   })
@@ -23,10 +23,11 @@ const createMapLoc = async (loc) => {
 const upsertDest = async (conId, dests) => {
   let sfDests = []
   Object.keys(dests).map(d => {
-    let destData = {conId : conId, mapLocId: d, placeLabel: loc[l][placeLabel], active: true}
-    let sfDataMap = sfSchema.const(destData, 'destination')
-    sfLocs.push(sfDataMap)
+    let destData = {conId : conId, mapLocId: d, placeLabel: dests[d]['placeLabel'], active: true}
+    let sfDataMap = sfSchema.constr(destData, 'destination')
+    sfDests.push(sfDataMap)
   })
+  console.log(sfDests)
   const sf = await sfAuth.get()
   let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
 

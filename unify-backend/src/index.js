@@ -2,6 +2,7 @@
 const express = require('express')
 const app = express()
 const { body, validationResult } =  require('express-validator')
+const sfAuth = require('./methods/sf/sfAuth')
 const { dbConn } = require('./methods/db/dbConnMethods')
 
 // setup environement variables
@@ -19,6 +20,9 @@ app.listen(app.get('port'), function () {
 app.use(express.urlencoded({extended: true}))
 
 app.use(express.json())
+
+// initalise salesforce connection
+sfAuth.get()
 
 // initialise the database connection 
 dbConn()

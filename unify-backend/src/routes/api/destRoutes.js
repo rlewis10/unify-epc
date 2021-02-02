@@ -19,12 +19,13 @@ router.get('/find/destid/:id', async (req, res) => {
 router.post('/create/userid/:id', async (req, res) => {
     try{
         let userId = req.params.id
+        // create destination doc in db
         let savedDestinations = await dbDest.createDest(req.body)
         // get dest id and add it to user document
         await sfUser.upsertContact(userId, savedDestinations.id)
-        //create new map_locations in SF
+        // create new map_locations in SF
         await sfDest.createMapLoc(req.body)
-        //create new destinations in SF
+        // create new destinations in SF
         await sfDest.upsertDest(userId, req.body)
 
         res.send({success : true})

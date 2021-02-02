@@ -1,11 +1,11 @@
 const express = require('express')
 const contactRouter = express.Router()
-const sf = require('../../methods/sf/sfUserMethods')
+const sfUser = require('../../methods/sf/sfUserMethods')
 
 // find a contact based 
 contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) => {
     try{
-        let findContact = await sf.findContact(req.params)
+        let findContact = await sfUser.findContact(req.params)
         res.send(findContact)
     }
     catch(e){
@@ -15,7 +15,7 @@ contactRouter.get('/find/account/:accountId/email/:conEmail', async (req, res) =
 
 contactRouter.get('/get/unifyid/:id', async (req, res) => {
     try{
-        let getContact = await sf.getContact(req.params.id)
+        let getContact = await sfUser.getContact(req.params.id)
         res.send(getContact)
     }
     catch(e){
@@ -25,7 +25,7 @@ contactRouter.get('/get/unifyid/:id', async (req, res) => {
 
 contactRouter.post('/create', async (req, res) => {
     try{
-        let createContact = await sf.createContact(req.body)
+        let createContact = await sfUser.createContact(req.body)
         res.send(createContact)
     }
     catch(e){
@@ -35,7 +35,7 @@ contactRouter.post('/create', async (req, res) => {
 
 contactRouter.post('/upsert/id/:id', async (req, res) => {
     try{
-        let updatedContact = await sf.upsertContact(req.params.id, req.body)
+        let updatedContact = await sfUser.upsertContact(req.params.id, req.body)
         res.send(updatedContact)
     }
     catch(e){
