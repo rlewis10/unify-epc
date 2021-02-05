@@ -1,92 +1,59 @@
 const schema = {
-    contact : {
-        id : 'unifyId__c',
-        accountId : 'accountId',
-        Email : 'Email',
-        username : 'username__c',
-        hashPassword : 'hashPassword__c',
-        isActive : 'isActive__c',
-        alerts : {
-            newsletter : 'Email_Alert_Newsletter__c',
-            weekly : 'Email_Alert_Weekly__c',
-            monthly : 'Email_Alert_Monthly__c',
-            adhoc : 'Email_Alert_adhoc__c'
-        },
-        budget : {
-            from : 'budget_from__c',
-            to : 'budget_to__c',
+    contact : class {
+        constructor(data){
+            this.UnifyId__c = data?.id
+            this.accountId  = data?.accountId
+            this.firstName = data?.firstName
+            this.lastName = data?.lastName
+            //this.dob = data.dob
+            this.Email = data?.Email
+            this.username__c = data?.username
+            this.hashPassword__c = data?.hashPassword
+            this.isActive__c = data?.isActive
+            this.Email_Alert_Newsletter__c = data?.alerts?.newsletter
+            this.Email_Alert_Weekly__c = data?.alerts?.weekly
+            this.Email_Alert_Monthly__c = data?.alerts?.monthly
+            this.Email_Alert_adhoc__c = data?.alerts?.adhoc
+            this.budget_from__c = data?.budget?.from
+            this.budget_to__c = data?.budget?.to 
         }
-        // TravelDates : {
-        //     0 : Jan__c,
-        //     1 : Feb__c,
-        //     2 : Mar__c,
-        //     3 : Apr__c,
-        //     4 : May__c,
-        //     5 : Jun__c,
-        //     6 : Jul__c,
-        //     7 : Aug__c,
-        //     8 : Sep__c,
-        //     9 : Oct__c,
-        //     10 : Nov__c,
-        //     11 : Dec__c
-        // }
     },
-    location : {
-        Id : 'Map_Location_Id__c',
-        placeLabel : 'Name',
-        url : 'Maps_Link__c',
-        city : 'City__c',
-        country : 'Country__c',
-        position : {
-            lng : 'Position__Longitude__s',
-            lat: 'Position__Latitude__s'
+    location : class {
+        constructor(data){
+            this.Map_Location_Id__c = data?.Id
+            this.Name = data?.placeLabel
+            this.Maps_Link__c = data?.url
+            this.City__c = data?.city
+            this.Country__c = data?.country
+            this.Position__Longitude__s = data?.position?.lng
+            this.Position__Latitude__s = data?.position?.lat
         }
     },
     destination : class {
         constructor(data) {
-            this.Destination_Id__c =`${data.mapLocId}-${data.conId}` || null
-            this.Name = data.placeLabel || null
-            this.Map_Location__r = {Map_Location_Id__c: data.mapLocId} || null
-            this.Contact__r = {UnifyId__c : data.conId} || null
-            this.isActive__c = data.active || null
+            this.Destination_Id__c =`${data?.mapLocId}-${data?.conId}`
+            this.Name = data?.placeLabel
+            this.Map_Location__r = {Map_Location_Id__c: data?.mapLocId} 
+            this.Contact__r = {UnifyId__c : data?.conId} 
+            this.isActive__c = data?.active 
         }
     }
 }
 
-// wrapper function that calls the 'mapper' or 'builder' function, then assgins the new SF field api name key and their values to a new object
+// function to build sf object from class in schema and data passed into function
 const sfConstObj = (data, lookupRef) => {
-    let sfObj = {}
     const map = schema[lookupRef]
-    switch(lookupRef) {
-        case 'contact' : 
-            mapper(data, map, sfObj)
-            break
-        case 'location' : 
-            mapper(data, map, sfObj)
-            break
-        case 'destination' : 
-            builder(data, map, sfObj)
-            break
-        default : 
-            throw new Error(`unable to find lookup reference value that matches the schema`)
-      }
-    return sfObj
+    return new map(data)
 }
 
 // recursive function to map over keys in object and replace the key with the SF field api name
-const mapper = (data, map, obj) => {
-    Object.entries(data).map(([key, value]) => {
-        typeof value === 'object' ?
-            mapper(value, map[key] || map, obj) :
-            obj[map[key] || key] = value
-    })
-}
-
-// function to build sf object from class in schema and data passed into function
-const builder = (data, map, obj) => {
-    let newObj = new map(data)
-    Object.assign(obj, newObj)
-}
+// const mapper = (data, map, obj) => {
+//     Object.entries(data).map(([key, value]) => {
+//         typeof value === 'object' ?
+//             mapper(value, map[key] || map, obj) :
+//             obj[map[key] || key] = value
+//     })
+// }
 
 module.exports = {
     constr: sfConstObj

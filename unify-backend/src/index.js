@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 const { body, validationResult } =  require('express-validator')
@@ -22,7 +21,10 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 // initalise salesforce connection
-sfAuth.get()
+sfAuth.get().then((token) => {
+  console.log(token)
+  console.log(sfAuth.tokens)
+})
 
 // initialise the database connection 
 dbConn()

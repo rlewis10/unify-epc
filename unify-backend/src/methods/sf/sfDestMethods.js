@@ -47,7 +47,7 @@ const deactivateDest = async (conId, dests) => {
   let deactivedDestinations = await sf.sobject('Destination__c').upsert(sfDestsDel,'Destination_Id__c')
 
   let returnRecs = deactivedDestinations.filter(r =>!r.success)
-  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}}`)}
+  if(returnRecs.length >= 1) {throw new Error(`Destinations not created: ${JSON.stringify(returnRecs)}`)}
   return deactivedDestinations 
 }
 

@@ -3,7 +3,7 @@ const sfSchema = require('../../schema/sf/sfSchema')
 
 const findContact = async (data) => {
   const sf = await sfAuth.get()
-  let sfDataCon = sfSchema.const(data, 'contact')
+  let sfDataCon = sfSchema.constr(data, 'contact')
   let contact = await sf.sobject('Contact').find({
     Email : sfDataCon.Email,
     'Account.UnifyId__c' : sfDataCon.accountId
@@ -19,7 +19,7 @@ const findContact = async (data) => {
 // create a contact returning SFID
 const createContact = async (data) => {
   const sf = await sfAuth.get()
-  let sfDataCon = sfSchema.const(data, 'contact')
+  let sfDataCon = sfSchema.constr(data, 'contact')
   let createdContact = await sf.sobject('Contact').create(sfDataCon)
 
   if (!createdContact.success) {throw new Error(`No contact created`)}
@@ -36,18 +36,19 @@ const getContactId = async (id) => {
     .sort({ LastModifiedDate: -1 })
     .limit(1)
 
-  if (Object.entries(contact).length === 0) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
+  if (Object.entries(contact).length == 0) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
   return contact
 }
 
 // UPSERT contact, INPUT: unifyId, data; RETURN: updated contact
 const upsertContact = async (id, data) => {
-  const sf = await sfAuth.get()
-  let sfDataCon = sfSchema.const(data, 'contact') 
+  let sfDataCon = sfSchema.constr(data, 'contact')
   sfDataCon['UnifyId__c'] = id
+
+  const sf = await sfAuth.get()
   let updatedContact =  await sf.sobject('Contact').upsert(sfDataCon,'UnifyId__c')
 
-  if (Object.entries(contact).length === 0) {throw new Error(`No contact upserted`)}
+  if (updatedContact.success == false) {throw new Error(`No contact upserted ${JSON.stringify(returnRecs)}`)}
   return updatedContact 
 }
 
