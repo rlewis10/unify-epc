@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const { body, validationResult } =  require('express-validator')
 const sfAuth = require('./methods/sf/sfAuth')
-const { dbConn } = require('./methods/db/dbConnMethods')
+const { dbConn } = require('./methods/db/dbAuth')
 
 // setup environement variables
 require('dotenv').config({path: __dirname + '/.env'})

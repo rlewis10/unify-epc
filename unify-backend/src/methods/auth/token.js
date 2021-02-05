@@ -31,19 +31,6 @@ const genRefreshToken = (userId, username) => {
     return token
 }
 
-// generate new accress token using refresh token
-const refreshAccessToken = async (user, refreshToken) => {
-    // send error if no refreshToken is sent
-    if(!refreshToken){throw new Error(`Invalid Token`)}
-    //extract payload from refresh token and generate a new access token and send it
-    const verifedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET)
-    // check if user matches user in token
-    if(user.username !== verifedRefreshToken.username){
-        throw new Error(`Token doesn't match user: ${JSON.stringify(verifedRefreshToken.username)}`)
-    }
-    return genAccessToken()
-}
-
 // verify JWT access token
 const verifyAccessToken = (req, res, next) => {
     try{
@@ -61,9 +48,22 @@ const verifyAccessToken = (req, res, next) => {
     }
 }
 
+// generate new accress token using refresh token
+const refreshAccessToken = async (user, refreshToken) => {
+    // send error if no refreshToken is sent
+    if(!refreshToken){throw new Error(`Invalid Token`)}
+    //extract payload from refresh token and generate a new access token and send it
+    const verifedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET)
+    // check if user matches user in token
+    if(user.username !== verifedRefreshToken.username){
+        throw new Error(`Token doesn't match user: ${JSON.stringify(verifedRefreshToken.username)}`)
+    }
+    return genAccessToken()
+}
+
 module.exports = {
     genAccessToken,
     genRefreshToken,
-    refreshAccessToken,
-    verifyAccessToken
+    verifyAccessToken,
+    refreshAccessToken
 }

@@ -14,10 +14,11 @@ router.post('/signup', async (req, res) => {
     if (foundUser) {
       throw new Error(`User already exists`)
     }
-    user[hashPassword] = auth.hashPassword(user.password)
+    
+    user.hashPassword = auth.hashPassword(user.password)
     const savedUserDb = await dbUser.createUser(user) 
-    //const savedContactSf = await sf.createContact(savedUserDb)
-    //const updatedSFId = await dbUser.updateUserbyId(savedUserDb.id, {sfid: savedContactSf.id})
+    const savedContactSf = await sf.createContact(savedUserDb)
+    const updatedSfId = await dbUser.updateUserbyId(savedUserDb.id, {sfid: savedContactSf.id})
 
     res.status(200).json({
       accessToken : token.genAccessToken(foundUser.id, foundUser.username), 

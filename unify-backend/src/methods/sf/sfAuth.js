@@ -11,6 +11,7 @@ const oauth2 = {
     clientSecret : process.env.SF_CLIENT_SECRET
 }
 
+// temp setup, redo later
 const tokenFlow = {
     instanceUrl : 'https://eu28.salesforce.com',
     accessToken : '00D24000000HICR!AQkAQEUOoti_j6pQFb_8IN6zV4rIKfK1K4L3Y6_qeHaGiiDlmx3NIrYkAHaYk8tYpxglsYE0wxShph0IZ0BDP0Qo.GNfJMuw'
