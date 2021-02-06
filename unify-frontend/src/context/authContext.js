@@ -5,7 +5,6 @@ const useAuthContext = createContext()
 
 const AuthProvider = (props) => {
   const [auth, setAuth] = useState({
-    username: '',
     accessToken: '',
     refreshToken: '',
     isAuthenticated: false 
@@ -14,9 +13,9 @@ const AuthProvider = (props) => {
   // send username and password to login auth api and save received tokens
   const login = async (login) => {
     try{
-      const res = await axios.get('/auth/login', login)
-      const {accessToken, refreshToken} = await res.data
-      setAuth(prevState => ({...prevState, accessToken: accessToken, refreshToken: refreshToken ,isAuthenticated : true}))
+      const res = await axios.post('https://localhost:3001/auth/login/', login)
+      const {accessToken, refreshToken, isAuthenticated} = await res.data
+      setAuth(prevState => ({...prevState, accessToken, refreshToken ,isAuthenticated}))
       saveTokens(accessToken, refreshToken)
     }
     catch(e){
@@ -33,8 +32,9 @@ const AuthProvider = (props) => {
     }
   }
 
-  const getAccessToken = () => {
-    const userToken = JSON.parse(localStorage.getItem('accessToken'))
+  // get a token from the local storage
+  const getToken = (tokenType) => {
+    const userToken = JSON.parse(localStorage.getItem(tokenType))
     return userToken.token
   }
 
@@ -49,7 +49,7 @@ const AuthProvider = (props) => {
   }
 
   return (
-    <useAuthContext.Provider value={{auth, setAuth, login, signup, getAccessToken, saveTokens, validToken}}>
+    <useAuthContext.Provider value={{auth, setAuth, login, signup, getToken, saveTokens, validToken}}>
         {props.children}
     </useAuthContext.Provider>
   )

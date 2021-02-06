@@ -2,8 +2,6 @@ const express = require('express')
 const router = express.Router()
 const token = require('../../methods/auth/token')
 const auth = require('../../methods/auth/authValidation')
-const dbUser = require('../../methods/db/dbUserMethods')
-const sf = require('../../methods/sf/sfUserMethods')
 
 // when a user signups check if existing user, generate access & refresh token
 router.post('/signup', async (req, res) => {
@@ -39,9 +37,9 @@ router.get('/verifytoken', token.verifyAccessToken, async (req, res, next) => {
 // route for renewing the access token with the resfresh token
 router.post('/renewtoken/userid/:id', async (req, res) => {
   try{
-    const foundUser = req.params.id
+    const userId = req.params.id
     const refreshToken = req.body.refreshToken
-    const newAccessToken = await token.refreshAccessToken(foundUser, refreshToken)
+    const newAccessToken = await token.refreshAccessToken(userId, refreshToken)
     res.status(200).json({ accessToken: newAccessToken, isAuthenticated: true })
   }
   catch(e){

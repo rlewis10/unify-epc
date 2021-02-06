@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import {useAuthContext} from '../../context/authContext'
 
 const Login = (props) => {
@@ -9,7 +9,7 @@ const Login = (props) => {
   //const {location: {state: {referrer}}} = props
 
   const onSubmit = async () => {
-    await login({username: 'test', password: 'test'})
+    await login({username: 'richard@rlewis.me', password: '123456'})
     console.log(`new token: ${JSON.stringify(auth)}`)
   }
 
@@ -26,7 +26,7 @@ const Login = (props) => {
           <input type="password" />
         </label>
       </form>
-      <button type="submit" onClick={onSubmit}>test</button>
+      <button type="submit" onClick={onSubmit}>submit</button>
     </div>
   )
 }
