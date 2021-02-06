@@ -47,16 +47,16 @@ const verifyAccessToken = (req, res, next) => {
 }
 
 // generate new JWT access token using JWT refresh token
-const refreshAccessToken = async (user, refreshToken) => {
+const refreshAccessToken = async (userId, refreshToken) => {
     // send error if no refreshToken is sent
     if(!refreshToken){throw new Error(`Invalid Token`)}
     //extract payload from refresh token and generate a new access token and send it
     const verifedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET)
     // check if user matches user in token
-    if(user.id !== verifedRefreshToken.userId){
-        throw new Error(`Token doesn't match user: ${JSON.stringify(verifedRefreshToken.username)}`)
+    if(userId !== verifedRefreshToken.userId){
+        throw new Error(`Token doesn't match user: ${JSON.stringify(verifedRefreshToken.userId)}`)
     }
-    return genAccessToken()
+    return genAccessToken(userId)
 }
 
 module.exports = {

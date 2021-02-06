@@ -42,7 +42,7 @@ router.post('/renewtoken/userid/:id', async (req, res) => {
     const foundUser = req.params.id
     const refreshToken = req.body.refreshToken
     const newAccessToken = await token.refreshAccessToken(foundUser, refreshToken)
-    res.status(200).json({ accessToken: newAccessToken })
+    res.status(200).json({ accessToken: newAccessToken, isAuthenticated: true })
   }
   catch(e){
     res.status(400).send(e.message)
