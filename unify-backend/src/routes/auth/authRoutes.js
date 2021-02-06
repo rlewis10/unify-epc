@@ -8,22 +8,9 @@ const sf = require('../../methods/sf/sfUserMethods')
 // when a user signups check if existing user, generate access & refresh token
 router.post('/signup', async (req, res) => {
   try{
-    const user = req.body
-    const foundUser = await dbUser.findUserId(user.username)
-
-    if (foundUser) {
-      throw new Error(`User already exists`)
-    }
-    
-    user.hashPassword = auth.hashPassword(user.password)
-    const savedUserDb = await dbUser.createUser(user) 
-    const savedContactSf = await sf.createContact(savedUserDb)
-    const updatedSfId = await dbUser.updateUserbyId(savedUserDb.id, {sfid: savedContactSf.id})
-
-    res.status(200).json({
-      accessToken : token.genAccessToken(foundUser.id, foundUser.username), 
-      refreshToken : token.genRefreshToken(foundUser.id, foundUser.username)
-    })
+    const {password, ...user} = req.body
+    const newUser = await auth.signup(user, password)
+    res.status(200).json(newUser)
   }
   catch(e){
     res.status(400).send(e.message)  
@@ -34,15 +21,8 @@ router.post('/signup', async (req, res) => {
 router.post('/login', async (req, res) => {
   try{
     const {username, password} = req.body
-    const foundUser = await dbUser.findUserId(username)
-    const isPasswordCorrect = await auth.checkPassword(foundUser.hashPassword, password)
-    if (!foundUser || !isPasswordCorrect) {
-      throw new Error(`Incorrect username or password`)
-    }
-    res.status(200).json({
-      accessToken : token.genAccessToken(foundUser.id, foundUser.username), 
-      refreshToken : token.genRefreshToken(foundUser.id, foundUser.username)
-    })
+    const userLogin = await auth.login(username, password)
+    res.status(200).json(userLogin)
   }
   catch(e){
     res.status(400).send(e.message)  
@@ -56,10 +36,10 @@ router.get('/verifytoken', token.verifyAccessToken, async (req, res, next) => {
   res.send(res.auth)
 })
 
-// route for renewing the access token with the resfresh token. send
+// route for renewing the access token with the resfresh token
 router.post('/renewtoken/userid/:id', async (req, res) => {
   try{
-    const foundUser = await dbUser.findUserId(req.params.id)
+    const foundUser = await auth.checkUsername(req.params.id)
     const refreshToken = req.body.refreshToken
     const newAccessToken = await token.refreshAccessToken(foundUser, refreshToken)
     res.status(200).json({ accessToken: newAccessToken })

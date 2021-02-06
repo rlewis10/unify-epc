@@ -48,7 +48,7 @@ const verifyAccessToken = (req, res, next) => {
     }
 }
 
-// generate new accress token using refresh token
+// generate new JWT access token using JWT refresh token
 const refreshAccessToken = async (user, refreshToken) => {
     // send error if no refreshToken is sent
     if(!refreshToken){throw new Error(`Invalid Token`)}

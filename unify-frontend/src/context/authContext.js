@@ -8,14 +8,14 @@ const AuthProvider = (props) => {
     username: '',
     accessToken: '',
     refreshToken: '',
-    isAuthenticated: true
+    isAuthenticated: false 
   })
 
-  const genTokens = async (login) =>{
+  // send username and password to login auth api and save received tokens
+  const login = async (login) => {
     try{
-      const res = await axios.get('/api/gettoken', login)
-      const accessToken = await res.data.accessToken
-      const refreshToken = await res.data.refreshToken
+      const res = await axios.get('/auth/login', login)
+      const {accessToken, refreshToken} = await res.data
       setAuth(prevState => ({...prevState, accessToken: accessToken, refreshToken: refreshToken ,isAuthenticated : true}))
       saveTokens(accessToken, refreshToken)
     }
@@ -24,14 +24,24 @@ const AuthProvider = (props) => {
     }
   }
 
+  const signup = async (signup) => {
+    try{
+
+    }
+    catch(e){
+
+    }
+  }
+
   const getAccessToken = () => {
     const userToken = JSON.parse(localStorage.getItem('accessToken'))
     return userToken.token
   }
 
+  // store tokens in the local storage
   const saveTokens = async (accessToken, refreshToken) => {
     localStorage.setItem('accessToken', JSON.stringify(accessToken))
-    localStorage.setItem('accessToken', JSON.stringify(refreshToken))
+    localStorage.setItem('refreshToken', JSON.stringify(refreshToken))
   }
 
   const validToken = () => {
@@ -39,7 +49,7 @@ const AuthProvider = (props) => {
   }
 
   return (
-    <useAuthContext.Provider value={{auth, setAuth, genTokens, getAccessToken, saveTokens, validToken}}>
+    <useAuthContext.Provider value={{auth, setAuth, login, signup, getAccessToken, saveTokens, validToken}}>
         {props.children}
     </useAuthContext.Provider>
   )
