@@ -4,10 +4,9 @@ const jwt = require('jsonwebtoken')
 require('dotenv').config({path: __dirname + '/.env'})
 
 // create JWT access token with 1hr expiry
-const genAccessToken = (userId, username) => {
+const genAccessToken = (userId) => {
     let payload = {
         userId : userId,
-        username: username,
         type: 'access token'
     }
     let token = jwt.sign(payload, process.env.JWT_ACCESS_TOKEN_SECRET, {
@@ -18,10 +17,9 @@ const genAccessToken = (userId, username) => {
 }
 
 // create JWT refresh token with 1day expiry, used to request a new access token if the access token has expired
-const genRefreshToken = (userId, username) => {
+const genRefreshToken = (userId) => {
     let payload = {
         userId : userId,
-        username: username,
         type: 'refresh token'
     }
     let token = jwt.sign(payload, process.env.JWT_REFRESH_TOKEN_SECRET, {
@@ -55,7 +53,7 @@ const refreshAccessToken = async (user, refreshToken) => {
     //extract payload from refresh token and generate a new access token and send it
     const verifedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET)
     // check if user matches user in token
-    if(user.username !== verifedRefreshToken.username){
+    if(user.id !== verifedRefreshToken.userId){
         throw new Error(`Token doesn't match user: ${JSON.stringify(verifedRefreshToken.username)}`)
     }
     return genAccessToken()

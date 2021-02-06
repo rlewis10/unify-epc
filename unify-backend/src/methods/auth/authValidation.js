@@ -13,8 +13,8 @@ const signup = async (user, password) => {
     user['hashPassword'] = hashPassword(password)
     const newUser = await dbUser.createUser(user)
     return {
-      accessToken : token.genAccessToken(newUser.id, newUser.username), 
-      refreshToken : token.genRefreshToken(newUser.id, newUser.username),
+      accessToken : token.genAccessToken(newUser.id), 
+      refreshToken : token.genRefreshToken(newUser.id),
       isAuthenticated : true
     }
 }
@@ -28,8 +28,8 @@ const login = async (username, password) => {
       throw new Error(`Incorrect username or password`)
     }
     return {
-      accessToken : token.genAccessToken(foundUser.id, foundUser.username), 
-      refreshToken : token.genRefreshToken(foundUser.id, foundUser.username),
+      accessToken : token.genAccessToken(foundUser.id), 
+      refreshToken : token.genRefreshToken(foundUser.id),
       isAuthenticated : true
     }
 }

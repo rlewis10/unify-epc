@@ -39,7 +39,7 @@ router.get('/verifytoken', token.verifyAccessToken, async (req, res, next) => {
 // route for renewing the access token with the resfresh token
 router.post('/renewtoken/userid/:id', async (req, res) => {
   try{
-    const foundUser = await auth.checkUsername(req.params.id)
+    const foundUser = req.params.id
     const refreshToken = req.body.refreshToken
     const newAccessToken = await token.refreshAccessToken(foundUser, refreshToken)
     res.status(200).json({ accessToken: newAccessToken })
