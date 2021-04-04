@@ -1,4 +1,3 @@
-/*global google*/
 import React, {useState, useContext} from 'react'
 import Script from 'react-load-script'
 import {useDestContext} from '../../context/destContext'
@@ -11,7 +10,7 @@ const Map = () => {
     const {dest} = useContext(useDestContext)
     const [Bounds, setBounds] = useState()
     const [gMap, setgMap] = useState()
-    const [Options, setOptions] = useState({
+    const [Options] = useState({
         center: { lat: 25, lng: 0 },
         disableDefaultUI: true,
         zoom: 2.75,
