@@ -13,9 +13,10 @@ const signup = async (user, password) => {
     user['hashPassword'] = hashPassword(password)
     const newUser = await dbUser.createUser(user)
     return {
-      accessToken : token.genAccessToken(newUser.id), 
-      refreshToken : token.genRefreshToken(newUser.id),
-      isAuthenticated : true
+        userId: foundUser.id,
+        accessToken : token.genAccessToken(newUser.id), 
+        refreshToken : token.genRefreshToken(newUser.id),
+        isAuthenticated : true
     }
 }
 
@@ -28,9 +29,48 @@ const login = async (username, password) => {
       throw new Error(`Incorrect username or password`)
     }
     return {
-      accessToken : token.genAccessToken(foundUser.id), 
-      refreshToken : token.genRefreshToken(foundUser.id),
-      isAuthenticated : true
+        userId: foundUser.id,
+        accessToken : token.genAccessToken(foundUser.id), 
+        refreshToken : token.genRefreshToken(foundUser.id),
+        isAuthenticated : true
+    }
+}
+
+// verify JWT access token, used as an express middleware function
+const verifyAccessToken = (req, res, next) => {
+    try{
+        const bearerToken = req.header('accessToken')
+        // send error if no accessToken is sent
+        if(!bearerToken) return res.status(401).send('No token in header')
+        const userId = req.header('userId')
+        // send error if no userId is sent
+        if(!userId) return res.status(401).send('No UserId in header')
+        // verify JWT token with secret
+        const verifiedToken = token.verifyJWT(userId, bearerToken, 'access')
+        // send result
+        if(verifiedToken){
+            res.auth = verifiedToken
+            next()
+        }
+        else{
+            res.status(401).send(`Unauthorized`)
+        }
+    }
+    catch(e){
+        res.status(401).send(`Unauthorized: ${e}`)
+    }
+}
+
+// generate new JWT access token using JWT refresh token
+const refreshAccessToken = async (userId, refreshToken) => {
+    try{
+        // check if user matches user in token
+        const verifedRefreshToken = token.verifyJWT(userId, refreshToken, 'refresh')
+        // generate new access token
+        return (verifedRefreshToken ? genAccessToken(userId) : false) 
+    }
+    catch(e){
+        throw new Error(`Unable to refresh Token: ${e}`)
     }
 }
 
@@ -54,6 +94,8 @@ module.exports = {
     login,
     signup,
     checkUsername,
-    checkPassword
+    checkPassword,
+    verifyAccessToken,
+    refreshAccessToken
 }
 

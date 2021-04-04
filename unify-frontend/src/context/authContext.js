@@ -1,10 +1,11 @@
-import React, {useState, useEffect, createContext} from 'react'
+import React, {useState, createContext} from 'react'
 import axios from 'axios'
 
 const useAuthContext = createContext()
 
 const AuthProvider = (props) => {
   const [Auth, setAuth] = useState({
+    userId: '',
     username: '',
     password: '',
     accessToken: '',
@@ -12,20 +13,13 @@ const AuthProvider = (props) => {
     isAuthenticated: false 
   })
 
-  // setup useEffect to fetch tokens
-
-  useEffect(() => {
-
-  
-  }, [])
-
  // send username and password to login auth api and save received tokens
   const login = async (login) => {
     try{
       const res = await axios.post('/auth/login/', login)
-      const {accessToken, refreshToken, isAuthenticated} = res.data
-      setAuth(prevState => ({...prevState, accessToken, refreshToken, isAuthenticated}))
-      saveTokens(accessToken, refreshToken)
+      const {userId, accessToken, refreshToken, isAuthenticated} = res.data
+      setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated}))
+      saveLocalStore({userId, accessToken, refreshToken})
       return res.data
     }
     catch(e){
@@ -42,29 +36,40 @@ const AuthProvider = (props) => {
     }
   }
 
-  // get a token from the local storage
-  const getToken = (tokenType) => {
-    const userToken = JSON.parse(localStorage.getItem(tokenType))
-    return userToken.token
+  // get data from the local storage
+  const getLocalStore = (data) => {
+    let localStore = {}
+    Object.keys(data).map((key) => {
+      return localStore[key] = JSON.parse(localStorage.getItem(key))
+    })
+    return localStore
   }
 
-  // store tokens in the local storage
-  const saveTokens = async (accessToken, refreshToken) => {
-    localStorage.setItem('accessToken', JSON.stringify(accessToken))
-    localStorage.setItem('refreshToken', JSON.stringify(refreshToken))
+  // store data in the local storage
+  const saveLocalStore = (data) => {
+    Object.keys(data).map((key) => {
+      return localStorage.setItem(key, JSON.stringify(data[key]))
+    })
+  }
+  
+  // vertify if the stored Access Token is valid, if true set isAuthenticated = TRUE
+  const verifyToken = async () => {
+    try{
+      //const res = await axios.get('/auth/verifytoken/', { headers: {userId, accessToken} })
+    }
+    catch(e){
+      console.log(e.message)
+    }
   }
 
-  const verifyToken = () => {
-
+  const logout = (data) => {
+    Object.keys(data).map((key) => {
+      return localStorage.removeItem(key)
+    })
   }
-
-  const logout = () => {
-    localStorage.removeItem('AccessToken')
-    localStorage.removeItem('refreshToken')
-  };
 
   return (
-    <useAuthContext.Provider value={{Auth, setAuth, login, signup, getToken, saveTokens, verifyToken, }}>
+    <useAuthContext.Provider value={{Auth, setAuth, login, signup, getLocalStore, saveLocalStore, verifyToken, logout}}>
         {props.children}
     </useAuthContext.Provider>
   )

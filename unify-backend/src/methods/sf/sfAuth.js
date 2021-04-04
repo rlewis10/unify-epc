@@ -33,7 +33,7 @@ const sfAuth = () => {
                     sfTokens['accessToken'] = conn.accessToken
                     sfTokens['refreshToken'] = conn.refreshToken
 
-                    console.log(`Connected to Salesforce ${userInfo}`)
+                    console.log(`Connected to Salesforce`)
                     resolve(conn)
                 }
             }

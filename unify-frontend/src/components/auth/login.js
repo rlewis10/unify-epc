@@ -16,20 +16,19 @@ const Login = (props) => {
   const handleSubmit = async (e) => {
     try{
       e.preventDefault()
-      console.log('submitted')
       const res = await login({username: Auth.username, password: Auth.password})
+      // username: richard@rlewis.me; password: 123456
 
-      if(res.isAuthenticated) {
+      if(res?.isAuthenticated) {
         history.push(forwardLocation)
       }
       else{
         // thorw error to show in UI
-        console.log('login not successful')
+        setError('Username or Password is incorrect')
       }
     }
     catch(e){
       console.log(e)
-      setError(e)
     }
   }
 

@@ -21,10 +21,7 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 
 // initalise salesforce connection
-sfAuth.get().then((token) => {
-  console.log(token)
-  console.log(sfAuth.tokens)
-})
+sfAuth.get()
 
 // initialise the database connection 
 dbConn()

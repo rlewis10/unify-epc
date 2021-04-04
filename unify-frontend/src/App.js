@@ -1,10 +1,10 @@
-import React from "react"
+import React, {useEffect, useContext} from "react"
 import './App.css'
 
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
-import { AuthProvider } from "./context/authContext"
+import {useAuthContext, AuthProvider } from "./context/authContext"
 import ProtectedRoute from './components/auth/protectedRoute'
-import Nav from './components/home/nav'
+import Nav from './components/home/navSide'
 import Home from './components/home/home'
 import Login from './components/auth/login'
 import Signup from './components/auth/signup'
@@ -14,6 +14,17 @@ import Alerts from './components/alerts'
 import Preferences from './components/preferences'
 
 const App = () => {
+
+  const Auth = useContext(useAuthContext)
+
+  // useEffect(() => {
+  //   // verfiy token
+  //   const loggedInUser = localStorage.getItem("user")
+  //   if (loggedInUser) {
+  //     const foundUser = JSON.parse(loggedInUser)
+  //   }
+  // }, [])
+
   return (
     <div className='App'>
       <Router>
