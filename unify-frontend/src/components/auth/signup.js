@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useContext} from 'react'
 import {useAuthContext} from '../../context/authContext'
 
 const Signup = (props) => {

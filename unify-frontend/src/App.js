@@ -1,8 +1,8 @@
-import React, {useEffect, useContext} from "react"
+import React, {useContext, useEffect} from "react"
 import './App.css'
 
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom"
-import {useAuthContext, AuthProvider } from "./context/authContext"
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {useAuthContext} from './context/authContext'
 import ProtectedRoute from './components/auth/protectedRoute'
 import Nav from './components/home/navSide'
 import Home from './components/home/home'
@@ -15,22 +15,18 @@ import Preferences from './components/preferences'
 
 const App = () => {
 
-  const Auth = useContext(useAuthContext)
+  const {verifyToken} = useContext(useAuthContext)
 
-  // useEffect(() => {
-  //   // verfiy token
-  //   const loggedInUser = localStorage.getItem("user")
-  //   if (loggedInUser) {
-  //     const foundUser = JSON.parse(loggedInUser)
-  //   }
-  // }, [])
+  useEffect(() => {
+      verifyToken()
+      //forward to current location
+  },[])
 
   return (
     <div className='App'>
       <Router>
         <Nav/>
         <main>
-          <AuthProvider>
             <Switch>
                 <Route exact path='/' component={Home}/>
                 <ProtectedRoute exact path='/profile' component={Profile}/>
@@ -41,7 +37,6 @@ const App = () => {
                 <Route exact path="/logout" component={Login}/>
                 <Route exact path="/signup" component={Signup}/>
             </Switch>
-          </AuthProvider>
         </main>
       </Router>
     </div>

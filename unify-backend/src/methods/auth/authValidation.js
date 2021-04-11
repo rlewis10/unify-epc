@@ -67,7 +67,7 @@ const refreshAccessToken = async (userId, refreshToken) => {
         // check if user matches user in token
         const verifedRefreshToken = token.verifyJWT(userId, refreshToken, 'refresh')
         // generate new access token
-        return (verifedRefreshToken ? genAccessToken(userId) : false) 
+        return (verifedRefreshToken ? token.genAccessToken(userId) : false) 
     }
     catch(e){
         throw new Error(`Unable to refresh Token: ${e}`)
