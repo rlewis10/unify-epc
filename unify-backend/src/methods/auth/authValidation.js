@@ -41,10 +41,10 @@ const verifyAccessToken = (req, res, next) => {
     try{
         const bearerToken = req.header('accessToken')
         // send error if no accessToken is sent
-        if(!bearerToken) return res.status(401).send('No token in header')
+        if(!bearerToken) return res.status(401).send({isAuthenticated: false})
         const userId = req.header('userId')
         // send error if no userId is sent
-        if(!userId) return res.status(401).send('No UserId in header')
+        if(!userId) return res.status(401).send({isAuthenticated: false})
         // verify JWT token with secret
         const verifiedToken = token.verifyJWT(userId, bearerToken, 'access')
         // send result

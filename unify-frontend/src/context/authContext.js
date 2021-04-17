@@ -5,7 +5,7 @@ const useAuthContext = createContext()
 
 const AuthProvider = (props) => {
 
-  const localStoreKeys = ['userId', 'accessToken', 'refreshToken']
+  const localStoreKeys = ['userId', 'accessToken', 'refreshToken', 'isAuthenticated']
   const [Auth, setAuth] = useState({
     userId: '',
     username: '',
@@ -60,11 +60,11 @@ const AuthProvider = (props) => {
         })
         const {userId, accessToken, refreshToken} = getLocalStore(localStoreKeys)
         setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated: res.data.isAuthenticated}))
+        console.log(res.data)
         return res.data
       }
     }
     catch(e){
-      console.log(e.message)
       if(e?.response.status === 401){
         const {userId, refreshToken} = getLocalStore(localStoreKeys)
         return await renewToken(userId, refreshToken)
@@ -83,10 +83,11 @@ const AuthProvider = (props) => {
       const {accessToken, refreshToken, isAuthenticated} = res.data
       setAuth(prevState => ({...prevState, accessToken, refreshToken, isAuthenticated}))
       saveLocalStore({accessToken})
+      console.log(res.data)
       return res.data
     }
     catch(e){
-      console.log(e.message)
+      setAuth(prevState => ({...prevState, isAuthenticated: e.response.data.isAuthenticated}))
     }
   }
 

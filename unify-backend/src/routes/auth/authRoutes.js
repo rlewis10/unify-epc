@@ -37,10 +37,10 @@ router.post('/renewtoken/', async (req, res) => {
   try{
     const refreshToken = req.body.refreshToken
     // send error if no accessToken is sent
-    if(!refreshToken) return res.status(401).send('No token in body')
+    if(!refreshToken) return res.status(401).send({isAuthenticated: false})
     const userId = req.body.userId
     // send error if no userId is sent
-    if(!userId) return res.status(401).send('No UserId in body')
+    if(!userId) return res.status(401).send({isAuthenticated: false})
     const newAccessToken = await auth.refreshAccessToken(userId, refreshToken)
     res.status(200).json({ accessToken: newAccessToken, isAuthenticated: true })
   }
