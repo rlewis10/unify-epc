@@ -28,7 +28,7 @@ router.post('/login', async (req, res) => {
 
 // route for checking that the token is valid for protected routes
 router.get('/verifytoken/', auth.verifyAccessToken, async (req, res, next) => {
-  res.status(200).json({isAuthenticated: true })
+  res.status(200).json({ isAuthenticated: true })
 })
 
 

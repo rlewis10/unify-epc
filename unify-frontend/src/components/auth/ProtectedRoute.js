@@ -6,7 +6,7 @@ const ProtectedRoute = (props) => {
 
     const {Auth} = useContext(useAuthContext)
     return (
-        Auth.isAuthenticated 
+        Auth.isAuthenticated
             ? (<Route {...props} />) 
             : (<Redirect to={{ pathname: '/login', state: { referrer: props.path }}} />)
     )

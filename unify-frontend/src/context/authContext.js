@@ -58,19 +58,21 @@ const AuthProvider = (props) => {
           url: '/auth/verifytoken/',
           headers: authHeader()
         })
-        setAuth(prevState => ({...prevState, isAuthenticated: res.data.isAuthenticated}))
+        const {userId, accessToken, refreshToken} = getLocalStore(localStoreKeys)
+        setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated: res.data.isAuthenticated}))
+        return res.data
       }
     }
     catch(e){
       console.log(e.message)
       if(e?.response.status === 401){
         const {userId, refreshToken} = getLocalStore(localStoreKeys)
-        await renewToken(userId, refreshToken)
+        return await renewToken(userId, refreshToken)
       }
     }
   }
 
-  // renew the Access Token with the refresh Token
+  // renew the accessToken with the refreshToken
   const renewToken = async (userId, oldRefreshToken) => {
     try{
       const res = await axios({
@@ -81,6 +83,7 @@ const AuthProvider = (props) => {
       const {accessToken, refreshToken, isAuthenticated} = res.data
       setAuth(prevState => ({...prevState, accessToken, refreshToken, isAuthenticated}))
       saveLocalStore({accessToken})
+      return res.data
     }
     catch(e){
       console.log(e.message)
