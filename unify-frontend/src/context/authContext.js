@@ -12,7 +12,7 @@ const AuthProvider = (props) => {
     password: '',
     accessToken: '',
     refreshToken: '',
-    isAuthenticated: false
+    isAuthenticated: undefined
   })
 
   // create a new user 
@@ -52,7 +52,7 @@ const AuthProvider = (props) => {
   // verify accessToken, if accessToken has expired refresh token with renewToken function
   const verifyToken = async () => {
     try{ 
-      if(Auth.isAuthenticated === false){
+      if(Auth.isAuthenticated === undefined){
         const res = await axios({
           method: 'get', 
           url: '/auth/verifytoken/',
