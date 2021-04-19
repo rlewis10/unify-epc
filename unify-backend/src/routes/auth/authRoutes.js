@@ -10,7 +10,7 @@ router.post('/signup', async (req, res) => {
     res.status(200).json(newUser)
   }
   catch(e){
-    res.status(401).send(e.message)  
+    res.status(401).send({isAuthenticated: false})  
   }
 })
 
@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json(userLogin)
   }
   catch(e){
-    res.status(401).send(e.message)  
+    res.status(401).send({isAuthenticated: false})  
   }
 })
 
@@ -45,7 +45,7 @@ router.post('/renewtoken/', async (req, res) => {
     res.status(200).json({ accessToken: newAccessToken, isAuthenticated: true })
   }
   catch(e){
-    res.status(401).send(e.message)
+    res.status(401).send({isAuthenticated: false})
   }
 })
 
