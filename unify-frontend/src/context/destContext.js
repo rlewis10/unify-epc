@@ -12,13 +12,13 @@ const DestProvider = (props) => {
     try{
       const res = await axios({
         method: 'get', 
-        url: '/api/dest/',
+        url: `/api/dest/find/userid/${userId}`,
       })
-      const {} = res.data
-      setDest(prevState => ({...prevState, }))
-      return res.data
+      const dests = res.data
+      setDest(prevState => ({...prevState, dests}))
     }
     catch(e){
+      console.log(e.message)
     }
   }
 
@@ -32,7 +32,7 @@ const DestProvider = (props) => {
   }
 
   return (
-    <useDestContext.Provider value={{dest, addDest, deleteDest}}>
+    <useDestContext.Provider value={{dest, getDests, addDest, deleteDest}}>
         {props.children}
     </useDestContext.Provider>
   )
