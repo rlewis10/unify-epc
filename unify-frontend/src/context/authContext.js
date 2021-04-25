@@ -60,7 +60,6 @@ const AuthProvider = (props) => {
         })
         const {userId, accessToken, refreshToken} = getLocalStore(localStoreKeys)
         setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated: res.data.isAuthenticated}))
-        console.log(res.data)
         return res.data
       }
     }
@@ -83,7 +82,6 @@ const AuthProvider = (props) => {
       const {accessToken, refreshToken, isAuthenticated} = res.data
       setAuth(prevState => ({...prevState, accessToken, refreshToken, isAuthenticated}))
       saveLocalStore({accessToken})
-      console.log(res.data)
       return res.data
     }
     catch(e){

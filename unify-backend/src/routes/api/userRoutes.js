@@ -3,10 +3,10 @@ const router = express.Router()
 const dbUser = require('../../methods/db/dbUserMethods')
 const sf = require('../../methods/sf/sfUserMethods')
 
-// find a user by username
-router.get('/find/username/:username', async (req, res) => {
+// find a user by userId
+router.get('/find/username/:userId', async (req, res) => {
     try{
-        const user = await dbUser.findUserId(req.params.username)
+        const user = await dbUser.getUserObj(req.params.userid)
         res.send(user)
     }
     catch(e){

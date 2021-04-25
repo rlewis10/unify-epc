@@ -37,7 +37,6 @@ const Search = () => {
     // Check if address is valid
     if (typeof addressObject.address_components !== 'undefined') {
       // Set State 
-
       addDest({
         [addressObject.place_id]: {
           placeLabel: addressObject.formatted_address,

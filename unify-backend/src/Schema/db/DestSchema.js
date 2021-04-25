@@ -5,11 +5,11 @@ const destSchema = new db.Schema(
         destId : {
             type: String,
             required: true,
+            unique: true,
             max: 255
         },
         sfDestId : {
             type: String,
-            unique: true,
             max: 18,
             min: 18
         },
@@ -36,10 +36,6 @@ const destSchema = new db.Schema(
         position: {
             type: Object,
             required: true
-        },
-        isActive: {
-            type: Boolean,
-            default: true
         }
     })
 

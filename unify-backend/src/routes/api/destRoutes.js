@@ -1,14 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const dbDest = require('../../methods/db/dbDestMethods')
+const dbUser = require('../../methods/db/dbUserMethods')
 const sfUser = require('../../methods/sf/sfUserMethods')
 const sfDest = require('../../methods/sf/sfDestMethods')
 
-// find destinations by id
-router.get('/find/destid/:id', async (req, res) => {
+// find destinations by userId
+router.get('/find/userid/:id', async (req, res) => {
     try{
-        let dest = await dbDest.getDestObj(req.params.id)
-        res.send(dest)
+        let destObj = await dbDest.getDestsByUserId(req.params.id)
+        res.send(destObj)
     }
     catch(e){
         res.status(400).send(e.message)
@@ -19,14 +20,17 @@ router.get('/find/destid/:id', async (req, res) => {
 router.post('/create/userid/:id', async (req, res) => {
     try{
         let userId = req.params.id
+
+        // lookup if a destination document exists for that user
+
         // create destination doc in db
         let savedDestinations = await dbDest.createDest(req.body)
         // get dest id and add it to user document
-        await sfUser.upsertContact(userId, savedDestinations.id)
+        //await sfUser.upsertContact(userId, savedDestinations.id)
         // create new map_locations in SF
-        await sfDest.createMapLoc(req.body)
+        //await sfDest.createMapLoc(req.body)
         // create new destinations in SF
-        await sfDest.upsertDest(userId, req.body)
+        //await sfDest.upsertDest(userId, req.body)
 
         res.send({success : true})
     }

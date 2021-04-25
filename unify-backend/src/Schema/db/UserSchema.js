@@ -57,8 +57,16 @@ const userSchema = new db.Schema(
             default: true
         },
         destinations: {
-            type: db.Schema.Types.ObjectId, 
-            ref: 'Dest'
+            type: db.Schema.Types.Array
+        },
+        travelDates: {
+            type: db.Schema.Types.Array
+        },
+        alerts: {
+            type: Object
+        },
+        budget: {
+            type: Object
         }
     })
 

@@ -8,7 +8,7 @@ const findUserId = async (user) => {
 
 //get user from a userId
 const getUserObj = async (id) => {
-    return await User.findById(id)
+    return await User.findById(id).lean()
 }
 
 // create a new user, returns the inserted document
@@ -23,16 +23,9 @@ const updateUserbyId = async (id, data) => {
     return updatedUser 
 }
 
-//get destination objectId from a userId
-const getDestId = async (id) => {
-    let docs = await User.findById(id)
-    return docs.destinations
-}
-
 module.exports = {
     createUser,
     updateUserbyId,
     findUserId,
-    getDestId,
     getUserObj
 }
