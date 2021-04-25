@@ -21,10 +21,19 @@ const Marker = (props) => {
       animation: google.maps.Animation.DROP,
     })
     markerObj.setMap(MarkerProps.map)
+    markerObj.addListener("click", markerBounce)
   }
   
   const removeMarker = () => {
     markerObj.setMap(null) 
+  }
+
+  const markerBounce = () => {
+    if (markerObj.getAnimation() !== null) {
+      markerObj.setAnimation(null)
+    } else {
+      markerObj.setAnimation(google.maps.Animation.BOUNCE)
+    }
   }
     
   return (null) 
