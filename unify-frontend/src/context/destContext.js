@@ -15,7 +15,7 @@ const DestProvider = (props) => {
         url: `/api/dest/find/userid/${userId}`,
       })
       const dests = res.data
-      setDest(prevState => ({...prevState, dests}))
+      setDest(dests)
     }
     catch(e){
       console.log(e.message)

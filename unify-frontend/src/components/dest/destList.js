@@ -1,10 +1,22 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import Dest from './dest'
 import {useDestContext} from '../../context/destContext'
+import {useAuthContext} from '../../context/authContext'
 
 const DestList = () => {
 
-    const {dest, deleteDest} = useContext(useDestContext)
+    const {dest, getDests, deleteDest} = useContext(useDestContext)
+    const {getLocalStore} = useContext(useAuthContext)
+    let localStoreKey = ['userId']
+
+    const getDestinations = async (userId) => {
+        await getDests(userId)
+      }
+    
+    useEffect(() => {
+        let localeUserId = getLocalStore(localStoreKey)
+        getDestinations(localeUserId.userId)
+    }, [])
 
     return (
         <div className="dest-container">

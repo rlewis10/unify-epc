@@ -8,6 +8,7 @@ const Marker = (props) => {
   let google = window.google
 
   useEffect(() => {
+    console.log(MarkerProps)
     createMarker()
     return () => {
       removeMarker()
@@ -17,10 +18,11 @@ const Marker = (props) => {
   const createMarker = () => {
     markerObj = new window.google.maps.Marker({
       ...MarkerProps,
-      animation: google.maps.Animation.DROP
+      animation: google.maps.Animation.DROP,
     })
+    markerObj.setMap(MarkerProps.map)
   }
-
+  
   const removeMarker = () => {
     markerObj.setMap(null) 
   }
