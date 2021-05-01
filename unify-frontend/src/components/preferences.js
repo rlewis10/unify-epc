@@ -3,7 +3,7 @@ import React from 'react'
 const Preferences = () => {
   return (
     <div>
-      <h1>Preferences</h1>
+      <h1>Travel Preferences</h1>
     </div>
   )
 }

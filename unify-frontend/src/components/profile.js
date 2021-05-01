@@ -33,6 +33,7 @@ const Profile = () => {
         <label >Mobile Phone:
             <input type='tel' name="tel" value={Profile.tel} onChange={handleChange}/>
         </label>
+        <input type="reset" value="Reset" />
         <input type="submit" value="Submit" />
       </form>
     </div>

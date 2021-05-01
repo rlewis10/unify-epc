@@ -59,7 +59,7 @@ const Search = () => {
     <div>
       <Script url={scriptTag} onLoad={scriptLoadHandler}/>
       <label>Destinations: 
-        <input id="autocomplete" placeholder="Enter you destination..."  value={inputTxt} onChange={inputTxtHandler}/>
+        <input id="autocomplete" placeholder="Where you going?..."  value={inputTxt} onChange={inputTxtHandler}/>
       </label>
     </div>
   )

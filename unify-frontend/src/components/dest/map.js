@@ -27,8 +27,8 @@ const Map = () => {
     }
 
     const setMapViewport = (position) => {
-        let viewport = Bounds.extend(position)
-        gMap.fitBounds(viewport)
+            let viewport = Bounds.extend(position)
+            gMap.fitBounds(viewport)
     }
     
     return (
@@ -36,8 +36,11 @@ const Map = () => {
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
             <div id="mapContainer" style={{height: '600px', width: '100%'}}>
                 {Object.keys(dest).map(m => {
+                    if(Bounds === undefined) return
                     setMapViewport(dest[m]['position'])
-                    return <Marker key={m} id={m} map={gMap} title={dest[m]['placeLabel']} position={dest[m]['position']} />})}
+                    return <Marker key={m} id={m} map={gMap} title={dest[m]['placeLabel']} position={dest[m]['position']} />
+                })
+                }
             </div>
         </div>
     )

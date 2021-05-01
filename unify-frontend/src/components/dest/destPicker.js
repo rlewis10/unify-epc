@@ -9,6 +9,7 @@ const DestPicker = () => {
     <DestProvider>
       <div>
         <h1>Destinations</h1>
+        <p>Select you desired Destinations(s) enabling us to send you the best and lastest offers!</p>
           <Search/>
           <DestList/>
           <Map/>

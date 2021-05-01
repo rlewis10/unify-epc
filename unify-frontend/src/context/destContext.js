@@ -22,6 +22,21 @@ const DestProvider = (props) => {
     }
   }
 
+  // save destinations from server
+  const saveDests = async (userId, dests) => {
+    try{
+      const res = await axios({
+        method: 'post', 
+        url: `/api/dest/update/userid/${userId}`,
+        data: dests
+      })
+      return res.data
+    }
+    catch(e){
+      console.log(e.message)
+    }
+  }
+
   const addDest = (destItem) => {
     setDest(prevState => ({ ...prevState, ...destItem}))
   }

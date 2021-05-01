@@ -8,7 +8,6 @@ const Marker = (props) => {
   let google = window.google
 
   useEffect(() => {
-    console.log(MarkerProps)
     createMarker()
     return () => {
       removeMarker()
