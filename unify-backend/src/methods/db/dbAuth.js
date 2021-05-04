@@ -7,7 +7,11 @@ require('dotenv').config({path: __dirname + '/.env'})
 const dbConn = () => {
     try{
         db.connect(process.env.MONGO_DB_PASSWORD, 
-            { useNewUrlParser: true, useUnifiedTopology: true },
+            {
+                useNewUrlParser: true, 
+                useUnifiedTopology: true,
+                useFindAndModify: false
+            },
             () => console.log('connected to DB'))
     }
     catch(e){

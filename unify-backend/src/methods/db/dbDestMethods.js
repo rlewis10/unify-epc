@@ -2,14 +2,14 @@ const Dest = require('../../Schema/db/DestSchema')
 const dbUser = require('../../methods/db/dbUserMethods')
 
 // find destinations list from user id
-const getDestsByUserId = async (id) => {
+const getDestsByUserId = async (userId) => {
     try{
         // get user destination Ids from user object 
-        let user = await dbUser.getUserObj(id)
-        let destIds = user.destinations
+        let user = await dbUser.getUserObj(userId)
+        let dests = user.destinations
 
         // cycle through dest object Ids and get dest data
-        return destIds.reduce(async (obj, dest) => {
+        return dests.reduce(async (obj, dest) => {
             let destObj = await obj // wait for the prev promise to resolve
             let {destId, ...rest}  = await getDestsByObjId(dest.Id) // destruct the destId from rest of dest data
             return {...destObj, [destId] : {...rest, ...dest}} // use spread operator to add new item to object without overwritting old object
@@ -34,21 +34,24 @@ const getDestsByObjId = async (id) => {
     }
 }
 
-// create new destinations, returns the inserted document
-const createDests = async (userId, dests) => {
-    Object.keys(dests).map((d) => {
-        dests[d]
-      })
+// create new destinations in dests collection, returns the inserted document
+const createDestsByUserId = async (userId, dests) => {
+    try{
+        // cycle through dests object separating dests collection for DB and User Destinations data
+        const userDests = await Object.keys(dests).reduce( async (prev, dest) => {
+            let awaitPrev = await prev
+            let {city, country, placeLabel, position, url, ...rest}  = dests[dest]
+            let destObj = {destId: dest, city, country, placeLabel, position, url} //create dest object
+            let savedDest = await upsertDest(dest, destObj) // save dest object in dests collection in DB (map_locations)
+            return [...awaitPrev, {Id: savedDest._id, ...rest}] // return array of Dests and meta data in 'rest'
+        }, [])
 
-    // check if dest exists using destId
-    // add to dest collection
-    // cycle through dest object and add destId to data and new dests array
-
-    // update user with dests
-    // dbUser.updateUserbyId
-
-    // const savedDests = saveDests(data)
-
+        // update user with userDests
+        return await dbUser.upsertUser(userId, {destinations: userDests}) // save array of Dests and meta data to user collection in DB
+    }
+    catch(e){
+        throw new Error(`Unable to create destinations in DB: ${JSON.stringify(e)}`)
+    }
 }
 
 // create new destinations (array), returns the inserted document
@@ -70,11 +73,10 @@ const upsertDest = async (id, data) => {
         const options = {
             new: true, // Always returning updated work experiences.
             upsert: true,// By setting this true, it will create if it doesn't exist
-            projection: { _id: 0, __v: 0 }, // without return _id and __v
           }
     
-        let updatedDest = await Dest.findOneAndUpdate(find, update, options).lean()
-        return updatedDest 
+        let upsertedDest = await Dest.findOneAndUpdate(find, update, options).lean()
+        return upsertedDest 
     }
     catch(e){
         throw new Error(`Unable to create destinations in DB: ${JSON.stringify(e)}`)
@@ -84,5 +86,5 @@ const upsertDest = async (id, data) => {
 module.exports = {
     getDestsByObjId,
     getDestsByUserId,
-    createDests
+    createDestsByUserId
 }
