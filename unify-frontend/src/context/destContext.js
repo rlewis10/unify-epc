@@ -30,7 +30,7 @@ const DestProvider = (props) => {
         url: `/api/dest/update/userid/${userId}`,
         data: dests
       })
-      return res.data
+      return {savedDests: true}
     }
     catch(e){
       console.log(e.message)

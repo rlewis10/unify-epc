@@ -47,7 +47,8 @@ const createDestsByUserId = async (userId, dests) => {
         }, [])
 
         // update user with userDests
-        return await dbUser.upsertUser(userId, {destinations: userDests}) // save array of Dests and meta data to user collection in DB
+        await dbUser.upsertUser(userId, {destinations: userDests}) // save array of Dests and meta data to user collection in DB
+        return userDests
     }
     catch(e){
         throw new Error(`Unable to create destinations in DB: ${JSON.stringify(e)}`)
