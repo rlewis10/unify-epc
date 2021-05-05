@@ -35,14 +35,14 @@ const getDestsByObjId = async (id) => {
 }
 
 // create new destinations in dests collection, returns the inserted document
-const createDestsByUserId = async (userId, dests) => {
+const upsertDestsByUserId = async (userId, dests) => {
     try{
         // cycle through dests object separating dests collection for DB and User Destinations data
-        const userDests = await Object.keys(dests).reduce( async (prev, dest) => {
+        const userDests = await Object.entries(dests).reduce( async (prev, [key, value]) => {
             let awaitPrev = await prev
-            let {city, country, placeLabel, position, url, ...rest}  = dests[dest]
-            let destObj = {destId: dest, city, country, placeLabel, position, url} //create dest object
-            let savedDest = await upsertDest(dest, destObj) // save dest object in dests collection in DB (map_locations)
+            let {city, country, placeLabel, position, url, ...rest}  = value
+            let destObj = {destId: key, city, country, placeLabel, position, url} //create dest object
+            let savedDest = await upsertDest(key, destObj) // save dest object in dests collection in DB (map_locations)
             return [...awaitPrev, {Id: savedDest._id, ...rest}] // return array of Dests and meta data in 'rest'
         }, [])
 
@@ -87,5 +87,5 @@ const upsertDest = async (id, data) => {
 module.exports = {
     getDestsByObjId,
     getDestsByUserId,
-    createDestsByUserId
+    upsertDestsByUserId
 }

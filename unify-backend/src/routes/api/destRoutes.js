@@ -8,48 +8,25 @@ const sfDest = require('../../methods/sf/sfDestMethods')
 // find destinations by userId
 router.get('/find/userid/:id', async (req, res) => {
     try{
-        let destObj = await dbDest.getDestsByUserId(req.params.id)
-        res.send(destObj)
+        let userDests = await dbDest.getDestsByUserId(req.params.id)
+        res.send(userDests)
     }
     catch(e){
         res.status(400).send(e.message)
     }
 })
 
-// create new destinations
-router.post('/create/userid/:id', async (req, res) => {
+// upsert new destinations
+router.post('/upsert/userid/:id', async (req, res) => {
     try{
-        let userId = req.params.id
-        let dests = req.body
-        // create destinations in db
-        let savedDestinations = await dbDest.createDestsByUserId(userId, dests)
-        console.log(savedDestinations)
-
-        // create new map_locations in SF
-        //await sfDest.createMapLoc(dests)
-        // create new destinations in SF
-        //await sfDest.upsertDest(userId, dests)
-
+        const userId = req.params.id
+        const dests = req.body
+        const oldDests = await dbDest.getDestsByUserId(userId) // get user destinations
+        await dbDest.upsertDestsByUserId(userId, dests) // create destinations in db
+        await sfDest.createMapLoc(dests) // create new map_locations in SF
+        await sfDest.upsertDest(userId, oldDests, dests) // create new destinations in SF
+        
         res.send({success : true})
-    }
-    catch(e){
-        res.status(400).send(e.message)
-    }
-})
-
-// update destination list
-router.post('/update/destid/:destid/userid/:userid', async (req, res) => {
-    try{
-        let destId = req.params.destid
-        let userId = req.params.userid
-        // save over the destination list
-        await dbDest.updateDest(destId, req.body)
-        // upsert map locations
-        await sfDest.createMapLoc(req.body)
-        // upsert destinations, creating new ones or updating existing
-        await sfDest.upsertDest(userId, req.body)
-
-        res.send({success: true})
     }
     catch(e){
         res.status(400).send(e.message)

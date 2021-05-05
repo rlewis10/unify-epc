@@ -31,9 +31,9 @@ const schema = {
     },
     destination : class {
         constructor(data) {
-            this.Destination_Id__c =`${data?.mapLocId}-${data?.conId}`
+            this.Destination_Id__c =`${data?.destId}-${data?.conId}`
             this.Name = data?.placeLabel
-            this.Map_Location__r = {Map_Location_Id__c: data?.mapLocId} 
+            this.Map_Location__r = {Map_Location_Id__c: data?.destId} 
             this.Contact__r = {UnifyId__c : data?.conId} 
             this.isActive__c = data?.active 
         }
