@@ -7,7 +7,7 @@ import Marker from './marker'
 require('dotenv').config({path: __dirname + '/.env'})
 
 const Map = () => {
-    const {dest} = useContext(useDestContext)
+    const {dests} = useContext(useDestContext)
     const [Bounds, setBounds] = useState()
     const [gMap, setgMap] = useState()
     const [Options] = useState({
@@ -35,10 +35,10 @@ const Map = () => {
         <div>
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
             <div id="mapContainer" style={{height: '600px', width: '100%'}}>
-                {Object.keys(dest).map(m => {
+                {Object.keys(dests).map(m => {
                     if(Bounds === undefined) return
-                    setMapViewport(dest[m]['position'])
-                    return <Marker key={m} id={m} map={gMap} title={dest[m]['placeLabel']} position={dest[m]['position']} />
+                    setMapViewport(dests[m]['position'])
+                    return <Marker key={m} id={m} map={gMap} title={dests[m]['placeLabel']} position={dests[m]['position']} />
                 })
                 }
             </div>

@@ -5,7 +5,7 @@ const useDestContext = createContext()
 
 const DestProvider = (props) => {
   
-  const [dest, setDest] = useState({})
+  const [dests, setDest] = useState({})
 
   // get destinations from server
   const getDests = async (userId) => {
@@ -42,12 +42,12 @@ const DestProvider = (props) => {
   }
 
   const deleteDest = (destItem) => {
-    let {[destItem] : deleted , ...updatedDest} = dest
+    let {[destItem] : deleted , ...updatedDest} = dests
     setDest(updatedDest)
   }
 
   return (
-    <useDestContext.Provider value={{dest, getDests, addDest, saveDests, deleteDest}}>
+    <useDestContext.Provider value={{dests, getDests, addDest, saveDests, deleteDest}}>
         {props.children}
     </useDestContext.Provider>
   )
