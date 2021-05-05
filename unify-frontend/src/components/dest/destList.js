@@ -11,10 +11,10 @@ const DestList = () => {
 
     const getDestinations = async (userId) => {
         await getDests(userId)
-      }
+    }
     
     const saveDestinations = async (userId, dests) => {
-    await saveDests(userId, dests)
+        await saveDests(userId, dests)
     }
     
     useEffect(() => {
