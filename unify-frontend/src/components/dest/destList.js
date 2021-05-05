@@ -5,24 +5,29 @@ import {useAuthContext} from '../../context/authContext'
 
 const DestList = () => {
 
-    const {dest, getDests, deleteDest} = useContext(useDestContext)
+    const {dest, getDests, saveDests, deleteDest} = useContext(useDestContext)
     const {getLocalStore} = useContext(useAuthContext)
-    let localStoreKey = ['userId']
+    let localeUserId = getLocalStore(['userId'])
 
     const getDestinations = async (userId) => {
         await getDests(userId)
       }
     
+    const saveDestinations = async (userId, dests) => {
+    await saveDests(userId, dests)
+    }
+    
     useEffect(() => {
-        let localeUserId = getLocalStore(localStoreKey)
         getDestinations(localeUserId.userId)
     }, [])
 
     return (
         <div className="dest-container">
-            <ul className="dest-list">
-            {Object.keys(dest).map(d => <Dest key={d} id={d} destName={dest[d]['placeLabel']} deleteDest={deleteDest} />)}
-            </ul>
+            <button onClick={() => getDestinations(localeUserId.userId)}>Reset</button>
+            <button onClick={() => saveDestinations(localeUserId.userId, dest)}>Save</button>
+                <ul className="dest-list">
+                    {Object.keys(dest).map(d => <Dest key={d} id={d} destName={dest[d]['placeLabel']} deleteDest={deleteDest} />)}
+                </ul>
         </div>
     )
 }

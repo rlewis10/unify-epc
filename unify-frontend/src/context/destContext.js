@@ -27,7 +27,7 @@ const DestProvider = (props) => {
     try{
       const res = await axios({
         method: 'post', 
-        url: `/api/dest/update/userid/${userId}`,
+        url: `/api/dest/upsert/userid/${userId}`,
         data: dests
       })
       return {savedDests: true}
@@ -47,7 +47,7 @@ const DestProvider = (props) => {
   }
 
   return (
-    <useDestContext.Provider value={{dest, getDests, addDest, deleteDest}}>
+    <useDestContext.Provider value={{dest, getDests, addDest, saveDests, deleteDest}}>
         {props.children}
     </useDestContext.Provider>
   )
