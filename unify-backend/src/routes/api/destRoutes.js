@@ -6,7 +6,8 @@ const sfDest = require('../../methods/sf/sfDestMethods')
 // find destinations by userId
 router.get('/find/userid/:id', async (req, res) => {
     try{
-        let userDests = await dbDest.getDestsByUserId(req.params.id)
+        const userId = req.params.id
+        const userDests = await dbDest.getDestsByUserId(userId)
         res.send(userDests)
     }
     catch(e){

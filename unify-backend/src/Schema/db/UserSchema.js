@@ -59,9 +59,6 @@ const userSchema = new db.Schema(
         destinations: {
             type: db.Schema.Types.Array
         },
-        travelDates: {
-            type: db.Schema.Types.Array
-        },
         alerts: {
             type: Object
         },

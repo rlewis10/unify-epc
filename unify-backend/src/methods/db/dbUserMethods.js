@@ -25,8 +25,7 @@ const upsertUser = async (id, data) => {
         const options = {
             new: true, // Always returning updated work experiences.
             upsert: true, // By setting this true, it will create if it doesn't exist
-            projection: { _id: 0, __v: 0 }, // without return _id and __v
-          }
+        }
     
         let updatedDest = await User.findOneAndUpdate(find, update, options).lean()
         return updatedDest 

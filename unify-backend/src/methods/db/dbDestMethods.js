@@ -5,8 +5,8 @@ const dbUser = require('../../methods/db/dbUserMethods')
 const getDestsByUserId = async (userId) => {
     try{
         // get user destination Ids from user object 
-        let user = await dbUser.getUserObj(userId)
-        let dests = user.destinations
+        const user = await dbUser.getUserObj(userId)
+        const dests = user.destinations
 
         // cycle through dest object Ids and get dest data
         return dests.reduce(async (obj, dest) => {
@@ -55,16 +55,6 @@ const upsertDestsByUserId = async (userId, dests) => {
     }
 }
 
-// create new destinations (array), returns the inserted document
-const saveDests = async (data) => {
-    try{
-        return await Dest.create(data)
-    }
-    catch(e){
-        throw new Error(`Unable to create destinations in DB: ${JSON.stringify(e)}`)
-    }
-}
-
 // find a destination by destId and update
 // update destination list, salesforce handles 'decactivated' destinations by upserting 'isActive' data. 
 const upsertDest = async (id, data) => {
@@ -74,7 +64,7 @@ const upsertDest = async (id, data) => {
         const options = {
             new: true, // Always returning updated work experiences.
             upsert: true,// By setting this true, it will create if it doesn't exist
-          }
+        }
     
         let upsertedDest = await Dest.findOneAndUpdate(find, update, options).lean()
         return upsertedDest 
