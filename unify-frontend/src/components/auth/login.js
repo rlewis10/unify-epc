@@ -8,7 +8,7 @@ const Login = (props) => {
 
   const {login} = useContext(useAuthContext)
   const [forwardLocation] = useState(props.location.state.referrer)
-  const [Error, setError] = useState(null)
+  const [loginError, setLoginError] = useState(null)
   const history = useHistory()
 
   const validationSchema = yup.object({
@@ -33,28 +33,29 @@ const Login = (props) => {
       // username: richard@rlewis.me; password: 123456
       res?.isAuthenticated
         ? history.push(forwardLocation)
-        : setError('Username or Password is incorrect')
+        : setLoginError('Username or Password is incorrect')
     }
     catch(e){
       console.log(e)
     }
   }
+  console.log(formik)
 
   return (
     <div className="login-wrapper">
       <h1>Log In</h1>
-      {Error ? (<span> {Error} </span>) : null}
+      {loginError ? (<span> {loginError} </span>) : null}
       <form onSubmit={formik.handleSubmit} >
         <label htmlFor="username"><p>Username</p></label>
           <input type="text" id="username" name="username" onChange={formik.handleChange} values={formik.values.username} />
           {formik.touched.username && formik.errors.username
-          ? (<span className="error">{formik.errors.username}</span>)
-          : (null)}
+            ? (<span className="error">{formik.errors.username}</span>)
+            : (null)}
         <label htmlFor="password"><p>Password</p></label>
           <input type="password" id="password" name="password" onChange={formik.handleChange} values={formik.values.password} />
           {formik.touched.password && formik.errors.password
-          ? (<span className="error">{formik.errors.password}</span>)
-          : (null)}
+            ? (<span className="error">{formik.errors.password}</span>)
+            : (null)}
         <button type="submit" >Submit</button>
       </form>
     </div>
