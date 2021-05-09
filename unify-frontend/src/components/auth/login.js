@@ -1,31 +1,39 @@
 import React, {useState, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
 import {useAuthContext} from '../../context/authContext'
+import * as yup from 'yup'  
+import {useFormik} from 'formik'
 
 const Login = (props) => {
 
-  const {Auth, setAuth, login} = useContext(useAuthContext)
+  const {login} = useContext(useAuthContext)
   const [forwardLocation] = useState(props.location.state.referrer)
   const [Error, setError] = useState(null)
   const history = useHistory()
 
-  const handleChange = (e) => {
-    setAuth(prevProfile => ({...prevProfile, [e.target.name] : e.target.value}))
-  }
+  const validationSchema = yup.object({
+    username: yup
+      .string('Enter a Username')
+      .required('Username is required'),
+    password: yup
+      .string('Enter your password')
+      .min(6, 'Password should be of minimum 6 characters length')
+      .required('Password is required'),
+  })
 
-  const handleSubmit = async (e) => {
+  const formik = useFormik({
+    initialValues : {username: '', password: ''},
+    validationSchema : validationSchema,
+    onSubmit : (values) => {submitToServer(values)}
+  })
+
+  const submitToServer = async (values) => {
     try{
-      e.preventDefault()
-      const res = await login({username: Auth.username, password: Auth.password})
+      const res = await login({username: values.username, password: values.password})
       // username: richard@rlewis.me; password: 123456
-
-      if(res?.isAuthenticated) {
-        history.push(forwardLocation)
-      }
-      else{
-        // thorw error to show in UI
-        setError('Username or Password is incorrect')
-      }
+      res?.isAuthenticated
+        ? history.push(forwardLocation)
+        : setError('Username or Password is incorrect')
     }
     catch(e){
       console.log(e)
@@ -36,16 +44,18 @@ const Login = (props) => {
     <div className="login-wrapper">
       <h1>Log In</h1>
       {Error ? (<span> {Error} </span>) : null}
-      <form onSubmit={handleSubmit}>
-        <label>
-          <p>Username</p>
-          <input type="text" name="username" value={Auth.username} onChange={handleChange}/>
-        </label>
-        <label>
-          <p>Password</p>
-          <input type="password" name="password" value={Auth.password} onChange={handleChange}/>
-        </label>
-        <button type="submit">submit</button>
+      <form onSubmit={formik.handleSubmit} >
+        <label htmlFor="username"><p>Username</p></label>
+          <input type="text" id="username" name="username" onChange={formik.handleChange} values={formik.values.username} />
+          {formik.touched.username && formik.errors.username
+          ? (<span className="error">{formik.errors.username}</span>)
+          : (null)}
+        <label htmlFor="password"><p>Password</p></label>
+          <input type="password" id="password" name="password" onChange={formik.handleChange} values={formik.values.password} />
+          {formik.touched.password && formik.errors.password
+          ? (<span className="error">{formik.errors.password}</span>)
+          : (null)}
+        <button type="submit" >Submit</button>
       </form>
     </div>
   )

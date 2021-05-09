@@ -30,8 +30,6 @@ const upsertDest = async (conId, oldDests, dests) => {
     return [...prev, sfDataMap]
   },[])
 
-  console.log(sfDests)
-
   const sf = await sfAuth.get()
   let createdDestinations = await sf.sobject('Destination__c').upsert(sfDests,'Destination_Id__c')
 

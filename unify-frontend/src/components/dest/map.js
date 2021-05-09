@@ -36,7 +36,7 @@ const Map = () => {
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
             <div id="mapContainer" style={{height: '600px', width: '100%'}}>
                 {Object.keys(dests).map(m => {
-                    if(Bounds === undefined) return
+                    if(Bounds == null) return null
                     setMapViewport(dests[m]['position'])
                     return <Marker key={m} id={m} map={gMap} title={dests[m]['placeLabel']} position={dests[m]['position']} />
                 })

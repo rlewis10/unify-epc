@@ -8,8 +8,6 @@ const AuthProvider = (props) => {
   const localStoreKeys = ['userId', 'accessToken', 'refreshToken', 'isAuthenticated']
   const [Auth, setAuth] = useState({
     userId: '',
-    username: '',
-    password: '',
     accessToken: '',
     refreshToken: '',
     isAuthenticated: undefined
