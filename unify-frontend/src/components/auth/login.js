@@ -22,13 +22,17 @@ const Login = (props) => {
   })
 
   const formik = useFormik({
-    initialValues : {username: '', password: ''},
+    initialValues: {
+      username: '', 
+      password: ''
+    },
     validationSchema : validationSchema,
     onSubmit : (values) => {submitToServer(values)}
   })
 
   const submitToServer = async (values) => {
     try{
+      formik.setSubmitting(true)
       const res = await login({username: values.username, password: values.password})
       // username: richard@rlewis.me; password: 123456
       res?.isAuthenticated
@@ -39,24 +43,32 @@ const Login = (props) => {
       console.log(e)
     }
   }
-  console.log(formik)
 
   return (
     <div className="login-wrapper">
       <h1>Log In</h1>
       {loginError ? (<span> {loginError} </span>) : null}
-      <form onSubmit={formik.handleSubmit} >
-        <label htmlFor="username"><p>Username</p></label>
+
+      <form onSubmit={formik.handleSubmit}>
+        <div>
+          <label htmlFor="username">Username</label>
           <input type="text" id="username" name="username" onChange={formik.handleChange} values={formik.values.username} />
           {formik.touched.username && formik.errors.username
             ? (<span className="error">{formik.errors.username}</span>)
             : (null)}
-        <label htmlFor="password"><p>Password</p></label>
+        </div>
+
+        <div>
+          <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" onChange={formik.handleChange} values={formik.values.password} />
           {formik.touched.password && formik.errors.password
             ? (<span className="error">{formik.errors.password}</span>)
             : (null)}
-        <button type="submit" >Submit</button>
+        </div>
+
+        <div>
+          <button type="submit">Submit</button>
+        </div>
       </form>
     </div>
   )

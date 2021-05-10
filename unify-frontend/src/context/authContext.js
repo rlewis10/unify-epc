@@ -1,17 +1,18 @@
 import React, {useState, createContext} from 'react'
+import useLocalStore from './useLocalStore'
 import axios from 'axios'
 
 const useAuthContext = createContext()
 
 const AuthProvider = (props) => {
 
-  const localStoreKeys = ['userId', 'accessToken', 'refreshToken', 'isAuthenticated']
   const [Auth, setAuth] = useState({
     userId: '',
     accessToken: '',
     refreshToken: '',
     isAuthenticated: undefined
   })
+  const [localStore, setLocalStore] = useLocalStore(['userId', 'accessToken', 'refreshToken'])
 
   // create a new user 
   const signup = async (signup) => {
@@ -33,7 +34,7 @@ const AuthProvider = (props) => {
       })
       const {userId, accessToken, refreshToken, isAuthenticated} = res.data
       setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated}))
-      saveLocalStore({userId, accessToken, refreshToken})
+      setLocalStore(prevLocalStore => ({...prevLocalStore, userId, accessToken, refreshToken}))
       return res.data
     }
     catch(e){
@@ -44,7 +45,7 @@ const AuthProvider = (props) => {
   // remove userId and tokens (key/values) from state and local storage
   const logout = () => {
     setAuth({isAuthenticated: false})
-    localStoreKeys.map(d => localStorage.removeItem(d))
+    //localStoreKeys.map(d => localStorage.removeItem(d))
   }
 
   // verify accessToken, if accessToken has expired refresh token with renewToken function
@@ -56,14 +57,14 @@ const AuthProvider = (props) => {
           url: '/auth/verifytoken/',
           headers: authHeader()
         })
-        const {userId, accessToken, refreshToken} = getLocalStore(localStoreKeys)
+        const {userId, accessToken, refreshToken} = localStore
         setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated: res.data.isAuthenticated}))
         return res.data
       }
     }
     catch(e){
       if(e?.response.status === 401){
-        const {userId, refreshToken} = getLocalStore(localStoreKeys)
+        const {userId, refreshToken} = localStore
         return await renewToken(userId, refreshToken)
       }
     }
@@ -79,7 +80,7 @@ const AuthProvider = (props) => {
       })
       const {accessToken, refreshToken, isAuthenticated} = res.data
       setAuth(prevState => ({...prevState, accessToken, refreshToken, isAuthenticated}))
-      saveLocalStore({accessToken})
+      setLocalStore(prevLocalStore => ({...prevLocalStore, accessToken}))
       return res.data
     }
     catch(e){
@@ -90,7 +91,7 @@ const AuthProvider = (props) => {
   // check if token and user is in local storage, return  userId and accessToken for API header 
   const authHeader = () => {
     try{
-      const {userId, accessToken} = getLocalStore(localStoreKeys)
+      const {userId, accessToken} = localStore
       if(userId && accessToken) {
         return {userId, accessToken}
       }
@@ -100,24 +101,8 @@ const AuthProvider = (props) => {
     }
   }
 
-  // get data from local storage
-  const getLocalStore = (data) => {
-    let localStore = {}
-    data.map((key) => {
-      return localStore[key] = JSON.parse(localStorage.getItem(key)? localStorage.getItem(key): null)
-    })
-    return localStore
-  }
-
-  // store data in local storage
-  const saveLocalStore = (data) => {
-    Object.keys(data).map((key) => {
-      return localStorage.setItem(key, JSON.stringify(data[key]))
-    })
-  }
-
   return (
-    <useAuthContext.Provider value={{Auth, setAuth, login, signup, verifyToken, authHeader, logout, getLocalStore}}>
+    <useAuthContext.Provider value={{Auth, setAuth, login, signup, verifyToken, authHeader, logout}}>
         {props.children}
     </useAuthContext.Provider>
   )

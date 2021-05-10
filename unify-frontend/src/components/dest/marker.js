@@ -21,11 +21,17 @@ const Marker = (props) => {
     })
     markerObj.setMap(MarkerProps.map)
     markerObj.addListener("click", markerBounce)
+    setMapViewport(MarkerProps.position)
   }
   
   const removeMarker = () => {
-    markerObj.setMap(null) 
+    markerObj.setMap(null)
   }
+
+  const setMapViewport = (position) => {
+    let viewport = MarkerProps.bounds.extend(position)
+    MarkerProps.map.fitBounds(viewport)
+}
 
   const markerBounce = () => {
     if (markerObj.getAnimation() !== null) {

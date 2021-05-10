@@ -25,20 +25,13 @@ const Map = () => {
         setgMap(new window.google.maps.Map(mapContainer, Options))
         setBounds(new window.google.maps.LatLngBounds())
     }
-
-    const setMapViewport = (position) => {
-            let viewport = Bounds.extend(position)
-            gMap.fitBounds(viewport)
-    }
     
     return (
         <div>
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
             <div id="mapContainer" style={{height: '600px', width: '100%'}}>
                 {Object.keys(dests).map(m => {
-                    if(Bounds == null) return null
-                    setMapViewport(dests[m]['position'])
-                    return <Marker key={m} id={m} map={gMap} title={dests[m]['placeLabel']} position={dests[m]['position']} />
+                    return <Marker key={m} id={m} map={gMap} bounds={Bounds} title={dests[m]['placeLabel']} position={dests[m]['position']} />
                 })
                 }
             </div>
