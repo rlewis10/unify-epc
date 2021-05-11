@@ -17,7 +17,6 @@ const Login = (props) => {
       .required('Username is required'),
     password: yup
       .string('Enter your password')
-      .min(6, 'Password should be of minimum 6 characters length')
       .required('Password is required'),
   })
 
@@ -47,14 +46,14 @@ const Login = (props) => {
   return (
     <div className="login-wrapper">
       <h1>Log In</h1>
-      {loginError ? (<span> {loginError} </span>) : null}
+      {loginError ? (<span className="login-error">{loginError}</span>) : null}
 
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="username">Username</label>
           <input type="text" id="username" name="username" onChange={formik.handleChange} values={formik.values.username} />
           {formik.touched.username && formik.errors.username
-            ? (<span className="error">{formik.errors.username}</span>)
+            ? (<span className="form-error">{formik.errors.username}</span>)
             : (null)}
         </div>
 
@@ -62,7 +61,7 @@ const Login = (props) => {
           <label htmlFor="password">Password</label>
           <input type="password" id="password" name="password" onChange={formik.handleChange} values={formik.values.password} />
           {formik.touched.password && formik.errors.password
-            ? (<span className="error">{formik.errors.password}</span>)
+            ? (<span className="form-error">{formik.errors.password}</span>)
             : (null)}
         </div>
 
