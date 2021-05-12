@@ -1,23 +1,33 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
 import {useAuthContext} from '../../context/authContext'
 import * as yup from 'yup'  
 import {useFormik} from 'formik'
-import { min } from 'moment'
+import queryString from 'query-string'
 
-const Signup = () => {
+const Signup = (props) => {
 
   const {signup} = useContext(useAuthContext)
-  const [forwardLocation] = useState('/home')
+  const [forwardLocation] = useState('/profile')
   const [signupError, setSignupError] = useState(null)
   const history = useHistory()
 
+  useEffect(() => {
+    queryParams()
+  },[])
+
+  const queryParams = () => {
+    let params = queryString.parse(props.location.search)
+    if(Object.keys(params).length === 0) return
+    return params
+  }
+
   const validationSchema = yup.object({
-    firstname: yup
-      .string('Enter a First Name')
+    firstName: yup
+      .string()
       .required('First Name is required'),
-    lastname: yup
-      .string('Enter a Last Name')
+    lastName: yup
+      .string()
       .required('Last Name is required'),
     email: yup
       .string()
@@ -36,6 +46,7 @@ const Signup = () => {
       ),
     conPassword: yup
       .string()
+      .required('Confirm password')
       .test('passwords-match', 'Passwords must match', function(value){
         return this.parent.password === value
       })
@@ -43,13 +54,14 @@ const Signup = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstname: '', 
-      lastname:'', 
-      email: '' , 
-      username: '', 
+      firstName: queryParams()?.firstName || '', 
+      lastName: queryParams()?.lastName || '', 
+      email: queryParams()?.email || '', 
+      username: queryParams()?.username || '', 
       password: '',
       conPassword: ''
     },
+    enableReinitialize: true,
     validationSchema : validationSchema,
     onSubmit : (values) => {submitToServer(values)}
   })
@@ -75,7 +87,14 @@ const Signup = () => {
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
-          <input type="text" name="firstName" onChange={formik.handleChange} values={formik.values.firstname}/>
+          <input 
+            type="text" 
+            id="firstName"
+            name="firstName" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.firstName} 
+          />
           {formik.touched.firstName && formik.errors.firstName
             ? (<span className="form-error">{formik.errors.firstName}</span>)
             : (null)}
@@ -83,7 +102,14 @@ const Signup = () => {
         
         <div>
           <label htmlFor="lastName">Last Name</label>
-          <input type="text" name="lastName" onChange={formik.handleChange} values={formik.values.lastname}/>
+          <input 
+            type="text"
+            id="lastName"
+            name="lastName" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.lastName}
+          />
           {formik.touched.lastName && formik.errors.lastName
             ? (<span className="form-error">{formik.errors.lastName}</span>)
             : (null)}
@@ -91,7 +117,14 @@ const Signup = () => {
         
         <div>
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" onChange={formik.handleChange} values={formik.values.email}/>
+          <input 
+            type="email" 
+            id="email"
+            name="email" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.email}
+          />
           {formik.touched.email && formik.errors.email
             ? (<span className="form-error">{formik.errors.email}</span>)
             : (null)}
@@ -99,7 +132,14 @@ const Signup = () => {
         
         <div>
           <label htmlFor="username">Username</label>
-          <input type="text" name="username" onChange={formik.handleChange} values={formik.values.username}/>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.username}
+          />
           {formik.touched.username && formik.errors.username
             ? (<span className="form-error">{formik.errors.username}</span>)
             : (null)}
@@ -107,7 +147,14 @@ const Signup = () => {
         
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" onChange={formik.handleChange} values={formik.values.password}/>
+          <input 
+            type="password" 
+            id="password"
+            name="password" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.password}
+          />
           {formik.touched.password && formik.errors.password
             ? (<span className="form-error">{formik.errors.password}</span>)
             : (null)}
@@ -115,15 +162,23 @@ const Signup = () => {
 
         <div>
           <label htmlFor="conPassword">Confirm Password</label>
-          <input type="password" name="conPassword" onChange={formik.handleChange} values={formik.values.conPassword}/>
+          <input 
+            type="password" 
+            id="conPassword"
+            name="conPassword" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.conPassword}
+          />
           {formik.touched.conPassword && formik.errors.conPassword
             ? (<span className="form-error">{formik.errors.conPassword}</span>)
             : (null)}
         </div>
-        
+
         <div>
           <button type="submit">Submit</button>
         </div>
+
       </form>
     </div>
   )

@@ -51,7 +51,14 @@ const Login = (props) => {
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="username">Username</label>
-          <input type="text" id="username" name="username" onChange={formik.handleChange} values={formik.values.username} />
+          <input 
+            type="text" 
+            id="username" 
+            name="username" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.username}
+          />
           {formik.touched.username && formik.errors.username
             ? (<span className="form-error">{formik.errors.username}</span>)
             : (null)}
@@ -59,7 +66,14 @@ const Login = (props) => {
 
         <div>
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password" onChange={formik.handleChange} values={formik.values.password} />
+          <input 
+            type="password" 
+            id="password" 
+            name="password" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.password} 
+          />
           {formik.touched.password && formik.errors.password
             ? (<span className="form-error">{formik.errors.password}</span>)
             : (null)}
