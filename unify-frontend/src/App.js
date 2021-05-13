@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from "react"
-import {useAuthContext} from './context/authContext'
+import {useAuthContext} from './hooks/authContext'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 import './App.css'
 

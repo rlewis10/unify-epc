@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import Script from 'react-load-script'
-import {useDestContext} from '../../context/destContext'
+import {useDestContext} from '../../hooks/destContext'
 import Marker from './marker'
 
 // setup environement variables

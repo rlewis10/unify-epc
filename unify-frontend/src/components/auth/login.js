@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import {useHistory} from 'react-router-dom'
-import {useAuthContext} from '../../context/authContext'
+import {useAuthContext} from '../../hooks/authContext'
 import * as yup from 'yup'  
 import {useFormik} from 'formik'
 
@@ -33,13 +33,13 @@ const Login = (props) => {
     try{
       formik.setSubmitting(true)
       const res = await login({username: values.username, password: values.password})
-      // username: richard@rlewis.me; password: 123456
+      // {username: richard@rlewis.me, password: 123456}
       res?.isAuthenticated
         ? history.push(forwardLocation)
-        : setLoginError('Username or Password is incorrect')
+        : setLoginError(res?.error)
     }
     catch(e){
-      console.log(e)
+      setLoginError(e)
     }
   }
 

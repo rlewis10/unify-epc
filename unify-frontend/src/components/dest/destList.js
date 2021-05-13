@@ -1,7 +1,7 @@
 import React, {useContext, useEffect} from 'react'
 import Dest from './dest'
-import {useDestContext} from '../../context/destContext'
-import {useAuthContext} from '../../context/authContext'
+import {useDestContext} from '../../hooks/destContext'
+import {useAuthContext} from '../../hooks/authContext'
 
 const DestList = () => {
 

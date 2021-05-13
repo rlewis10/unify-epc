@@ -38,7 +38,7 @@ const AuthProvider = (props) => {
       return res.data
     }
     catch(e){
-      console.log(e.message)
+      return e.response.data
     }
   }
 
@@ -97,7 +97,10 @@ const AuthProvider = (props) => {
       }
     }
     catch(e){
-      console.log(`No tokens in local storage ${e}`)
+      return {
+        error: e,
+        message: `No tokens in local storage`
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react'
 import {useHistory} from 'react-router-dom'
-import {useAuthContext} from '../../context/authContext'
+import {useAuthContext} from '../../hooks/authContext'
 import * as yup from 'yup'  
 import {useFormik} from 'formik'
 import queryString from 'query-string'
@@ -8,7 +8,7 @@ import queryString from 'query-string'
 const Signup = (props) => {
 
   const {signup} = useContext(useAuthContext)
-  const [forwardLocation] = useState('/profile')
+  const [forwardLocation] = useState('/home')
   const [signupError, setSignupError] = useState(null)
   const history = useHistory()
 

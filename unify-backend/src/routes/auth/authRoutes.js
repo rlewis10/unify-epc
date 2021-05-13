@@ -7,10 +7,15 @@ router.post('/signup', async (req, res) => {
   try{
     const {password, ...user} = req.body
     const newUser = await auth.signup(user, password)
-    res.status(200).json(newUser)
+    newUser.isAuthenticated
+      ? res.status(200).json(newUser)
+      : res.status(401).json(newUser)
   }
   catch(e){
-    res.status(401).send({isAuthenticated: false})  
+    res.status(401).send({
+      isAuthenticated: false,
+      error: e.message
+    })  
   }
 })
 
@@ -19,10 +24,15 @@ router.post('/login', async (req, res) => {
   try{
     const {username, password} = req.body
     const userLogin = await auth.login(username, password)
-    res.status(200).json(userLogin)
+    userLogin.isAuthenticated
+    ? res.status(200).json(userLogin)
+    : res.status(401).json(userLogin)
   }
   catch(e){
-    res.status(401).send({isAuthenticated: false})  
+    res.status(401).send({
+      isAuthenticated: false,
+      error: e.message
+    })  
   }
 })
 
@@ -45,7 +55,10 @@ router.post('/renewtoken/', async (req, res) => {
     res.status(200).json({ accessToken: newAccessToken, isAuthenticated: true })
   }
   catch(e){
-    res.status(401).send({isAuthenticated: false})
+    res.status(401).send({
+      isAuthenticated: false,
+      error: e.message
+    })
   }
 })
 

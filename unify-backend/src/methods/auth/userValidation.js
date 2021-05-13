@@ -6,7 +6,7 @@ const saltRounds = 10
 // check if username is already exists in the db, return the founduser or false
 const checkUsername = async (userid) => {
     const foundUser = await dbUser.findUserId(userid)
-    return (foundUser ? foundUser : false)
+    return foundUser? foundUser : false
 }
 
 // check if a password matches the hashPassword stored in the db, return true or false

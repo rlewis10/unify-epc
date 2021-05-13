@@ -1,5 +1,5 @@
 import React from 'react'
-import {DestProvider} from '../../context/destContext'
+import {DestProvider} from '../../hooks/destContext'
 import Search from './search'
 import DestList from './destList'
 import Map from './map'

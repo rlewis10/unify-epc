@@ -2,26 +2,37 @@ const dbUser = require('../../methods/db/dbUserMethods')
 const userVal = require('../../methods/auth/userValidation')
 const token = require('../../methods/auth/token')
 
-
-// check if user exists in db, hash password and save new user data to db
-// return access and refresh tokens
-const signup = async (user, password) => {
+// check if user exists in db
+const checkUsername = async (user) => {
     try{
         const foundUser = await userVal.checkUsername(user.username)
         if (foundUser) {
-            throw new Error(`User already exists, try another username`)
+            return {
+                isAuthenticated: false,
+                error: `User already exists, try another username`
+            }
         }
+    }
+    catch(e){
+        throw new Error(`Unable to lookup user`)
+    }
+}
+
+// hash password and save new user data to db
+// return access and refresh tokens
+const signup = async (user, password) => {
+    try{
         user['hashPassword'] = userVal.hashPassword(password)
         const newUser = await dbUser.createUser(user)
         return {
-            userId: foundUser.id,
+            userId: newUser.id,
             accessToken : token.genAccessToken(newUser.id), 
             refreshToken : token.genRefreshToken(newUser.id),
             isAuthenticated : true
         }
     }
     catch(e){
-        throw new Error(`User already exists, try another username`)
+        throw new Error(`Unable to signup`)
     }
 }
 
@@ -30,9 +41,12 @@ const signup = async (user, password) => {
 const login = async (username, password) => {
     try{
         const foundUser = await userVal.checkUsername(username)
-        const isPasswordCorrect = await userVal.checkPassword(foundUser.hashPassword, password)
+        const isPasswordCorrect = foundUser ? await userVal.checkPassword(foundUser.hashPassword, password) : false
         if (!foundUser || !isPasswordCorrect) {
-          throw new Error(`Incorrect username or password`)
+          return {
+              isAuthenticated: false,
+              error: `Incorrect username or password`
+            }
         }
         return {
             userId: foundUser.id,
@@ -42,7 +56,7 @@ const login = async (username, password) => {
         }
     }
     catch(e){
-        throw new Error(`Incorrect username or password`)
+        throw new Error(`Unable to login`)
     }
 }
 
@@ -87,6 +101,7 @@ const refreshAccessToken = async (userId, refreshToken) => {
 module.exports = {
     login,
     signup,
+    checkUsername,
     verifyAccessToken,
     refreshAccessToken
 }

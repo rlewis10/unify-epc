@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react'
 import Script from 'react-load-script'
-import {useDestContext} from '../../context/destContext'
+import {useDestContext} from '../../hooks/destContext'
 
 // setup environement variables
 require('dotenv').config({path: __dirname + '/.env'})
