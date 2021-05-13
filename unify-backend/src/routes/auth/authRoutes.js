@@ -41,7 +41,6 @@ router.get('/verifytoken/', auth.verifyAccessToken, async (req, res, next) => {
   res.status(200).json({ isAuthenticated: true })
 })
 
-
 // route for renewing the access token with the resfresh token
 router.post('/renewtoken/', async (req, res) => {
   try{

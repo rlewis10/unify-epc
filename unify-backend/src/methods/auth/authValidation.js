@@ -1,22 +1,6 @@
 const dbUser = require('../../methods/db/dbUserMethods')
-const userVal = require('../../methods/auth/userValidation')
+const passVal = require('../../methods/auth/passwordVal')
 const token = require('../../methods/auth/token')
-
-// check if user exists in db
-const checkUsername = async (user) => {
-    try{
-        const foundUser = await userVal.checkUsername(user.username)
-        if (foundUser) {
-            return {
-                isAuthenticated: false,
-                error: `User already exists, try another username`
-            }
-        }
-    }
-    catch(e){
-        throw new Error(`Unable to lookup user`)
-    }
-}
 
 // hash password and save new user data to db
 // return access and refresh tokens
@@ -40,8 +24,8 @@ const signup = async (user, password) => {
 // return access and refresh tokens
 const login = async (username, password) => {
     try{
-        const foundUser = await userVal.checkUsername(username)
-        const isPasswordCorrect = foundUser ? await userVal.checkPassword(foundUser.hashPassword, password) : false
+        const foundUser = await dbUser.findUserId(username)
+        const isPasswordCorrect = foundUser ? await passVal.checkPassword(foundUser.hashPassword, password) : false
         if (!foundUser || !isPasswordCorrect) {
           return {
               isAuthenticated: false,
@@ -101,7 +85,6 @@ const refreshAccessToken = async (userId, refreshToken) => {
 module.exports = {
     login,
     signup,
-    checkUsername,
     verifyAccessToken,
     refreshAccessToken
 }
