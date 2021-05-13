@@ -22,6 +22,30 @@ const Signup = (props) => {
     return params
   }
 
+  const submitToServer = async (values) => {
+    try{
+      formik.setSubmitting(true)
+      const res = await signup({username: values.username, password: values.password})
+      res?.isAuthenticated
+        ? history.push(forwardLocation)
+        : setSignupError('Unable to complete Signup')
+    }
+    catch(e){
+      console.log(e)
+    }
+  }
+
+  const checkUsername = async (username) => {
+    try{
+      const res = null
+      if(res) return true
+      return false
+    }
+    catch(e){
+      return false
+    }
+  }
+
   const validationSchema = yup.object({
     firstName: yup
       .string()
@@ -36,7 +60,12 @@ const Signup = (props) => {
     username: yup
       .string()
       .min(8, 'Username must be at least 8 characters')
-      .required('Username is required'),
+      .required('Username is required')
+      .test(
+        'checkUsername',
+        'Username already exists, please choose another',
+         async (value) => checkUsername(value)
+      ),
     password: yup
       .string()
       .required('Password is required')
@@ -66,25 +95,12 @@ const Signup = (props) => {
     onSubmit : (values) => {submitToServer(values)}
   })
 
-  const submitToServer = async (values) => {
-    try{
-      formik.setSubmitting(true)
-      const res = await signup({username: values.username, password: values.password})
-      res?.isAuthenticated
-        ? history.push(forwardLocation)
-        : setSignupError('Unable to complete Signup')
-    }
-    catch(e){
-      console.log(e)
-    }
-  }
-
   return (
     <div className="signup-wrapper">
       <h1>Sign Up</h1>
       {signupError ? (<span> {signupError} </span>) : null}
 
-      <form onSubmit={formik.handleSubmit}>
+      <form className="signup-form" onSubmit={formik.handleSubmit}>
         <div>
           <label htmlFor="firstName">First Name</label>
           <input 
