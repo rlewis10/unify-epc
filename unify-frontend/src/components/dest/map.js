@@ -31,6 +31,7 @@ const Map = () => {
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
             <div id="mapContainer" style={{height: '600px', width: '100%'}}>
                 {Object.keys(dests).map(m => {
+                    if(Bounds === undefined) return null
                     return <Marker key={m} id={m} map={gMap} bounds={Bounds} title={dests[m]['placeLabel']} position={dests[m]['position']} />
                 })
                 }

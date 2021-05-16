@@ -14,6 +14,28 @@ router.get('/find/userid/:userId', async (req, res) => {
     }
 })
 
+// find a user by username
+router.get('/find/username/:username', async (req, res) => {
+    try{
+        const foundUser = await dbUser.findUserId(req.params.username)
+        res.send(foundUser ? foundUser : false)
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
+})
+
+// check if username is already exists in the db, return the founduser or false
+router.get('/find/checkusername/:username', async (req, res) => {
+    try{
+        const foundUser = await dbUser.findUserId(req.params.username)
+        res.send(foundUser ? {usernameNonExistent: false} : {usernameNonExistent: true})
+    }
+    catch(e){
+        res.status(400).send(e.message)
+    }
+})
+
 // check if username is already exists in the db, return the founduser or false
 router.get('/find/username/:username', async (req, res) => {
     try{

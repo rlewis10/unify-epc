@@ -15,7 +15,7 @@ const Marker = (props) => {
   },[MarkerProps])
 
   const createMarker = () => {
-    markerObj = new window.google.maps.Marker({
+    markerObj = new google.maps.Marker({
       ...MarkerProps,
       animation: google.maps.Animation.DROP,
     })

@@ -1,9 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react'
-import {useHistory} from 'react-router-dom'
-import {useAuthContext} from '../../hooks/authContext'
+import React, {useState, useContext} from 'react'
 import * as yup from 'yup'  
 import {useFormik} from 'formik'
-import queryString from 'query-string'
+import axios from 'axios'
+import {useHistory} from 'react-router-dom'
+import {useAuthContext} from '../../hooks/authContext'
+import getQueryParams from '../../hooks/useQueryParams'
 
 const Signup = (props) => {
 
@@ -11,24 +12,11 @@ const Signup = (props) => {
   const [forwardLocation] = useState('/home')
   const [signupError, setSignupError] = useState(null)
   const history = useHistory()
-
-  useEffect(() => {
-    queryParams()
-  },[])
-
-  const queryParams = () => {
-    let params = queryString.parse(props.location.search)
-    if(Object.keys(params).length === 0) return
-    return params
-  }
+  let urlParams = getQueryParams(props.location.search)
 
   const submitToServer = async (values) => {
     try{
-      formik.setSubmitting(true)
-      const res = await signup({username: values.username, password: values.password})
-      res?.isAuthenticated
-        ? history.push(forwardLocation)
-        : setSignupError('Unable to complete Signup')
+      console.log(formik.values)
     }
     catch(e){
       console.log(e)
@@ -37,11 +25,14 @@ const Signup = (props) => {
 
   const checkUsername = async (username) => {
     try{
-      const res = null
-      if(res) return true
-      return false
+      const res = await axios({
+        method: 'get',
+        url: `/api/user/find/checkusername/${username}`,
+      })
+      return res?.data.usernameNonExistent
     }
     catch(e){
+      console.log(e)
       return false
     }
   }
@@ -61,11 +52,9 @@ const Signup = (props) => {
       .string()
       .min(8, 'Username must be at least 8 characters')
       .required('Username is required')
-      .test(
-        'checkUsername',
-        'Username already exists, please choose another',
-         async (value) => checkUsername(value)
-      ),
+      .test('checkUsername', 'Username already exists', async (value) => {
+          return await checkUsername(value)
+      }),
     password: yup
       .string()
       .required('Password is required')
@@ -78,20 +67,27 @@ const Signup = (props) => {
       .required('Confirm password')
       .test('passwords-match', 'Passwords must match', function(value){
         return this.parent.password === value
-      })
+      }),
+    terms: yup
+      .boolean()
+      .required()
+      .oneOf([true],'Please accept the terms')
   })
 
   const formik = useFormik({
     initialValues: {
-      firstName: queryParams()?.firstName || '', 
-      lastName: queryParams()?.lastName || '', 
-      email: queryParams()?.email || '', 
-      username: queryParams()?.username || '', 
+      firstName: urlParams?.firstName || '', 
+      lastName: urlParams?.lastName || '', 
+      email: urlParams?.email || '', 
+      username: urlParams?.username || '', 
       password: '',
-      conPassword: ''
+      conPassword: '',
+      terms: false
     },
+    validationSchema: validationSchema,
+    validateOnChange: false,
+    validateOnBlur: false,
     enableReinitialize: true,
-    validationSchema : validationSchema,
     onSubmit : (values) => {submitToServer(values)}
   })
 
@@ -154,7 +150,7 @@ const Signup = (props) => {
             name="username"
             onChange={formik.handleChange} 
             onBlur={formik.handleBlur} 
-            value={formik.values.username}
+            value={formik.values.username} 
           />
           {formik.touched.username && formik.errors.username
             ? (<span className="form-error">{formik.errors.username}</span>)
@@ -189,6 +185,31 @@ const Signup = (props) => {
           {formik.touched.conPassword && formik.errors.conPassword
             ? (<span className="form-error">{formik.errors.conPassword}</span>)
             : (null)}
+        </div>
+
+        <div>
+          <input 
+            type="checkbox" 
+            id="terms" 
+            name="terms" 
+            onChange={formik.handleChange} 
+            onBlur={formik.handleBlur} 
+            value={formik.values.terms}
+          />
+          <label HMLFor="horns">I have read and agree to the <span></span>
+            <a href="http://www.unifynow.co.uk/wp-content/uploads/2020/07/TCs.pdf">Terms of Service</a>
+          </label>
+          {formik.touched.terms && formik.errors.terms
+            ? (<span className="form-error">{formik.errors.terms}</span>)
+            : (null)}
+        </div>
+
+        <div className='form-honeypot'>
+        <input 
+          type="text" 
+          name="a_password" 
+          autocomplete="off" 
+        />
         </div>
 
         <div>
