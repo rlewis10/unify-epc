@@ -25,7 +25,6 @@ const signup = async (user, password) => {
 const login = async (email, password) => {
     try{
         const foundUser = await dbUser.findUserEmail(email)
-        console.log(foundUser)
         const isPasswordCorrect = foundUser ? await passVal.checkPassword(foundUser.hashPassword, password) : false
         if (!foundUser || !isPasswordCorrect) {
           return {

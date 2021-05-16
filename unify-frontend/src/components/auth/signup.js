@@ -16,7 +16,7 @@ const Signup = (props) => {
 
   const submitToServer = async (values) => {
     try{
-      console.log(formik.values)
+      alert(formik.values)
     }
     catch(e){
       console.log(e)
@@ -177,7 +177,7 @@ const Signup = (props) => {
             onBlur={formik.handleBlur} 
             value={formik.values.terms}
           />
-          <label HMLFor="terms">I have read and agree to the <span></span>
+          <label htmlFor="terms">I have read and agree to the <span></span>
             <a href="http://www.unifynow.co.uk/wp-content/uploads/2020/07/TCs.pdf">Terms of Service</a>
           </label>
           {formik.touched.terms && formik.errors.terms
@@ -190,7 +190,7 @@ const Signup = (props) => {
           type="hidden" 
           id="accountId"
           name="accountId" 
-          autocomplete="off" 
+          autoComplete="off" 
           onChange={formik.handleChange} 
           onBlur={formik.handleBlur} 
           value={formik.values.accountId}
@@ -201,7 +201,7 @@ const Signup = (props) => {
         <input 
           type="text" 
           name="a_password" 
-          autocomplete="off" 
+          autoComplete="off"
         />
         </div>
 
