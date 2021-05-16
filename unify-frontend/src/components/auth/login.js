@@ -12,9 +12,9 @@ const Login = (props) => {
   const history = useHistory()
 
   const validationSchema = yup.object({
-    username: yup
-      .string('Enter a Username')
-      .required('Username is required'),
+    email: yup
+      .string('Enter a email')
+      .required('Email is required'),
     password: yup
       .string('Enter your password')
       .required('Password is required'),
@@ -32,8 +32,8 @@ const Login = (props) => {
   const submitToServer = async (values) => {
     try{
       formik.setSubmitting(true)
-      const res = await login({username: values.username, password: values.password})
-      // {username: richard@rlewis.me, password: 123456}
+      const res = await login({email: values.email, password: values.password})
+      // {email: richard@rlewis.me, password: 123456}
       res?.isAuthenticated
         ? history.push(forwardLocation)
         : setLoginError(res?.error)
@@ -50,17 +50,17 @@ const Login = (props) => {
 
       <form onSubmit={formik.handleSubmit}>
         <div>
-          <label htmlFor="username">Username</label>
+          <label htmlFor="email">Email</label>
           <input 
             type="text" 
-            id="username" 
-            name="username" 
+            id="email" 
+            name="email" 
             onChange={formik.handleChange} 
             onBlur={formik.handleBlur} 
-            value={formik.values.username}
+            value={formik.values.email}
           />
-          {formik.touched.username && formik.errors.username
-            ? (<span className="form-error">{formik.errors.username}</span>)
+          {formik.touched.email && formik.errors.email
+            ? (<span className="form-error">{formik.errors.email}</span>)
             : (null)}
         </div>
 

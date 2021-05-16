@@ -22,8 +22,8 @@ router.post('/signup', async (req, res) => {
 // when a user logs in check existing user password, generate access & refresh token
 router.post('/login', async (req, res) => {
   try{
-    const {username, password} = req.body
-    const userLogin = await auth.login(username, password)
+    const {email, password} = req.body
+    const userLogin = await auth.login(email, password)
     userLogin.isAuthenticated
     ? res.status(200).json(userLogin)
     : res.status(401).json(userLogin)

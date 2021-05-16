@@ -1,9 +1,9 @@
 const User = require('../../schema/db/UserSchema')
 
-// find a user Id by username, returns the document Id
-const findUserId = async (user) => {
+// find a user Id by emai, returns the document Id
+const findUserEmail = async (email) => {
     return await User.findOne({
-        username: user })
+        email: email })
 }
 
 //get user from a userId
@@ -38,6 +38,6 @@ const upsertUser = async (id, data) => {
 module.exports = {
     saveUser,
     upsertUser,
-    findUserId,
+    findUserEmail,
     getUserObj
 }

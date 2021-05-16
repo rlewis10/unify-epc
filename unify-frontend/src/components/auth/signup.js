@@ -23,11 +23,11 @@ const Signup = (props) => {
     }
   }
 
-  const checkUsername = async (username) => {
+  const checkEmail = async (email) => {
     try{
       const res = await axios({
         method: 'get',
-        url: `/api/user/find/checkusername/${username}`,
+        url: `/api/user/find/checkemail/${email}`,
       })
       return res?.data.usernameNonExistent
     }
@@ -47,14 +47,10 @@ const Signup = (props) => {
     email: yup
       .string()
       .email()
-      .required('Email is required'),
-    username: yup
-      .string()
-      .min(8, 'Username must be at least 8 characters')
-      .required('Username is required')
-      .test('checkUsername', 'Username already exists', async (value) => {
-          return await checkUsername(value)
-      }),
+      .required('Email is required')
+      .test('checkEmail', 'Email already exists', async (value) => {
+        return await checkEmail(value)
+    }),
     password: yup
       .string()
       .required('Password is required')
@@ -79,10 +75,10 @@ const Signup = (props) => {
       firstName: urlParams?.firstName || '', 
       lastName: urlParams?.lastName || '', 
       email: urlParams?.email || '', 
-      username: urlParams?.username || '', 
       password: '',
       conPassword: '',
-      terms: false
+      terms: false,
+      accountId: ''
     },
     validationSchema: validationSchema,
     validateOnChange: false,
@@ -143,21 +139,6 @@ const Signup = (props) => {
         </div>
         
         <div>
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.username} 
-          />
-          {formik.touched.username && formik.errors.username
-            ? (<span className="form-error">{formik.errors.username}</span>)
-            : (null)}
-        </div>
-        
-        <div>
           <label htmlFor="password">Password</label>
           <input 
             type="password" 
@@ -196,12 +177,24 @@ const Signup = (props) => {
             onBlur={formik.handleBlur} 
             value={formik.values.terms}
           />
-          <label HMLFor="horns">I have read and agree to the <span></span>
+          <label HMLFor="terms">I have read and agree to the <span></span>
             <a href="http://www.unifynow.co.uk/wp-content/uploads/2020/07/TCs.pdf">Terms of Service</a>
           </label>
           {formik.touched.terms && formik.errors.terms
             ? (<span className="form-error">{formik.errors.terms}</span>)
             : (null)}
+        </div>
+
+        <div>
+        <input 
+          type="hidden" 
+          id="accountId"
+          name="accountId" 
+          autocomplete="off" 
+          onChange={formik.handleChange} 
+          onBlur={formik.handleBlur} 
+          value={formik.values.accountId}
+        />
         </div>
 
         <div className='form-honeypot'>

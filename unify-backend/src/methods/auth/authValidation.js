@@ -22,14 +22,15 @@ const signup = async (user, password) => {
 
 // check if username exists in db, check if user stored hash password matches password submitted
 // return access and refresh tokens
-const login = async (username, password) => {
+const login = async (email, password) => {
     try{
-        const foundUser = await dbUser.findUserId(username)
+        const foundUser = await dbUser.findUserEmail(email)
+        console.log(foundUser)
         const isPasswordCorrect = foundUser ? await passVal.checkPassword(foundUser.hashPassword, password) : false
         if (!foundUser || !isPasswordCorrect) {
           return {
               isAuthenticated: false,
-              error: `Incorrect username or password`
+              error: `Incorrect email or password`
             }
         }
         return {
