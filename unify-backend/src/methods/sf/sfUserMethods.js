@@ -16,16 +16,6 @@ const findContact = async (data) => {
   return contact
 }
 
-// create a contact returning SFID
-const createContact = async (data) => {
-  const sf = await sfAuth.get()
-  let sfDataCon = sfSchema.constr(data, 'contact')
-  let createdContact = await sf.sobject('Contact').create(sfDataCon)
-
-  if (!createdContact.success) {throw new Error(`No contact created`)}
-  return createdContact
-}
-
 // get a contact, INPUT: unifyId; RETURN: SFID
 const getContactId = async (id) => {
   const sf = await sfAuth.get()
@@ -38,6 +28,15 @@ const getContactId = async (id) => {
 
   if (Object.entries(contact).length == 0) {throw new Error(`No record successfully retrieved: ${JSON.stringify(contact)}`)}
   return contact
+}
+
+// create a contact returning SFID
+const createContact = async (data) => {
+  const sf = await sfAuth.get()
+  let sfDataCon = sfSchema.constr(data, 'contact')
+  let createdContact = await sf.sobject('Contact').create(sfDataCon)
+  if (!createdContact.success) {throw new Error(`No contact created`)}
+  return createdContact
 }
 
 // UPSERT contact, INPUT: unifyId, data; RETURN: updated contact

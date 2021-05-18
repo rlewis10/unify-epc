@@ -17,10 +17,18 @@ const AuthProvider = (props) => {
   // create a new user 
   const signup = async (signup) => {
     try{
-
+      const res = await axios({
+        method: 'post',
+        url: '/auth/signup/',
+        data: signup,
+      })
+      const {userId, accessToken, refreshToken, isAuthenticated} = res.data
+      setAuth(prevState => ({...prevState, userId, accessToken, refreshToken, isAuthenticated}))
+      setLocalStore(prevLocalStore => ({...prevLocalStore, userId, accessToken, refreshToken}))
+      return res.data
     }
     catch(e){
-
+      return e.response.data
     }
   }
 

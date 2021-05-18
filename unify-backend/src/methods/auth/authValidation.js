@@ -1,4 +1,5 @@
 const dbUser = require('../../methods/db/dbUserMethods')
+const sfUser = require('../../methods/sf/sfUserMethods')
 const passVal = require('../../methods/auth/passwordVal')
 const token = require('../../methods/auth/token')
 
@@ -6,17 +7,21 @@ const token = require('../../methods/auth/token')
 // return access and refresh tokens
 const signup = async (user, password) => {
     try{
-        user['hashPassword'] = userVal.hashPassword(password)
-        const newUser = await dbUser.createUser(user)
+        user['hashPassword'] = passVal.hashPassword(password)
+        user['createdDate'] = Date.now()
+        const newDbUser = await dbUser.saveUser(user)
+        const sfContId = await sfUser.createContact(user)
+        await dbUser.upsertUser(newDbUser._id, {sfContactId: sfContId.id})
+
         return {
-            userId: newUser.id,
-            accessToken : token.genAccessToken(newUser.id), 
-            refreshToken : token.genRefreshToken(newUser.id),
+            userId: newDbUser._id,
+            accessToken : token.genAccessToken(newDbUser._id), 
+            refreshToken : token.genRefreshToken(newDbUser._id),
             isAuthenticated : true
         }
     }
     catch(e){
-        throw new Error(`Unable to signup`)
+        throw new Error(`Unable to signup the user`)
     }
 }
 

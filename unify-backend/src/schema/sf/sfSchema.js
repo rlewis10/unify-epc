@@ -2,13 +2,11 @@ const schema = {
     contact : class {
         constructor(data){
             this.UnifyId__c = data?.id
-            this.accountId  = data?.accountId
-            this.firstName = data?.firstName
-            this.lastName = data?.lastName
+            this.Account  = {UnifyId__c : data?.accountId}
+            this.FirstName = data?.firstName
+            this.LastName = data?.lastName
             //this.dob = data.dob
-            this.Email = data?.Email
-            this.username__c = data?.username
-            this.hashPassword__c = data?.hashPassword
+            this.Email = data?.email
             this.isActive__c = data?.isActive
             this.Email_Alert_Newsletter__c = data?.alerts?.newsletter
             this.Email_Alert_Weekly__c = data?.alerts?.weekly

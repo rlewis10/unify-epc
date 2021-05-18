@@ -8,7 +8,8 @@ const checkPassword = async (hashPassowrd, plainTextPassword) => {
 
 // hash password
 const hashPassword = (password) => {
-    return bcrypt.hashSync(password, saltRounds)
+    const salt = bcrypt.genSaltSync(saltRounds)
+    return bcrypt.hashSync(password, salt)
 }
 
 module.exports = {

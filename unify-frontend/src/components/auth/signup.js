@@ -14,12 +14,18 @@ const Signup = (props) => {
   const history = useHistory()
   let urlParams = getQueryParams(props.location.search)
 
-  const submitToServer = async (values) => {
+  const submitToServer = async (user) => {
     try{
-      alert(formik.values)
+      formik.setSubmitting(true)
+      if(user.a_password !== '') {return null} // honeypot -> if text in field do not send to server. 
+      const res = await signup(user)
+
+      res?.isAuthenticated
+      ? history.push(forwardLocation) //change to confirmation page
+      : setSignupError(res?.error)
     }
     catch(e){
-      console.log(e)
+      setSignupError(e)
     }
   }
 
@@ -29,7 +35,7 @@ const Signup = (props) => {
         method: 'get',
         url: `/api/user/find/checkemail/${email}`,
       })
-      return res?.data.usernameNonExistent
+      return res?.data.emailNonExistent
     }
     catch(e){
       console.log(e)
@@ -78,7 +84,8 @@ const Signup = (props) => {
       password: '',
       conPassword: '',
       terms: false,
-      accountId: ''
+      accountId: urlParams?.accountId || '',
+      a_password: ''
     },
     validationSchema: validationSchema,
     validateOnChange: false,
@@ -200,8 +207,12 @@ const Signup = (props) => {
         <div className='form-honeypot'>
         <input 
           type="text" 
+          id="a_password"
           name="a_password" 
           autoComplete="off"
+          onChange={formik.handleChange} 
+          onBlur={formik.handleBlur} 
+          value={formik.values.a_password}
         />
         </div>
 

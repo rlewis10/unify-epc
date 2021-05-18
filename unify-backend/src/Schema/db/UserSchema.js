@@ -5,27 +5,16 @@ const userSchema = new db.Schema(
         accountId : {
             type: String,
             required: true,
-            default: '1',
             max: 255
         },
-        username : {
-            type: String,
-            required: true,
-            unique: true,
-            max: 255,
-            min: 6
+        sfContactId: {
+            type: String
         },
         hashPassword : {
             type: String,
             required: true,
             max: 1024,
             min: 6
-        },
-        sfContactId : {
-            type: String,
-            unique: true,
-            max: 18,
-            min: 18
         },
         firstName : {
             type: String,
@@ -40,17 +29,15 @@ const userSchema = new db.Schema(
         email: {
             type: String,
             required: true,
+            unique: true,
             max: 255
         },
-        dob: {
-            type: Date
-        },
         createdDate : {
-            type: Date,
-            default: Date.now
+            type: Date
         },
         lastUpdatedDate : {
-            type: Date
+            type: Date,
+            default: Date.now
         },
         isActive: {
             type: Boolean,

@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router()
 const auth = require('../../methods/auth/authValidation')
 
+
 // when a user signups check if existing user, generate access & refresh token
 router.post('/signup', async (req, res) => {
   try{
-    const {password, ...user} = req.body
+    const {password, conPassword, ...user} = req.body
+    if(password !== conPassword){throw new Error(`Password confirmation does not match`)}
     const newUser = await auth.signup(user, password)
     newUser.isAuthenticated
       ? res.status(200).json(newUser)
