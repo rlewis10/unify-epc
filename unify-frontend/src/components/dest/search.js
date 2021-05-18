@@ -37,21 +37,22 @@ const Search = () => {
     // Check if address is valid
     if (typeof addressObject.address_components !== 'undefined') {
       // Set State 
-      addDest({
-        [addressObject.place_id]: {
-          placeLabel: addressObject.formatted_address,
-          url: addressObject.url,
-          city: addressObject.address_components[0].long_name,
-          country: addressObject.address_components[addressObject.address_components.length -1].long_name,
-          position: {
-            lat: addressObject.geometry.location.lat(),
-            lng: addressObject.geometry.location.lng()
+      addDest(prevDests => (
+        {
+          ...prevDests, 
+          [addressObject.place_id]: {
+            placeLabel: addressObject.formatted_address,
+            url: addressObject.url,
+            city: addressObject.address_components[0].long_name,
+            country: addressObject.address_components[addressObject.address_components.length -1].long_name,
+            position: {
+              lat: addressObject.geometry.location.lat(),
+              lng: addressObject.geometry.location.lng()
+            }
           }
-        }
-      })
-
-      // Empty destination input txt on selection
-      setinputTxt("")
+        })
+      )
+      setinputTxt("") // Empty destination input txt on selection
     }
   }
 

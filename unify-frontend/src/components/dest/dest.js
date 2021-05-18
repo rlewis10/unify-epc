@@ -24,8 +24,7 @@ const Dest = ({id, destName, deleteDest}) => {
             <button>cruise</button>
             <button>beach</button>
             <button>city</button>
-            <button>countryside</button>
-            <button>tour</button>
+            <button>outdoors</button>
             <button onClick={() => deleteDest(id)} className="trash-btn"><i className="fas fa-trash">x</i></button>
         </div>
     )

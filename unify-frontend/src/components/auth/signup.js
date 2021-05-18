@@ -83,8 +83,8 @@ const Signup = (props) => {
       email: urlParams?.email || '', 
       password: '',
       conPassword: '',
-      terms: false,
-      accountId: urlParams?.accountId || '',
+      terms: null,
+      accountId: urlParams?.accountId || '1',
       a_password: ''
     },
     validationSchema: validationSchema,
