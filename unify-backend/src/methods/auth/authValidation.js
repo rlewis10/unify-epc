@@ -10,7 +10,7 @@ const signup = async (user, password) => {
         user['hashPassword'] = passVal.hashPassword(password)
         user['createdDate'] = Date.now()
         const newDbUser = await dbUser.saveUser(user)
-        const sfContId = await sfUser.createContact(user)
+        const sfContId = await sfUser.createContact(newDbUser)
         await dbUser.upsertUser(newDbUser._id, {sfContactId: sfContId.id})
 
         return {

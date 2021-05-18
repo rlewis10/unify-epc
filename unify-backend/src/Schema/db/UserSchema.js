@@ -5,6 +5,7 @@ const userSchema = new db.Schema(
         accountId : {
             type: String,
             required: true,
+            default: '1',
             max: 255
         },
         sfContactId: {
