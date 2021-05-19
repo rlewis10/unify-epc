@@ -1,27 +1,27 @@
 const Dest = require('../../Schema/db/DestSchema')
-const dbUser = require('../../methods/db/dbUserMethods')
+const dbUser = require('./dbUserMethods')
 
-// find destinations list from user id
-const getDestsByUserId = async (userId) => {
+// find trips list from user id
+const getTripsByUserId = async (userId) => {
     try{
-        // get user destination Ids from user object 
+        // get user trip Ids from user object 
         const user = await dbUser.getUserObj(userId)
         const dests = user.destinations
 
         // cycle through dest object Ids and get dest data
         return dests.reduce(async (obj, dest) => {
             let destObj = await obj // wait for the prev promise to resolve
-            let {destId, ...rest}  = await getDestsByObjId(dest.Id) // destruct the destId from rest of dest data
+            let {destId, ...rest}  = await getTripsByObjId(dest.Id) // destruct the destId from rest of dest data
             return {...destObj, [destId] : {...rest, ...dest}} // use spread operator to add new item to object without overwritting old object
         },{})
     }
     catch(e){
-        throw new Error(`Cannot get user's destinations: ${JSON.stringify(e)}`)
+        throw new Error(`Cannot get user's trips: ${JSON.stringify(e)}`)
     }
 }
 
-// find single destination from dests collection
-const getDestsByObjId = async (id) => {
+// find single trip from dests collection
+const getTripsByObjId = async (id) => {
     try{
         const options = {
             projection: { _id: 0, __v: 0 }, // without return _id and __v
@@ -30,14 +30,14 @@ const getDestsByObjId = async (id) => {
         return dests
     }
     catch(e){
-        throw new Error(`Unable to return destinations from DB: ${JSON.stringify(e)}`)
+        throw new Error(`Unable to return trips from DB: ${JSON.stringify(e)}`)
     }
 }
 
 // create new destinations in dests collection, returns the inserted document
-const upsertDestsByUserId = async (userId, dests) => {
+const upsertTripsByUserId = async (userId, dests) => {
     try{
-        // cycle through dests object separating dests collection for DB and User Destinations data
+        // cycle through dests object separating dests collection for DB and User trips data
         const userDests = await Object.entries(dests).reduce( async (prev, [key, value]) => {
             let awaitPrev = await prev
             let {city, country, placeLabel, position, url, ...rest}  = value
@@ -56,7 +56,6 @@ const upsertDestsByUserId = async (userId, dests) => {
 }
 
 // find a destination by destId and update
-// update destination list, salesforce handles 'decactivated' destinations by upserting 'isActive' data. 
 const upsertDest = async (id, data) => {
     try{
         const find = {destId: id}
@@ -75,7 +74,7 @@ const upsertDest = async (id, data) => {
 }
 
 module.exports = {
-    getDestsByObjId,
-    getDestsByUserId,
-    upsertDestsByUserId
+    getTripsByObjId,
+    getTripsByUserId,
+    upsertTripsByUserId
 }

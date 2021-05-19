@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const dbDest = require('../../methods/db/dbDestMethods')
-const sfDest = require('../../methods/sf/sfDestMethods')
+const dbTrip = require('../../methods/db/dbTripMethods')
+const sfTrip = require('../../methods/sf/sfTripMethods')
 
-// find destinations by userId
+// find destinations by userId in DB
 router.get('/find/userid/:id', async (req, res) => {
     try{
         const userId = req.params.id
-        const userDests = await dbDest.getDestsByUserId(userId)
+        const userDests = await dbTrip.getTripsByUserId(userId)
         res.send(userDests)
     }
     catch(e){
@@ -20,10 +20,10 @@ router.post('/upsert/userid/:id', async (req, res) => {
     try{
         const userId = req.params.id
         const dests = req.body
-        const oldDests = await dbDest.getDestsByUserId(userId) // get user destinations
-        await dbDest.upsertDestsByUserId(userId, dests) // create destinations in db
-        await sfDest.createMapLoc(dests) // create new map_locations in SF
-        await sfDest.upsertDest(userId, oldDests, dests) // create new destinations in SF
+        const oldDests = await dbTrip.getTripsByUserId(userId) // get user destinations
+        await dbTrip.upsertTripsByUserId(userId, dests) // create destinations in db
+        await sfTrip.createMapLoc(dests) // create new map_locations in SF
+        await sfTrip.upsertTrip(userId, oldDests, dests) // create new trips in SF
         
         res.send({success : true})
     }

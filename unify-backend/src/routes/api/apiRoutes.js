@@ -2,9 +2,9 @@ const express = require('express')
 const router = express.Router()
 
 const userRoutes = require('./userRoutes')
-const destRoutes = require('./destroutes')
+const tripRoutes = require('./triproutes')
 
-router.use('/user', userRoutes)
-router.use('/dest', destRoutes)
+router.use('/user', userRoutes) // user based routes
+router.use('/trip', tripRoutes) // trip based routes
 
 module.exports = router

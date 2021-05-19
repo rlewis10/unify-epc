@@ -12,7 +12,6 @@
     "formik": "^2.2.6",
     "moment": "^2.29.1",
     "react": "^17.0.1",
-    "react-dates": "^21.8.0",
     "react-dom": "^17.0.1",
     "react-load-script": "0.0.6",
     "react-router-dom": "^5.2.0",

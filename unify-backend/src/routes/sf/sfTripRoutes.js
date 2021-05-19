@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const sfDest = require('../../methods/sf/sfDestMethods')
+const sfDest = require('../../methods/sf/sfTripMethods')
 
 // create map_locations endpoint
 router.post('/create', async (req, res) => {
@@ -13,8 +13,8 @@ router.post('/create', async (req, res) => {
     }
 })
 
-// create destinations endpoint
-router.post('/dest/create/contactid/:id', async (req, res) => {
+// create trips endpoint
+router.post('/trip/create/contactid/:id', async (req, res) => {
     try{
         let savedDestinations = await sfDest.upsertDest(req.params.id, req.body)
         res.send(savedDestinations)
@@ -24,8 +24,8 @@ router.post('/dest/create/contactid/:id', async (req, res) => {
     }
 })
 
-// deactivate destinations endpoint
-router.post('/dest/deactivate/contactid/:id', async (req, res) => {
+// deactivate trips endpoint
+router.post('/trip/deactivate/contactid/:id', async (req, res) => {
     try{
         let deactivateDestinations = await sfDest.deactivateDest(req.params.id, req.body)
         res.send(deactivateDestinations)

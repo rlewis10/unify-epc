@@ -19,7 +19,10 @@ const useFetch = ({parms}) => {
             const res = await axios({
                 method,
                 url,
-                headers,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Bearer': token
+                },
                 data
               })
             if (res.status === 200) {
