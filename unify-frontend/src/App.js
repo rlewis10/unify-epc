@@ -9,7 +9,7 @@ import Home from './components/home/home'
 import Login from './components/auth/login'
 import Signup from './components/auth/signup'
 import Profile from './components/profile'
-import DestPicker from './components/dest/destPicker'
+import TripPicker from './components/trips/tripPicker'
 import Alerts from './components/alerts'
 import Preferences from './components/preferences'
 
@@ -32,7 +32,7 @@ const App = () => {
               <Switch>
                   <Route exact path='/' component={Home}/>
                   <ProtectedRoute exact path='/profile' component={Profile}/>
-                  <ProtectedRoute exact path='/destpicker' component={DestPicker}/>
+                  <ProtectedRoute exact path='/trips' component={TripPicker}/>
                   <ProtectedRoute exact path='/alerts' component={Alerts}/>
                   <ProtectedRoute exact path='/preferences' component={Preferences}/>
                   <Route exact path="/login" component={Login}/>

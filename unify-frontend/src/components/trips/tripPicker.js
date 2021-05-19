@@ -1,21 +1,21 @@
 import React from 'react'
-import {DestProvider} from '../../hooks/destContext'
+import {TripProvider} from '../../hooks/tripContext'
 import Search from './search'
-import DestList from './destList'
+import TripList from './tripList'
 import Map from './map'
 
-const DestPicker = () => {
+const TripPicker = () => {
   return (
-    <DestProvider>
+    <TripProvider>
       <div>
         <h1>Trip Planner</h1>
         <p>Select you desired Destinations(s) enabling us to send you the best and lastest offers!</p>
-          <Search/>
-          <DestList/>
-          <Map/>
+          <Search />
+          <TripList />
+          <Map />
       </div>
-    </DestProvider>
+    </TripProvider>
   )
 }
 
-export default DestPicker
+export default TripPicker

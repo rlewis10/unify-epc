@@ -1,13 +1,13 @@
 import React, {useState, useContext} from 'react'
 import Script from 'react-load-script'
-import {useDestContext} from '../../hooks/destContext'
+import {useTripContext} from '../../hooks/tripContext'
 
 // setup environement variables
 require('dotenv').config({path: __dirname + '/.env'})
 
 const Search = () => {
 
-  const {addDest} = useContext(useDestContext)
+  const {addTrip} = useContext(useTripContext)
   const [inputTxt, setinputTxt] = useState('')
   
   let autoComplete
@@ -33,21 +33,18 @@ const Search = () => {
     // Check if address is valid
     if (typeof addressObject.address_components !== 'undefined') {
       // Set State 
-      addDest(prevDests => (
-        {
-          ...prevDests, 
-          [addressObject.place_id]: {
-            placeLabel: addressObject.formatted_address,
-            url: addressObject.url,
-            city: addressObject.address_components[0].long_name,
-            country: addressObject.address_components[addressObject.address_components.length -1].long_name,
-            position: {
-              lat: addressObject.geometry.location.lat(),
-              lng: addressObject.geometry.location.lng()
-            }
+      addTrip({
+        [addressObject.place_id]: {
+          placeLabel: addressObject.formatted_address,
+          url: addressObject.url,
+          city: addressObject.address_components[0].long_name,
+          country: addressObject.address_components[addressObject.address_components.length -1].long_name,
+          position: {
+            lat: addressObject.geometry.location.lat(),
+            lng: addressObject.geometry.location.lng()
           }
-        })
-      )
+        }
+      })
       setinputTxt('') // Empty destination input txt on selection
     }
   }
@@ -55,7 +52,7 @@ const Search = () => {
   return (
     <div>
       <Script url={scriptTag} onLoad={scriptLoadHandler}/>
-      <label>Destinations: 
+      <label>New Trip: 
         <input id="autocomplete" placeholder="Where you going?..."  value={inputTxt} onChange={inputTxtHandler}/>
       </label>
     </div>

@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Dest = ({id, destName, deleteDest}) => {
+const Trip = ({id, destName, deleteDest}) => {
 
     return (
         <div className="place">
@@ -14,4 +14,4 @@ const Dest = ({id, destName, deleteDest}) => {
     )
 }
 
-export default Dest    
+export default Trip

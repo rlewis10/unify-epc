@@ -1,13 +1,13 @@
 import React, {useState, useContext} from 'react'
 import Script from 'react-load-script'
-import {useDestContext} from '../../hooks/destContext'
+import {useTripContext} from '../../hooks/tripContext'
 import Marker from './marker'
 
 // setup environement variables
 require('dotenv').config({path: __dirname + '/.env'})
 
 const Map = () => {
-    const {dests} = useContext(useDestContext)
+    const {trips} = useContext(useTripContext)
     const [Bounds, setBounds] = useState()
     const [gMap, setgMap] = useState()
     const [Options] = useState({
@@ -30,9 +30,9 @@ const Map = () => {
         <div>
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
             <div id="mapContainer" style={{height: '600px', width: '100%'}}>
-                {Object.keys(dests).map(m => {
+                {Object.keys(trips).map(m => {
                     if(Bounds === undefined) return null
-                    return <Marker key={m} id={m} map={gMap} bounds={Bounds} title={dests[m]['placeLabel']} position={dests[m]['position']} />
+                    return <Marker key={m} id={m} map={gMap} bounds={Bounds} title={trips[m]['placeLabel']} position={trips[m]['position']} />
                 })
                 }
             </div>
