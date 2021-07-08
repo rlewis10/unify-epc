@@ -1,6 +1,8 @@
 import React from 'react'
 
-const Trip = ({id, destName, deleteDest}) => {
+const Trip = (props) => {
+
+    const {id, destName, deleteTrip} = props
 
     return (
         <div className="place">
@@ -9,7 +11,7 @@ const Trip = ({id, destName, deleteDest}) => {
             <button>beach</button>
             <button>city</button>
             <button>outdoors</button>
-            <button onClick={() => deleteDest(id)} className="trash-btn"><i className="fas fa-trash">x</i></button>
+            <button onClick={() => deleteTrip(id)} className="trash-btn"><i className="fas fa-trash">x</i></button>
         </div>
     )
 }

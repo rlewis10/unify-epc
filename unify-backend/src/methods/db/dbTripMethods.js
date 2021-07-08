@@ -6,10 +6,9 @@ const getTripsByUserId = async (userId) => {
     try{
         // get user trip Ids from user object 
         const user = await dbUser.getUserObj(userId)
-        const dests = user.destinations
-
-        // cycle through dest object Ids and get dest data
-        return dests.reduce(async (obj, dest) => {
+        const trips = user.trips
+        // cycle through trips object Ids and get dest data
+        return trips.reduce(async (obj, dest) => {
             let destObj = await obj // wait for the prev promise to resolve
             let {destId, ...rest}  = await getTripsByObjId(dest.Id) // destruct the destId from rest of dest data
             return {...destObj, [destId] : {...rest, ...dest}} // use spread operator to add new item to object without overwritting old object
@@ -47,7 +46,7 @@ const upsertTripsByUserId = async (userId, dests) => {
         }, [])
 
         // update user with userDests
-        await dbUser.upsertUser(userId, {destinations: userDests}) // save array of Dests and meta data to user collection in DB
+        await dbUser.upsertUser(userId, {trips: userDests}) // save array of Trips and meta data to user collection in DB
         return userDests
     }
     catch(e){

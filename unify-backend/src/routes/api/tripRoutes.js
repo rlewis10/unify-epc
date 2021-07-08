@@ -3,7 +3,7 @@ const router = express.Router()
 const dbTrip = require('../../methods/db/dbTripMethods')
 const sfTrip = require('../../methods/sf/sfTripMethods')
 
-// find destinations by userId in DB
+// find trips by userId in DB
 router.get('/find/userid/:id', async (req, res) => {
     try{
         const userId = req.params.id
@@ -15,13 +15,16 @@ router.get('/find/userid/:id', async (req, res) => {
     }
 })
 
-// upsert new destinations
+// upsert new trips
 router.post('/upsert/userid/:id', async (req, res) => {
     try{
         const userId = req.params.id
         const dests = req.body
-        const oldDests = await dbTrip.getTripsByUserId(userId) // get user destinations
-        await dbTrip.upsertTripsByUserId(userId, dests) // create destinations in db
+        // db trips
+        const oldDests = await dbTrip.getTripsByUserId(userId) // get user trips
+        await dbTrip.upsertTripsByUserId(userId, dests) // create trips in db
+
+        // sf trips
         await sfTrip.createMapLoc(dests) // create new map_locations in SF
         await sfTrip.upsertTrip(userId, oldDests, dests) // create new trips in SF
         

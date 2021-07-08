@@ -43,7 +43,7 @@ const userSchema = new db.Schema(
             type: Boolean,
             default: true
         },
-        destinations: {
+        trips: {
             type: db.Schema.Types.Array
         },
         alerts: {

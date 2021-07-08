@@ -14,8 +14,7 @@ const TripProvider = (props) => {
         method: 'get', 
         url: `/api/trip/find/userid/${userId}`,
       })
-      const dests = res.data
-      setTrips(dests)
+      setTrips(res.data)
     }
     catch(e){
       console.log(e.message)
@@ -25,7 +24,7 @@ const TripProvider = (props) => {
   // save destinations from server
   const saveTrips = async (userId, dests) => {
     try{
-      const res = await axios({
+      await axios({
         method: 'post', 
         url: `/api/trip/upsert/userid/${userId}`,
         data: dests

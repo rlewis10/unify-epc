@@ -26,7 +26,9 @@ const TripList = () => {
             <button onClick={() => getTripDestinations(userId)}>Reset</button>
             <button onClick={() => saveTripDestinations(userId, trips)}>Save</button>
                 <ul className="dest-list">
-                    {Object.keys(trips).map(trip => <Trip key={trip} id={trip} destName={trips[trip]['placeLabel']} deleteTrip={deleteTrip} />)}
+                    {Object.keys(trips).map(trip => 
+                        <Trip key={trip} id={trip} destName={trips[trip]['placeLabel']} deleteTrip={deleteTrip} />
+                    )}
                 </ul>
         </div>
     )

@@ -1,6 +1,6 @@
 import React, {useContext, useEffect} from "react"
 import {useAuthContext} from './hooks/authContext'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 import './App.css'
 
 import ProtectedRoute from './components/auth/protectedRoute'
@@ -26,7 +26,7 @@ const App = () => {
 
   return (
     <div className='App'>
-        <Router>
+        <BrowserRouter>
           <Nav/>
           <main>
               <Switch>
@@ -40,7 +40,7 @@ const App = () => {
                   <Route exact path="/signup" component={Signup}/>
               </Switch>
           </main>
-        </Router>
+        </BrowserRouter>
     </div>
   )
 }
