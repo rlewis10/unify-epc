@@ -34,9 +34,9 @@ const Login = (props) => {
       formik.setSubmitting(true)
       const res = await login({email: values.email, password: values.password})
       // {email: richard@rlewis.me, password: 123456}
-      res?.isAuthenticated
+      res.isAuthenticated
         ? history.push(forwardLocation)
-        : setLoginError(res?.error)
+        : setLoginError(res.error)
     }
     catch(e){
       setLoginError(e)

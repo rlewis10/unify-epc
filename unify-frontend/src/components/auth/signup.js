@@ -20,9 +20,9 @@ const Signup = (props) => {
       if(user.a_password !== '') {return null} // honeypot -> if text in field do not send to server. 
       const res = await signup(user)
 
-      res?.isAuthenticated
+      res.isAuthenticated
       ? history.push(forwardLocation) //change to confirmation page
-      : setSignupError(res?.error)
+      : setSignupError(res.error)
     }
     catch(e){
       setSignupError(e)
@@ -35,7 +35,7 @@ const Signup = (props) => {
         method: 'get',
         url: `/api/user/find/checkemail/${email}`,
       })
-      return res?.data.emailNonExistent
+      return res.data.emailNonExistent
     }
     catch(e){
       console.log(e)
@@ -78,13 +78,13 @@ const Signup = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: urlParams?.firstName || '', 
-      lastName: urlParams?.lastName || '', 
-      email: urlParams?.email || '', 
+      firstName: urlParams.firstName || '', 
+      lastName: urlParams.lastName || '', 
+      email: urlParams.email || '', 
       password: '',
       conPassword: '',
       terms: null,
-      accountId: urlParams?.accountId || '1',
+      accountId: urlParams.accountId || '1',
       a_password: ''
     },
     validationSchema: validationSchema,

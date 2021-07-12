@@ -71,7 +71,7 @@ const AuthProvider = (props) => {
       }
     }
     catch(e){
-      if(e?.response.status === 401){
+      if(e.response.status === 401){
         const {userId, refreshToken} = localStore
         return await renewToken(userId, refreshToken)
       }
