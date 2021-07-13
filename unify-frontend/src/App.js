@@ -30,9 +30,9 @@ const App = () => {
     <div className="md:flex flex-col md:flex-row md:min-h-screen w-full" >
         <BrowserRouter>
           <Nav/>
-          <div class="min-h-screen flex flex-col">
-            <Header class="bg-gray-200 p-6 h-24" />
-            <div class="bg-gray-100 p-6 flex-grow">
+          <div className="w-screen min-h-screen flex flex-col">
+            <Header className="bg-gray-200 p-6 h-24" />
+            <div className="bg-gray-100 p-6 flex-grow">
               <main>
                 <Switch>
                     <Route exact path='/' component={Home}/>
