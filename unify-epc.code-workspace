@@ -5,7 +5,6 @@
 			"path": "unify-backend"
 		},
 		{
-			"name": "unify-frontend",
 			"path": "unify-frontend"
 		}
 	],
