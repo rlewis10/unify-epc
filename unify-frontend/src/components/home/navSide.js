@@ -1,5 +1,6 @@
-import React from "react"
-import {Link} from "react-router-dom"
+import React from 'react'
+import NavItem from '../../utils/navItem'
+
 
 const NavSide = () => {
     return (
@@ -12,21 +13,11 @@ const NavSide = () => {
 
             <nav className="flex-grow md:block px-4 pb-4 md:pb-0 md:overflow-y-auto">
                 <ul>
-                    <li className="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li className="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                        <Link to="/profile">Profile</Link>
-                        </li>
-                    <li className="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                        <Link to="/trips">Trips</Link>
-                    </li>
-                    <li className="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                        <Link to="/alerts">Alerts</Link>
-                    </li>
-                    <li className="block px-4 py-2 mt-2 text-sm font-semibold text-gray-900 bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
-                        <Link to="/preferences">Travel Preferences</Link>
-                    </li>
+                    <NavItem to="/">Home</NavItem>
+                    <NavItem to="/profile">Profile</NavItem>
+                    <NavItem to="/trips">Trips</NavItem>
+                    <NavItem to="/alerts">Alerts</NavItem>
+                    <NavItem to="/preferences">Travel Preferences</NavItem>
                 </ul>
             </nav>
         </div>

@@ -27,7 +27,7 @@ const App = () => {
 
   return (
     
-    <div className="md:flex flex-col md:flex-row md:min-h-screen w-full" >
+    <div className="md:flex flex-col md:flex-row md:min-h-screen w-full">
         <BrowserRouter>
           <Nav/>
           <div className="w-screen min-h-screen flex flex-col">

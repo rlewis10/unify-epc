@@ -1,13 +1,13 @@
-import React from "react"
-import {Link} from "react-router-dom"
+import React from 'react'
+import NavItem from '../../utils/navItem'
 
 const NavTop = () => {
     return (
-        <nav className="flex flex-row p-1 justify-between bg-white shadow-xs">
-            <ul className="flex mr-8 hidden md:flex">
-                <li><Link to="/">Settings</Link></li>
-                <li><Link to="/">Profile</Link></li>
-                <li><Link to="/">Login/Logout</Link></li>
+        <nav>
+            <ul className="flex flex-row p-1 bg-white shadow-xs mr-8 hidden md:flex">
+                <NavItem to="/">Settings</NavItem>
+                <NavItem to="/">Profile</NavItem>
+                <NavItem to="/">Login/Logout</NavItem>
             </ul>
         </nav>
     )
