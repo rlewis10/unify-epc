@@ -32,20 +32,18 @@ const App = () => {
           <Nav/>
           <div className="w-screen min-h-screen flex flex-col">
             <Header className="bg-gray-200 p-6 h-24" />
-            <div className="bg-gray-100 p-6 flex-grow">
-              <main>
-                <Switch>
-                    <Route exact path='/' component={Home}/>
-                    <ProtectedRoute exact path='/profile' component={Profile}/>
-                    <ProtectedRoute exact path='/trips' component={TripPicker}/>
-                    <ProtectedRoute exact path='/alerts' component={Alerts}/>
-                    <ProtectedRoute exact path='/preferences' component={Preferences}/>
-                    <Route exact path="/login" component={Login}/>
-                    <Route exact path="/logout" component={Login}/>
-                    <Route exact path="/signup" component={Signup}/>
-                </Switch>
-              </main>
-            </div>
+            <main className="bg-gray-100 p-6 flex-grow">
+              <Switch>
+                  <Route exact path='/' component={Home}/>
+                  <ProtectedRoute exact path='/profile' component={Profile}/>
+                  <ProtectedRoute exact path='/trips' component={TripPicker}/>
+                  <ProtectedRoute exact path='/alerts' component={Alerts}/>
+                  <ProtectedRoute exact path='/preferences' component={Preferences}/>
+                  <Route exact path="/login" component={Login}/>
+                  <Route exact path="/logout" component={Login}/>
+                  <Route exact path="/signup" component={Signup}/>
+              </Switch>
+            </main>
             <div class="bg-gray-200 p-6 h-32">Footer</div>
           </div>
         </BrowserRouter>
