@@ -20,7 +20,7 @@ const NavSide = () => {
                 <button
                     type="button"
                     id="hamburgerbtn"
-                    className="cursor-pointer px-3 py-1 border border-solid border-transparent bg-transparent md:hidden outline-none"
+                    className="cursor-pointer px-3 py-4 border border-solid border-transparent bg-transparent md:hidden outline-none"
                     onClick={handleClick}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -28,7 +28,7 @@ const NavSide = () => {
                         </svg>
                 </button>
 
-                <ul className={`flex flex-col text-right transform ${isOpen ? 'translate-x-0 ease-in transition-medium' : 'translate-x-full ease-out transition-medium md:translate-x-0 hidden'} md:block md:text-left `}>
+                <ul className={`flex flex-col text-right cursor-pointer py-4 transform ${isOpen ? 'translate-x-0 ease-in transition-medium' : 'translate-x-full ease-out transition-medium md:translate-x-0 hidden'} md:block md:text-left `}>
                     <NavItem to="/">Home</NavItem>
                     <NavItem to="/profile">Profile</NavItem>
                     <NavItem to="/trips">Trips</NavItem>
