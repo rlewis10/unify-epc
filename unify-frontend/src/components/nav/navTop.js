@@ -1,5 +1,5 @@
 import React from 'react'
-import NavItem from '../../utils/navItem'
+import NavItem from './navItem'
 
 const NavTop = () => {
     return (

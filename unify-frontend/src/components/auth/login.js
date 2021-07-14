@@ -3,7 +3,9 @@ import {useHistory} from 'react-router-dom'
 import {useAuthContext} from '../../hooks/authContext'
 import * as yup from 'yup'  
 import {useFormik, Form, FormikProvider} from 'formik'
-import Field from '../../utils/formField'
+import Field from '../utils/formField'
+import Button from '../utils/button'
+import Date from '../utils/datePicker'
 
 const Login = (props) => {
 
@@ -47,7 +49,7 @@ const Login = (props) => {
   return (
     <div className="login-wrapper">
       <h1>Log In</h1>
-      {loginError ? (<span className="login-error">{loginError}</span>) : null}
+      {loginError ? (<span className="mt-2 text-red-600">{loginError}</span>) : null}
 
       <FormikProvider value={formik}>
         <Form onSubmit={formik.handleSubmit}>
@@ -64,7 +66,7 @@ const Login = (props) => {
               formik={formik}
             />
           <div>
-            <button type="submit">Submit</button>
+            <Button type="submit">Submit</Button>
           </div>
         </Form>
       </FormikProvider>

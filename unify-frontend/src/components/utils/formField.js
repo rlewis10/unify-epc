@@ -2,13 +2,13 @@ import React from 'react'
 
 const FormField = (props) => {
 
-    const {name, label, formik} = props
+    const {name, label, honeypot, formik} = props
     const error = formik['touched'][name] && formik['errors'][name]
 
     return (
         <div className="input-wrapper">
             <label htmlFor={name}>
-                {label}
+                {label || ''}
             </label>
 
             <input 
@@ -18,6 +18,10 @@ const FormField = (props) => {
                 value={formik['values'][name] || ''}
                 id={props.name} 
                 className={`bg-gray-200 appearance-none border-2 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none 
+                    ${honeypot
+                        ? `hidden`
+                        : null
+                    }
                     ${error
                         ? `border-red-600 border-red-600`
                         : `focus:outline-none focus:bg-white focus:border-blue-500`

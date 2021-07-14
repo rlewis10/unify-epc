@@ -5,7 +5,9 @@ import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 import {useAuthContext} from '../../hooks/authContext'
 import getQueryParams from '../../hooks/useQueryParams'
-import Field from '../../utils/formField'
+import Field from '../utils/formField'
+import Checkbox from '../utils/formCheckbox'
+import Button from '../utils/button'
 
 const Signup = (props) => {
 
@@ -98,7 +100,7 @@ const Signup = (props) => {
   return (
     <div className="signup-wrapper">
       <h1>Sign Up</h1>
-      {signupError ? (<span> {signupError} </span>) : null}
+      {signupError ? (<span className="mt-2 text-red-600"> {signupError} </span>) : null}
 
       <form className="signup-form" onSubmit={formik.handleSubmit}>
           <Field 
@@ -132,49 +134,30 @@ const Signup = (props) => {
             formik={formik} 
           />
 
-        <div>
-          <input 
-            type="checkbox" 
-            id="terms" 
-            name="terms" 
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.terms}
-          />
-          <label htmlFor="terms">I have read and agree to the <span></span>
-            <a href="http://www.unifynow.co.uk/wp-content/uploads/2020/07/TCs.pdf">Terms of Service</a>
-          </label>
-          {formik.touched.terms && formik.errors.terms
-            ? (<span className="form-error">{formik.errors.terms}</span>)
-            : (null)}
-        </div>
+          <Checkbox name="terms" formik={formik}>
+            I have read and agree to the
+            <a href="http://www.unifynow.co.uk/wp-content/uploads/2020/07/TCs.pdf"> Terms of Service</a>
+          </Checkbox>
 
-        <div>
-        <input 
+        <Field 
           type="hidden" 
-          id="accountId"
           name="accountId" 
+          formik={formik} 
           autoComplete="off" 
-          onChange={formik.handleChange} 
-          onBlur={formik.handleBlur} 
-          value={formik.values.accountId}
         />
-        </div>
 
         <div className='form-honeypot'>
-        <input 
-          type="text" 
-          id="a_password"
+        <Field 
+          type="text"
+          honeypot={true}
           name="a_password" 
-          autoComplete="off"
-          onChange={formik.handleChange} 
-          onBlur={formik.handleBlur} 
-          value={formik.values.a_password}
+          formik={formik} 
+          autoComplete="off" 
         />
         </div>
 
         <div>
-          <button type="submit">Submit</button>
+          <Button type="submit">Submit</Button>
         </div>
 
       </form>
