@@ -3,6 +3,7 @@ import {useHistory} from 'react-router-dom'
 import {useAuthContext} from '../../hooks/authContext'
 import * as yup from 'yup'  
 import {useFormik, Form, FormikProvider} from 'formik'
+import Field from '../../utils/formField'
 
 const Login = (props) => {
 
@@ -50,36 +51,18 @@ const Login = (props) => {
 
       <FormikProvider value={formik}>
         <Form onSubmit={formik.handleSubmit}>
-          <div>
-            <label htmlFor="email">Email</label>
-            <input 
+            <Field 
               type="text" 
-              id="email" 
               name="email" 
-              onChange={formik.handleChange} 
-              onBlur={formik.handleBlur} 
-              value={formik.values.email}
+              label="Email:"
+              formik={formik}
             />
-            {formik.touched.email && formik.errors.email
-              ? (<span className="form-error">{formik.errors.email}</span>)
-              : (null)}
-          </div>
-
-          <div>
-            <label htmlFor="password">Password</label>
-            <input 
+            <Field 
               type="password" 
-              id="password" 
               name="password" 
-              onChange={formik.handleChange} 
-              onBlur={formik.handleBlur} 
-              value={formik.values.password} 
+              label="Password:"
+              formik={formik}
             />
-            {formik.touched.password && formik.errors.password
-              ? (<span className="form-error">{formik.errors.password}</span>)
-              : (null)}
-          </div>
-
           <div>
             <button type="submit">Submit</button>
           </div>

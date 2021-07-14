@@ -5,6 +5,7 @@ import axios from 'axios'
 import {useHistory} from 'react-router-dom'
 import {useAuthContext} from '../../hooks/authContext'
 import getQueryParams from '../../hooks/useQueryParams'
+import Field from '../../utils/formField'
 
 const Signup = (props) => {
 
@@ -35,7 +36,7 @@ const Signup = (props) => {
         method: 'get',
         url: `/api/user/find/checkemail/${email}`,
       })
-      return res.data.emailNonExistent
+      return res?.data.emailNonExistent
     }
     catch(e){
       console.log(e)
@@ -100,80 +101,36 @@ const Signup = (props) => {
       {signupError ? (<span> {signupError} </span>) : null}
 
       <form className="signup-form" onSubmit={formik.handleSubmit}>
-        <div>
-          <label htmlFor="firstName">First Name</label>
-          <input 
+          <Field 
             type="text" 
-            id="firstName"
-            name="firstName" 
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.firstName} 
+            name="firstName"
+            label="First Name:"
+            formik={formik}
           />
-          {formik.touched.firstName && formik.errors.firstName
-            ? (<span className="form-error">{formik.errors.firstName}</span>)
-            : (null)}
-        </div>
-        
-        <div>
-          <label htmlFor="lastName">Last Name</label>
-          <input 
+          <Field 
             type="text"
-            id="lastName"
             name="lastName" 
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.lastName}
+            label="Last Name:"
+            formik={formik} 
           />
-          {formik.touched.lastName && formik.errors.lastName
-            ? (<span className="form-error">{formik.errors.lastName}</span>)
-            : (null)}
-        </div>
-        
-        <div>
-          <label htmlFor="email">Email</label>
-          <input 
+          <Field 
             type="email" 
-            id="email"
-            name="email" 
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.email}
+            name="email"
+            label="Email" 
+            formik={formik} 
           />
-          {formik.touched.email && formik.errors.email
-            ? (<span className="form-error">{formik.errors.email}</span>)
-            : (null)}
-        </div>
-        
-        <div>
-          <label htmlFor="password">Password</label>
-          <input 
+          <Field 
             type="password" 
-            id="password"
-            name="password" 
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.password}
+            name="password"
+            label="Password:" 
+            formik={formik} 
           />
-          {formik.touched.password && formik.errors.password
-            ? (<span className="form-error">{formik.errors.password}</span>)
-            : (null)}
-        </div>
-
-        <div>
-          <label htmlFor="conPassword">Confirm Password</label>
-          <input 
+          <Field 
             type="password" 
-            id="conPassword"
-            name="conPassword" 
-            onChange={formik.handleChange} 
-            onBlur={formik.handleBlur} 
-            value={formik.values.conPassword}
+            name="conPassword"
+            label="Confirm Password:" 
+            formik={formik} 
           />
-          {formik.touched.conPassword && formik.errors.conPassword
-            ? (<span className="form-error">{formik.errors.conPassword}</span>)
-            : (null)}
-        </div>
 
         <div>
           <input 

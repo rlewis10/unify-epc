@@ -16,7 +16,7 @@ const NavSide = () => {
                 <a href="/" className="text-lg font-semibold tracking-widest uppercase rounded-lg">unify</a>
             </div>
 
-            <nav className="flex flex-shrink-0 md:block px-4 md:overflow-y-auto">
+            <nav className="flex flex-col flex-shrink-0 md:block px-4 md:overflow-y-auto">
                 <button
                     type="button"
                     id="hamburgerbtn"
