@@ -23,7 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # tailwind
-/styles
+/src/styles
 tailwind.config.js
 postcss.config.js
 tailwind.js
