@@ -29,11 +29,30 @@ const NavSide = () => {
                 </button>
 
                 <ul className={`flex flex-col text-right cursor-pointer py-4 transform ${isOpen ? 'translate-x-0 ease-in transition-medium' : 'translate-x-full ease-out transition-medium md:translate-x-0 hidden'} md:block md:text-left `}>
-                    <NavItem to="/">Home</NavItem>
-                    <NavItem to="/profile">Profile</NavItem>
-                    <NavItem to="/trips">Trips</NavItem>
-                    <NavItem to="/alerts">Alerts</NavItem>
-                    <NavItem to="/preferences">Travel Preferences</NavItem>
+                    <NavItem to="/">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 hidden md:block" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                        <p>Home</p>
+                    </NavItem>
+                    <NavItem to="/trips">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 hidden md:block" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clipRule="evenodd" />
+                        </svg>
+                        <p>Trips</p>
+                    </NavItem>
+                    <NavItem to="/alerts">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 hidden md:block" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                        </svg>
+                        <p>Alerts</p>
+                    </NavItem>
+                    <NavItem to="/preferences">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 hidden md:block" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z" />
+                        </svg>
+                        <p>Travel Preferences</p>
+                    </NavItem>
                 </ul>
             </nav>
         </div>
