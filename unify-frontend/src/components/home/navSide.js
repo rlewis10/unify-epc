@@ -3,7 +3,7 @@ import NavItem from '../../utils/navItem'
 
 const NavSide = () => {
 
-    const [isOpen, setisOpen] = useState(true)
+    const [isOpen, setisOpen] = useState(false)
 
     function handleClick() {
         setisOpen(!isOpen)
@@ -28,7 +28,7 @@ const NavSide = () => {
                         </svg>
                 </button>
 
-                <ul className={`flex flex-col text-right ${isOpen ? 'hidden' : null} md:block md:text-left`}>
+                <ul className={`flex flex-col text-right transform ${isOpen ? 'translate-x-0 ease-in transition-medium' : 'translate-x-full ease-out transition-medium md:translate-x-0 hidden'} md:block md:text-left `}>
                     <NavItem to="/">Home</NavItem>
                     <NavItem to="/profile">Profile</NavItem>
                     <NavItem to="/trips">Trips</NavItem>
