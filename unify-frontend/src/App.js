@@ -44,7 +44,7 @@ const App = () => {
                   <Route exact path="/signup" component={Signup}/>
               </Switch>
             </main>
-            <div class="bg-gray-200 p-6 h-32">Footer</div>
+            <div className="bg-gray-200 p-6 h-32">Footer</div>
           </div>
         </BrowserRouter>
     </div>
