@@ -31,8 +31,8 @@ const App = () => {
         <BrowserRouter>
           <Nav/>
           <div className="w-screen min-h-screen flex flex-col">
-            <Header className="bg-gray-200 p-6 h-24" />
-            <main className="bg-gray-100 p-6 flex-grow">
+            <Header className="bg-gray-200 p-8 h-24" />
+            <main className="bg-gray-100 p-8 flex-grow">
               <Switch>
                   <Route exact path='/' component={Home}/>
                   <ProtectedRoute exact path='/profile' component={Profile}/>
@@ -44,7 +44,7 @@ const App = () => {
                   <Route exact path="/signup" component={Signup}/>
               </Switch>
             </main>
-            <div className="bg-gray-200 p-6 h-32">Footer</div>
+            <div className="bg-gray-200 p-8 h-32">Footer</div>
           </div>
         </BrowserRouter>
     </div>
