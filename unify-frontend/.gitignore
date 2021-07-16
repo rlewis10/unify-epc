@@ -24,6 +24,7 @@ yarn-error.log*
 
 # tailwind
 /src/styles
+src/styles/tailwind.generated.css"
 tailwind.config.js
 postcss.config.js
 tailwind.js
