@@ -14,9 +14,10 @@ const FormCheckbox = (props) => {
         <div className="checkbox-button">
             <input 
                 type="checkbox"
-                value={name}
+                value={isActive}
                 id={id} 
                 defaultChecked={isActive}
+                onChange={toggleClass}
                 onClick={toggleClass}
                 className="hidden"
             />
