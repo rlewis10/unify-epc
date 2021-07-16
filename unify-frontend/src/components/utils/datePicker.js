@@ -5,16 +5,17 @@ setDefaultLocale('en')
 
 const NavItem = (props) => {
 
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date().setMonth(startDate.getMonth() + 1))
-
+    const [startDate, setStartDate] = useState(props.startDate)
+    const [endDate, setEndDate] = useState(props.endDate)
+    
     return (
-        <div className="bg-gray-100">
-            {props.label || null}
+        <div id="datePicker">
+            {props.label}
             <div className="flex space-x-4">
                 <div className="relative">
                     <DatePicker
                         locale="en"
+                        placeholderText="From"
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
                         selectsStart
@@ -28,6 +29,7 @@ const NavItem = (props) => {
                 <div className="relative">
                     <DatePicker
                         locale="en"
+                        placeholderText="To"
                         selected={endDate}
                         onChange={(date) => setEndDate(date)}
                         selectsEnd

@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import NavItem from './navItem'
+import NavLogo from './navLogo'
 
 const NavSide = () => {
 
@@ -12,9 +13,7 @@ const NavSide = () => {
     return (
         <div className="flex flex-row justify-between md:flex-col md:justify-start w-full md:w-64 flex-shrink-0">
 
-            <div className="flex flex-shrink-0 px-8 py-4 items-center ">
-                <a href="/" className="text-lg font-semibold tracking-widest uppercase rounded-lg">unify</a>
-            </div>
+            <NavLogo />
 
             <nav className="flex flex-col flex-shrink-0 md:block px-4 md:overflow-y-auto">
                 <button

@@ -13,7 +13,7 @@ const FormCheckbox = (props) => {
                 onChange={formik.handleChange} 
                 onBlur={formik.handleBlur} 
                 value={formik['values'][name] || ''}
-                id={props.name} 
+                id={name} 
                 className={`bg-gray-200 border-2 rounded py-2 px-4 leading-tight focus:outline-none 
                     ${error
                         ? `border-red-600 border-red-600`

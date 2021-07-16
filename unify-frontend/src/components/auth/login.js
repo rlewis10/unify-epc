@@ -5,7 +5,6 @@ import * as yup from 'yup'
 import {useFormik, Form, FormikProvider} from 'formik'
 import Field from '../utils/formField'
 import Button from '../utils/button'
-import Date from '../utils/datePicker'
 
 const Login = (props) => {
 

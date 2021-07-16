@@ -29,7 +29,7 @@ const Map = () => {
     return (
         <div>
             <Script url={scriptTag} onLoad={loadGapiMapScript} />
-            <div id="mapContainer" className="rounded-lg" style={{height: '600px', width: '100%'}}>
+            <div id="mapContainer" className="rounded-lg h-96 w-1/2">
                 {Object.keys(trips).map(m => {
                     if(Bounds === undefined) return null
                     return <Marker key={m} id={m} map={gMap} bounds={Bounds} title={trips[m]['placeLabel']} position={trips[m]['position']} />
